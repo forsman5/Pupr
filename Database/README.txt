@@ -10,3 +10,8 @@ on windows:
 sh RefreshSprocs.sh
 
 (assuming you have filled the proper username and password in)
+
+to run the python insert script:
+
+in the folder it will be executed in, install the mysql connector using
+pip install mysql-connector-python
