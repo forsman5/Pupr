@@ -1,10 +1,9 @@
 import mysql.connector
 
-#todo
-#open linkfile
-#linkfile =
-#open dog file
-#breedfile = 
+linkfile = open("Links.txt", "r", encoding="utf-8")
+breedfile = open("breedList.txt", "r", encoding="utf-8")
+breedLines = breedfile.readlines()
+count = 0
 
 #open connection
 cnx = mysql.connector.connect(user='admin', password='password',
@@ -15,18 +14,19 @@ cursor = cnx.cursor()
 
 insert_breed = "INSERT INTO Breeds (breed, link) VALUES (%s, %s)"
 
-#TODO
-#for breedLink in linkfile:
-    #breedName = breedfile.next() #TODO
-    #breed = (breedName, breedLink)
-
+for breedLink in linkfile:
+    breedLink = breedLink[:len(breedLink) - 1]
+    breedName = breedLines[count][:len(breedLines[count]) - 1]
+    breed = (breedName, breedLink)
+    count += 1
     cursor.execute(insert_breed, breed)
 
 cnx.commit()
 
 
 #close files
-#TODO
+linkfile.close()
+breedfile.close()
 
 #close connection
 cursor.close()
