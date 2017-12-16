@@ -10,6 +10,7 @@ DROP TABLE IF EXISTS Breeds;
 CREATE TABLE Breeds (
 	breedID int NOT NULL auto_increment,
 	breed varchar(255) NOT NULL,
+	wikiLink varchar(255),
 	
 	PRIMARY KEY (breedID)
 );
