@@ -1,0 +1,25 @@
+CREATE DATABASE petland;
+CREATE TABLE Dogs(
+	dogID int,
+	name varchar(255),
+	bio text,
+	photopath varchar(255)
+	breedID int,
+	visitID int,
+	PRIMARY KEY (dogID),
+	FOREIGN KEY (breedID) REFERENCES Breeds(breedID),
+	FOREIGN KEY (visitID) REFERENCES Visits(visitID)
+);
+
+
+CREATE TABLE Breeds (
+	breedID int,
+	breed varchar(255)
+);
+
+CREATE TABLE Visits(
+	visitID int,
+	location varchar(255),
+	date varchar(255)
+);
+	
