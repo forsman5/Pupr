@@ -16,6 +16,12 @@ app.get('/', function(req, res) {
     res.render('pages/index');
 });
 
+app.get('/breeds/', function(req, res) {
+  res.render('pages/breeds', {
+    breed: "husky"
+  });
+})
+
 app.listen(8080);
 
 //BELOW IS OLD, BAD CODE!! DO NOT USE
