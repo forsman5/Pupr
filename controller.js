@@ -17,8 +17,13 @@ app.get('/', function(req, res) {
 });
 
 app.get('/breeds/', function(req, res) {
+  var breedList = [
+    {name: "husky", size: "large"},
+    {name: "chihuahua", size: "smol"}
+  ];
+
   res.render('pages/breeds', {
-    breed: "husky"
+    breeds: breedList
   });
 })
 

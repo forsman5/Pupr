@@ -5,7 +5,11 @@
 <body>
     <% include ../partials/header %>
 
-    <p><%= breed %></p>
+<list>
+    <% breeds.forEach(function(breed) { %>
+        <li><%= breed.name %> - <%= breed.size %></li>
+    <% }); %>
+  </list>
 
     <% include ../partials/footer %>
 
