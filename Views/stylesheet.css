@@ -1,0 +1,32 @@
+body, html {
+    height: 100%;
+}
+
+.bg { 
+    /* The image used */
+    background-image: url("dogcollage.png");
+
+    /* Full height */
+    height: 100%; 
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    vertical-align: middle;
+     display: flex;
+  	justify-content: center;
+  	align-items: center; 
+}
+.bigtext{
+    
+    color: white;
+    display: block !important;
+    text-align: center !important;
+    margin:0 auto !important; /* this will center  it */
+    vertical-align: middle;
+}
+.displayText{
+    text-shadow: 2px 2px 2px black;
+
+}
