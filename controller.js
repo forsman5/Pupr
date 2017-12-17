@@ -1,6 +1,7 @@
 var http = require('http');
 var url = require('url');
 var path = require('path');
+const express = require('express') // for hosting
 var fs = require('fs'); //file system
 
 console.log("Server starting...");
