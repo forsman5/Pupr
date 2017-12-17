@@ -15,12 +15,12 @@ http.createServer(function (req, res) {
   if (q.pathname.indexOf("resources") != -1) {
     filename = "." + q.pathname;
   } else {
-    filename = "./Views" + q.pathname + ".html";
+    filename = "./Views" + q.pathname;
   }
 
   //routing blank to index
   if (filename == "./Views/") {
-    filename = "./Views/index.html";
+    filename = "./Views/index";
   }
 
   var extname = path.extname(filename);
@@ -32,10 +32,16 @@ http.createServer(function (req, res) {
 		case '.css':
 			contentType = 'text/css';
 			break;
+    case '':
+      //no ext -- misses .png and etc this way
+      //content remains html
+      filename = filename + ".html";
+      break;
 	}
 
   fs.readFile(filename, function(err, data) {
     if (err) {
+      console.log(err);
       res.writeHead(404, {'Content-Type': contentType});
       return res.end("404 Not Found");
     }
