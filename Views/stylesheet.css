@@ -30,3 +30,14 @@ body, html {
     text-shadow: 2px 2px 2px black;
 
 }
+.footer{
+    text-align: center;
+    align-content: center;
+    padding: 5px;
+}
+.footerText{
+    color: white;
+    text-align: center !important;
+    vertical-align: middle !important;
+    margin: 0px;
+}
