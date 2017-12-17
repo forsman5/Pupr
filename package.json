@@ -1,0 +1,35 @@
+{
+  "name": "petlandcatalog",
+  "version": "1.0.0",
+  "description": "Web app to view petland dogs and visits.",
+  "main": "controller.js",
+  "dependencies": {
+    "mysql": "^2.15.0"
+  },
+  "devDependencies": {
+    "express": "^4.16.2"
+  },
+  "scripts": {
+    "test": "node controller.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/forsman5/petlandcatalog.git"
+  },
+  "keywords": [
+    "nodejs",
+    "js",
+    "javascript",
+    "python",
+    "py",
+    "html",
+    "css",
+    "dogs"
+  ],
+  "author": "Zach Allegretti Joe Forsman Sabrina Poulsen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/forsman5/petlandcatalog/issues"
+  },
+  "homepage": "https://github.com/forsman5/petlandcatalog#readme"
+}
