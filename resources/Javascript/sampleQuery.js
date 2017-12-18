@@ -1,3 +1,4 @@
+
 var mysql = require('mysql');
 
 var con = mysql.createConnection({
@@ -16,3 +17,4 @@ con.connect(function(err) {
     console.log(result);
   });
 });
+
