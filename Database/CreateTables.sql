@@ -17,8 +17,8 @@ CREATE TABLE Breeds (
 
 CREATE TABLE Dogs(
 	dogID int NOT NULL auto_increment,
-	name varchar(255) NOT NULL,
-	bio varchar(255),
+	name varchar(255) NOT NULL UNIQUE,
+	bio varchar(2047),
 	photopath varchar(255),
 	breedID int NOT NULL,
 	secondaryBreedID int,
