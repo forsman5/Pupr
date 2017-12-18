@@ -40,7 +40,14 @@ app.get('/breeds/', function(req, res) {
 
 })
 app.get('/dogs/', function(req,res){
-  res.render('pages/dogs');
+  var sql = "SELECT * FROM Dogs";
+  con.query(sql, function (err, dogList) {
+    if (err) throw err;
+    console.log(dogList);
+    res.render('pages/dogs', {
+      dogs: dogList
+    });
+  });
 });
 
 app.listen(8080);
