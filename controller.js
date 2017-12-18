@@ -28,18 +28,16 @@ app.get('/', function(req, res) {
     res.render('pages/index');
 });
 app.get('/breeds/', function(req, res) {
-  con.connect(function(err) {
-    if (err) throw err;
-    console.log("Connected!");
-    var sql = "SELECT * FROM Breeds";
-    con.query(sql, function (err, breedList) {
-      if (err) throw err;
-      res.render('pages/breeds', {
-        breeds: breedList
-      });
+  var sql = "SELECT * FROM Breeds";
 
+
+  con.query(sql, function (err, breedList) {
+    if (err) throw err;
+    res.render('pages/breeds', {
+      breeds: breedList
     });
   });
+
 })
 
 app.listen(8080);

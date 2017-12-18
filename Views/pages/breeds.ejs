@@ -7,7 +7,7 @@
 
 <list>
     <% breeds.forEach(function(breed) { %>
-        <li><%= breed.breed %> - <%= breed.link %></li>
+        <li><a href="https://<%= breed.link %>"><%= breed.breed %></a></li>
     <% }); %>
   </list>
 
