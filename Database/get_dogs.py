@@ -26,13 +26,12 @@ for folder in folders:
     breedID = cursor.execute(getID, lines[0])
 
     if (lines[1] != "null"):
-        secondaryBreedID = cursor.execute(getID, lines[1])
+        cursor.execute(getID, lines[1])
+        secondaryBreedID = cursor.fetchone()[0]
     else:
-        secondaryBreedID = lines[1]
+        secondaryBreedID = lines[1] #null
 
-    data = (name, bio, photopath, breedID, secondaryBreedID)
-
-    cursor.execute(query, data)
+    cursor.execute(query, (name, bio, photopath, breedID, secondaryBreedID))
 
     #close file
     readFile.close()
