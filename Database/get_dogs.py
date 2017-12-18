@@ -10,9 +10,9 @@ cnx = mysql.connector.connect(user='admin', password='password',
 
 cursor = cnx.cursor()
 
-query = "INSERT INTO Dogs (name, bio, photopath, breedID, secondaryBreedID) values (%s, %s, %s, %s)"
+query = "INSERT INTO Dogs (name, bio, photopath, breedID, secondaryBreedID) values (\"%s\", \"%s\", \"%s\", %s, %s)"
 
-getID = "SELECT breedID FROM Breeds WHERE breed = %s"
+getID = "SELECT breedID FROM Breeds WHERE breed = \""
 
 for folder in folders:
     #open this readme.txt
@@ -20,16 +20,29 @@ for folder in folders:
     lines = readFile.readlines()
 
     name = folder
-    bio = lines[2:]
+
+    #concatenate list into one long string
+    bioLines = lines[2:]
+    bio = ""
+    for line in bioLines:
+        bio += line
+
     photopath = "/resources/images/" + folder
 
-    breedID = cursor.execute(getID, lines[0])
+    cursor.execute(getID + lines[0][:len(lines[0]) - 1] + "\"")
 
-    if (lines[1] != "null"):
-        cursor.execute(getID, lines[1])
-        secondaryBreedID = cursor.fetchone()[0]
+    res = cursor.fetchone()
+    if (res is not None):
+        breedID = str(res[0])
     else:
-        secondaryBreedID = lines[1] #null
+        breedID = "1"
+
+    cursor.execute(getID + lines[1] + "\"")
+    res = cursor.fetchone()
+    if (res is not None):
+        secondaryBreedID = str(res[0])
+    else:
+        secondaryBreedID = None
 
     cursor.execute(query, (name, bio, photopath, breedID, secondaryBreedID))
 
