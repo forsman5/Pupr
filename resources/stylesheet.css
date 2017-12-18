@@ -1,5 +1,6 @@
 body, html {
     height: 100%;
+    background-color: aliceblue;
 }
 
 .bg { 
@@ -40,4 +41,28 @@ body, html {
     text-align: center !important;
     vertical-align: middle !important;
     margin: 0px;
+}
+.box{
+    display:inline-block;
+    color:white;
+    font-size: 1.1em;
+    padding: 20px;
+    margin:100px;
+    border-radius: 25px;
+    border: 1px solid black;
+}
+.centeredBoxes{
+  text-align:center;
+}
+.profileImage{
+    width: 200px;
+    height: 200px;
+    margin-bottom: 5px;
+    image-orientation: inherit;
+    /*I haveno idea what this does but stackoverflow said it works and it does */
+    -ms-transform: rotate(90deg); /* IE 9 */
+    -webkit-transform: rotate(90deg); /* Chrome, Safari, Opera */
+    transform: rotate(90deg);
+
+
 }

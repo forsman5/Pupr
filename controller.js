@@ -39,6 +39,9 @@ app.get('/breeds/', function(req, res) {
   });
 
 })
+app.get('/dogs/', function(req,res){
+  res.render('pages/dogs');
+});
 
 app.listen(8080);
 
