@@ -4,12 +4,16 @@ var path = require('path');
 var mysql = require('mysql');
 const express = require('express'); // for hosting
 var fs = require('fs'); //file system
+var helpers = require('express-helpers');
 
 var app = express();
 
 app.set('view engine', 'ejs');
 
 app.use(express.static(path.join(__dirname, '/resources')));
+
+//adding helpers
+helpers(app);
 
 console.log("Server starting...");
 

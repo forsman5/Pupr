@@ -3,7 +3,7 @@
 
 <list>
   <% breeds.forEach(function(breed) { %>
-    <li><a href="https://<%= breed.link %>"><%= breed.breed %></a></li>
+    <li><%- link_to(breed.breed, "https://" + breed.link) %></li>
   <% }); %>
 </list>
 
