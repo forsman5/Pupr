@@ -55,7 +55,37 @@ app.get('/dogs/', function(req,res){
   });
 });
 
+//testing
 app.get('/dogs/show', function(req, res) {
   res.render('pages/show');
 });
+
+//dog detail page
+app.get('/dogs/:dogId', function(req, res) {
+  var sql = "call GetDog(" + req.params.dogId + ")";
+
+  con.query(sql, function (err, dogToShow) {
+    if (err) throw err;
+
+    res.render('pages/detail', {
+
+      /*
+       * Okay, this is weird.
+       *
+       * When calling a stored procedure, it returns a list two elements, the first being
+       * a list of results and the second being an object with status on the sproc.
+       *
+       * So you have to take the first object returned and the first of the last list.
+       *
+       * (as I understand it)
+       *
+       * I'm just not sure why it doesn't do this when calling a single query, as done
+       * elsewhere in this file. I can't find any documentation on this online, but I guess this works.
+       */
+
+      dog: dogToShow[0][0]
+    });
+  });
+});
+
 app.listen(8080);
