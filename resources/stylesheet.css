@@ -66,10 +66,61 @@ body, html {
     height: 200px;
     margin-bottom: 5px;
     image-orientation: inherit;
-    /*I haveno idea what this does but stackoverflow said it works and it does */
+    /*I have no idea what this does but stackoverflow said it works and it does */
     -ms-transform: rotate(90deg); /* IE 9 */
     -webkit-transform: rotate(90deg); /* Chrome, Safari, Opera */
     transform: rotate(90deg);
 
 
+}
+.carousel-inner{
+    width: 100%;
+    height: 480px;
+    
+}
+.carousel_img{
+   width: 100%;
+    height: 100%;
+     image-orientation: inherit;
+    /*I haveno idea what this does but stackoverflow said it works and it does */
+    -ms-transform: rotate(90deg); /* IE 9 */
+    -webkit-transform: rotate(90deg); /* Chrome, Safari, Opera */
+    transform: rotate(90deg);
+    
+}
+.centerCarousel{
+    width: 100%;
+    margin: auto;
+    align-content: center;
+    text-align: center;
+}
+
+
+
+div.c-wrapper{
+    width: 80%; /* for example */
+    margin: auto;
+}
+
+.carousel-inner > .item > img, 
+.carousel-inner > .item > a > img{
+width: 100%; /* use this, or not */
+margin: auto;
+}
+.bio{
+    text-align: center;
+    align-content: center;
+}
+
+.biotext{
+    margin-right: auto;
+    margin-left: auto;
+    width:60%;
+    align-content: center;
+    text-align: center;
+}
+.wtf{
+    width: 100%;
+    text-align: center;
+    background-color: black;
 }

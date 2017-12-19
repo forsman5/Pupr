@@ -50,6 +50,9 @@ app.get('/dogs/', function(req,res){
   });
 });
 
+app.get('/dogs/show', function(req, res) {
+  res.render('pages/show');
+});
 app.listen(8080);
 
 //BELOW IS OLD, BAD CODE!! DO NOT USE
