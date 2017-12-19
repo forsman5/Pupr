@@ -1,17 +1,13 @@
-To connect to the amazon db:
-
-With mysql installed, run this on your command prompt:
-mysql -h petlanddb.cv18qdrgjzn8.us-east-2.rds.amazonaws.com -P 3306 -u <USER> -p
+The database is hosted on Amazon's Relation Database Service (RDS).
+To connect, ensure you have mysql installed on your machine and run the below prompt:
+mysql -h petlanddb.cv18qdrgjzn8.us-east-2.rds.amazonaws.com -P 3306 -u admin -p
 
 To make sure all sprocs are up to date:
 open a cmd prompt
-navigate to your project folder
+navigate to your project folder/database/storedprocedures
 on windows:
 sh RefreshSprocs.sh
 
-(assuming you have filled the proper username and password in)
-
-to run the python insert script:
-
-in the folder it will be executed in, install the mysql connector using
+make sure you have the mysql connector installed before running any of the python scripts, or recreateDB:
 pip install mysql-connector-python
+
