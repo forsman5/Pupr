@@ -71,7 +71,8 @@ app.get('/dogs/:dogId', function(req, res) {
        * elsewhere in this file. I can't find any documentation on this online, but I guess this works.
        */
 
-      dog: dogToShow[0][0],files:fileList
+      dog: dogToShow[0][0],
+      files:fileList
     });
   });
 });
@@ -82,18 +83,17 @@ app.listen(8080);
 an arrat of all images related to that dog*/
 function getFilesFromDirectory(dogName){
   var path = "./resources/images/" + dogName + "/";
-  const fs = require('fs');
   var files = [];
-  
-fs.readdirSync(path).forEach(file => {
-  files.push(file);
-})  
 
-//Remove bio from list of images
-var index = files.indexOf("bio.txt");
-if (index > -1) {
-  files.splice(index, 1);
-}
+  fs.readdirSync(path).forEach(file => {
+    files.push(file);
+  })
+
+  //Remove bio from list of images
+  var index = files.indexOf("bio.txt");
+  if (index > -1) {
+    files.splice(index, 1);
+  }
+
   return files;
-
 }
