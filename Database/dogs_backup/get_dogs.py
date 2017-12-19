@@ -1,7 +1,9 @@
 import os
 import mysql.connector
 
-folders = os.listdir('../resources/images/')
+imagesPath = '../../resources/images/'
+
+folders = os.listdir(imagesPath)
 
 #open connection
 cnx = mysql.connector.connect(user='admin', password='password',
@@ -22,8 +24,10 @@ query = "INSERT INTO Dogs (name, bio, breedID, secondaryBreedID) values (%s, %s,
 getID = "SELECT breedID FROM Breeds WHERE breed = \""
 
 for folder in folders:
+    print("get_dogs: handling: " + folder)
+
     #open this readme.txt
-    readFile = open(os.path.abspath('../resources/images/' + folder + "/bio.txt"), "r", encoding="utf-8")
+    readFile = open(os.path.abspath(imagesPath + folder + "/bio.txt"), "r", encoding="utf-8")
     lines = readFile.readlines()
 
     #concatenate list into one long string

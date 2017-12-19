@@ -7,8 +7,11 @@ import random
 import mysql.connector
 import sys
 
+#path to images folder
+imagesPath = '../../resources/images/'
+
 def getFolders():
-    return os.listdir('../resources/images/')
+    return os.listdir(imagesPath)
 
 def setup():
     random.seed()
@@ -23,7 +26,9 @@ def setup():
     query = "SELECT breed FROM Breeds WHERE BreedID = "
 
     for folder in getFolders():
-        writeFile = open(os.path.abspath('../resources/images/' + folder + "/bio.txt"), "w+", encoding="utf-8")
+        print("dog_setup: handling: " + folder)
+
+        writeFile = open(os.path.abspath(imagesPath + folder + "/bio.txt"), "w+", encoding="utf-8")
 
         cursor.execute(query + str((random.randint(1, 514))))
 
@@ -44,8 +49,8 @@ def setup():
 
 def removeFiles():
     for folder in getFolders():
-        os.remove(os.path.abspath('../resources/images/' + folder + "/bio.txt"))
-        print("Removed: " + os.path.abspath('../resources/images/' + folder + "/bio.txt"))
+        os.remove(os.path.abspath(imagesPath + folder + "/bio.txt"))
+        print("Removed: " + os.path.abspath(imagesPath + folder + "/bio.txt"))
 
 if (sys.argv[1] == "removeFiles"):
     removeFiles()
