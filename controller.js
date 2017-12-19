@@ -1,6 +1,7 @@
 var http = require('http');
 var url = require('url');
 var path = require('path');
+var mysql = require('mysql');
 const express = require('express'); // for hosting
 var fs = require('fs'); //file system
 
@@ -11,7 +12,6 @@ app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, '/resources')));
 
 console.log("Server starting...");
-var mysql = require('mysql');
 
 //establish database connection
 var con = mysql.createConnection({
@@ -21,8 +21,13 @@ var con = mysql.createConnection({
   database: "petland"
 });
 
+//homepage
 app.get('/', function(req, res) {
     res.render('pages/index');
+});
+
+app.get('/about/', function(req, res) {
+    res.render('pages/about');
 });
 
 app.get('/breeds/', function(req, res) {
