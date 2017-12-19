@@ -10,7 +10,7 @@ cnx = mysql.connector.connect(user='admin', password='password',
 
 cursor = cnx.cursor()
 
-query = "INSERT INTO Dogs (name, bio, photopath, breedID, secondaryBreedID) values (\"%s\", \"%s\", \"%s\", %s, %s)"
+query = "INSERT INTO Dogs (name, bio, breedID, secondaryBreedID) values (\"%s\", \"%s\", %s, %s)"
 
 getID = "SELECT breedID FROM Breeds WHERE breed = \""
 
@@ -27,8 +27,6 @@ for folder in folders:
     for line in bioLines:
         bio += line
 
-    photopath = "/resources/images/" + folder
-
     cursor.execute(getID + lines[0][:len(lines[0]) - 1] + "\"")
 
     res = cursor.fetchone()
@@ -44,7 +42,7 @@ for folder in folders:
     else:
         secondaryBreedID = None
 
-    cursor.execute(query, (name, bio, photopath, breedID, secondaryBreedID))
+    cursor.execute(query, (name, bio, breedID, secondaryBreedID))
 
     #close file
     readFile.close()
