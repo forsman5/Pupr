@@ -12,6 +12,13 @@ cursor = cnx.cursor()
 
 query = "INSERT INTO Dogs (name, bio, breedID, secondaryBreedID) values (\"%s\", \"%s\", %s, %s)"
 
+#photopath removed:
+#photopath will always be ./resources/images/NAME_OF_DOG/
+#so no need to store it
+
+#similarly, the profile images will always be
+#./resources/images/NAME_OF_DOG/profile.<png | jpg>
+
 getID = "SELECT breedID FROM Breeds WHERE breed = \""
 
 for folder in folders:
