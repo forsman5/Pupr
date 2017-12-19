@@ -1,28 +1,19 @@
-<!doctype html>
-<html lang="en">
 <% include ../partials/head %>
+<% include ../partials/header %>
+<div class = "listbg">
+  <div class="container-fluid bigtext">
+  	<h2 class="display-2 displayText">Click on any dog to learn more</h2>
+  </div>
 
-<body>
-    <% include ../partials/header %>
-    <div class = "listbg">
-        <div class="container-fluid bigtext">
-  			<h2 class="display-2 displayText">Click on any dog to learn more</h2>
-        </div>
-        <div class = "centeredBoxes" >
-            <% dogs.forEach(function(dog) { %>
-                <div class = "box bg-primary">
-                    <img src = "/images/Akita1/IMG_4718.JPG" class = "profileImage rounded-circle ">
-                    <p> Breed: <%=dog.breed%> <p>
-                    <p>Name: <%=dog.name %></p>
-                </div> 
-            <% }); %>
-
-            
-
-        </div>
-
-    </div>
-    <% include ../partials/footer %>
-
-</body>
-</html>
+  <div class = "centeredBoxes" >
+    <% dogs.forEach(function(dog) { %>
+      <div class = "box bg-primary">
+        <img src = "/images/Akita1/IMG_4718.JPG" class = "profileImage rounded-circle ">
+        <p> Breed: <%=dog.breed%> <p>
+        <p>Name: <%=dog.name %></p>
+      </div>
+    <% }); %>
+  </div>
+</div>
+<% include ../partials/footer %>
+    
