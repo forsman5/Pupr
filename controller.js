@@ -66,7 +66,7 @@ app.get('/dogs/:dogId', function(req, res) {
 
   con.query(sql, function (err, dogToShow) {
     if (err) throw err;
-
+    var fileList = getFilesFromDirectory("Smoosh");
     res.render('pages/detail', {
 
       /*
@@ -83,9 +83,23 @@ app.get('/dogs/:dogId', function(req, res) {
        * elsewhere in this file. I can't find any documentation on this online, but I guess this works.
        */
 
-      dog: dogToShow[0][0]
+      dog: dogToShow[0][0],files:fileList
     });
   });
 });
 
 app.listen(8080);
+
+/*Given a dog name, finds the directory for that dog and returns
+an arrat of all images related to that dog*/
+function getFilesFromDirectory(dogName){
+  var path = "./resources/images/" + dogName + "/";
+  const fs = require('fs');
+  var files = [];
+  
+fs.readdirSync(path).forEach(file => {
+  files.push(file);
+})  
+  return files;
+
+}
