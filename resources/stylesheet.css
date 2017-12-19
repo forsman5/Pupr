@@ -73,14 +73,11 @@ body, html {
 
 
 }
-.carousel-inner{
-    width: 100%;
-    height: 480px;
-    
-}
+
 .carousel_img{
-   width: 100%;
-    height: 100%;
+     min-width: 100%;
+    max-height: 500px;
+    background-position: center;
      image-orientation: inherit;
     /*I haveno idea what this does but stackoverflow said it works and it does */
     -ms-transform: rotate(90deg); /* IE 9 */
@@ -88,25 +85,8 @@ body, html {
     transform: rotate(90deg);
     
 }
-.centerCarousel{
-    width: 100%;
-    margin: auto;
-    align-content: center;
-    text-align: center;
-}
+ 
 
-
-
-div.c-wrapper{
-    width: 80%; /* for example */
-    margin: auto;
-}
-
-.carousel-inner > .item > img, 
-.carousel-inner > .item > a > img{
-width: 100%; /* use this, or not */
-margin: auto;
-}
 .bio{
     text-align: center;
     align-content: center;
@@ -118,9 +98,15 @@ margin: auto;
     width:60%;
     align-content: center;
     text-align: center;
+    margin-bottom: 50px;
 }
 .wtf{
     width: 100%;
     text-align: center;
     background-color: black;
+}
+#demo{
+    width: 100%;
+     min-width: 1000px;
+    max-height: 500px;
 }
