@@ -3,12 +3,12 @@ body, html {
     background-color: aliceblue;
 }
 
-.bg { 
+.bg {
     /* The image used */
     background-image: url("dogcollage.png");
 
     /* Full height */
-    height: 100%; 
+    height: 100%;
 
     /* Center and scale the image nicely */
     background-position: center;
@@ -17,7 +17,7 @@ body, html {
     vertical-align: middle;
      display: flex;
   	justify-content: center;
-  	align-items: center; 
+  	align-items: center;
 }
 .listbg{
     background-image: url("biggerDogSilhouette.jpg");
@@ -25,11 +25,11 @@ body, html {
     background-size: cover;
     background-repeat: repeat;
 
-    
-    
+
+
 }
 .bigtext{
-    
+
     color: white;
     display: block !important;
     text-align: center !important;
@@ -85,9 +85,9 @@ body, html {
     -ms-transform: rotate(90deg); /* IE 9 */
     -webkit-transform: rotate(90deg); /* Chrome, Safari, Opera */
     transform: rotate(90deg);
-    
+
 }
- 
+
 
 .bio{
     text-align: center;
@@ -111,4 +111,8 @@ body, html {
     width: 100%;
      min-width: 1000px;
     max-height: 500px;
+}
+
+.dognamelink {
+  color: white;
 }

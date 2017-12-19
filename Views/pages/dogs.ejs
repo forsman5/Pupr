@@ -11,7 +11,9 @@
         <!-- <img src = <% "/images/" + dog.name + " /profile.*" %> class = "profileImage rounded-circle "> --> <!-- does .* work?? -->
         <img src = "/images/Akita1/IMG_4718.JPG" class = "profileImage rounded-circle ">
         <p> Breed: <%= dog.breed %> <p>
-        <p>Name: <%- link_to(dog.name, "/dogs/" + dog.dogID) %></p>
+
+        <%# as far as i can tell, no classes with link to... %>
+        <p>Name: <a class = "dognamelink" href="/dogs/<%= dog.dogID %>"><%= dog.name %></a></p>
       </div>
     <% }); %>
   </div>
