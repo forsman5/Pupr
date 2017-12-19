@@ -35,10 +35,7 @@ for folder in folders:
     cursor.execute(getID + lines[0][:len(lines[0]) - 1] + "\"")
 
     res = cursor.fetchone()
-    if (res is not None):
-        breedID = str(res[0])
-    else:
-        breedID = "1"
+    breedID = str(res[0])
 
     cursor.execute(getID + lines[1] + "\"")
     res = cursor.fetchone()
