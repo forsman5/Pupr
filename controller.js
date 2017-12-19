@@ -40,7 +40,6 @@ app.get('/dogs/', function(req,res){
   var sql = "SELECT * FROM Dogs";
   con.query(sql, function (err, dogList) {
     if (err) throw err;
-    console.log(dogList);
     res.render('pages/dogs', {
       dogs: dogList
     });

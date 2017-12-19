@@ -20,9 +20,11 @@ body, html {
   	align-items: center; 
 }
 .listbg{
-    background-image: url("dog-silhouettes-recolored.jpg");
+    background-image: url("biggerDogSilhouette.jpg");
     background-position: center;
     background-size: cover;
+    background-repeat: repeat;
+
     
     
 }
