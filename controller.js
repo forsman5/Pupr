@@ -66,7 +66,7 @@ app.get('/dogs/:dogId', function(req, res) {
 
   con.query(sql, function (err, dogToShow) {
     if (err) throw err;
-    var fileList = getFilesFromDirectory("Smoosh");
+    var fileList = getFilesFromDirectory(dogToShow[0][0].name);
     res.render('pages/detail', {
 
       /*
