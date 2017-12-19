@@ -34,16 +34,7 @@ app.get('/about/', function(req, res) {
     res.render('pages/about');
 });
 
-app.get('/breeds/', function(req, res) {
-  var sql = "SELECT * FROM Breeds";
 
-  con.query(sql, function (err, breedList) {
-    if (err) throw err;
-    res.render('pages/breeds', {
-      breeds: breedList
-    });
-  });
-});
 
 app.get('/dogs/', function(req,res){
   var sql = "SELECT * FROM Dogs";
@@ -55,10 +46,7 @@ app.get('/dogs/', function(req,res){
   });
 });
 
-//testing
-app.get('/dogs/show', function(req, res) {
-  res.render('pages/show');
-});
+
 
 //dog detail page
 app.get('/dogs/:dogId', function(req, res) {
