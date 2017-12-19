@@ -10,7 +10,7 @@ cnx = mysql.connector.connect(user='admin', password='password',
 
 cursor = cnx.cursor()
 
-query = "INSERT INTO Dogs (name, bio, breedID, secondaryBreedID) values (\"%s\", \"%s\", %s, %s)"
+query = "INSERT INTO Dogs (name, bio, breedID, secondaryBreedID) values (%s, %s, %s, %s)"
 
 #photopath removed:
 #photopath will always be ./resources/images/NAME_OF_DOG/
@@ -25,8 +25,6 @@ for folder in folders:
     #open this readme.txt
     readFile = open(os.path.abspath('../resources/images/' + folder + "/bio.txt"), "r", encoding="utf-8")
     lines = readFile.readlines()
-
-    name = folder
 
     #concatenate list into one long string
     bioLines = lines[2:]
@@ -49,7 +47,7 @@ for folder in folders:
     else:
         secondaryBreedID = None
 
-    cursor.execute(query, (name, bio, breedID, secondaryBreedID))
+    cursor.execute(query, (folder, bio, breedID, secondaryBreedID))
 
     #close file
     readFile.close()
