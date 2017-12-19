@@ -88,6 +88,12 @@ function getFilesFromDirectory(dogName){
 fs.readdirSync(path).forEach(file => {
   files.push(file);
 })  
+
+//Remove bio from list of images
+var index = files.indexOf("bio.txt");
+if (index > -1) {
+  files.splice(index, 1);
+}
   return files;
 
 }
