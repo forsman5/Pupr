@@ -36,9 +36,9 @@
 
   <%# if this dog has two breeds %>
   <% if (!dog.hasOwnProperty("secondBreed")) { %>
-    <h4 class="display-4"><%- link_to(dog.breed, dog.link) %></h4>
+    <h4 class="display-4"><%- link_to(dog.breed, "https://" + dog.link) %></h4>
   <% } else { %>
-    <h4 class="display-4">A mix of <%- link_to(dog.breed, dog.link) %> and <%- link_to(dog.secondBreed, dog.secondLink) %></h4>
+    <h4 class="display-4">A mix of <%- link_to(dog.breed, "https://" + dog.link) %> and <%- link_to(dog.secondBreed, dog.secondLink) %></h4>
   <% } %>
 </div>
 <p class = "biotext">
