@@ -77,10 +77,13 @@ body, html {
 
 }
 
+
 .carousel_img{
-     min-width: 100%;
-    max-height: 500px;
-    background-position: center;
+     width: 80%; 
+     height:auto;
+     margin-left:10%;      
+     align-content: center;
+     text-align: center;
      image-orientation: inherit;
     /*I haveno idea what this does but stackoverflow said it works and it does */
     -ms-transform: rotate(90deg); /* IE 9 */
@@ -109,9 +112,10 @@ body, html {
     background-color: black;
 }
 #demo{
+    background-color: black;
     width: 100%;
-     min-width: 1000px;
-    max-height: 500px;
+    align-content: center; 
+    
 }
 
 .dognamelink {
