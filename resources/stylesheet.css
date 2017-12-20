@@ -67,6 +67,7 @@ body, html {
     width: 200px;
     height: 200px;
     margin-bottom: 5px;
+    border: 1px solid black;
     image-orientation: inherit;
     /*I have no idea what this does but stackoverflow said it works and it does */
     -ms-transform: rotate(90deg); /* IE 9 */
