@@ -117,3 +117,16 @@ body, html {
 .dognamelink {
   color: white;
 }
+.aboutText{
+    font-size:1.1em;
+    background-color: white;
+    width: 50%;
+    align-content: center;
+    text-align: center;
+    padding-bottom: 50px;
+    padding-left:20px;
+    padding-right: 20px;
+    margin-right: auto;
+    margin-left: auto;
+
+}
