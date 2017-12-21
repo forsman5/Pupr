@@ -10,7 +10,13 @@
       <div class = "box bg-primary">
         <!-- <img src = <% "/images/" + dog.name + " /profile.*" %> class = "profileImage rounded-circle "> --> <!-- does .* work?? -->
         <img src = "/images/<%= dog.name %>/profile.jpg" class = "profileImage rounded-circle ">
-        <p> Breed: <%= dog.breed %> <p>
+
+        <%# getting the breeds %>
+        <% if (dog.breed2 == null) { %>
+          <p> Breed: <%= dog.breed1 %> </p>
+        <% } else { %>
+          <p> Breed: <%= dog.breed1 %> and <%= dog.breed2 %> </p>
+        <% } %>
 
         <%# as far as i can tell, no classes with link to... %>
         <p>Name: <a class = "dognamelink" href="/dogs/<%= dog.dogID %>"><%= dog.name %></a></p>

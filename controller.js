@@ -34,14 +34,12 @@ app.get('/about/', function(req, res) {
     res.render('pages/about');
 });
 
-
-
 app.get('/dogs/', function(req,res){
-  var sql = "SELECT * FROM Dogs";
+  var sql = "call GetDogs()";
   con.query(sql, function (err, dogList) {
     if (err) throw err;
     res.render('pages/dogs', {
-      dogs: dogList
+      dogs: dogList[0]
     });
   });
 });
