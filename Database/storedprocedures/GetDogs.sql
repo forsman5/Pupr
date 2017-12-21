@@ -1,24 +1,39 @@
-DROP PROCEDURE IF EXISTS GetDog;
+DROP PROCEDURE IF EXISTS GetDogs;
 DELIMITER //
-CREATE PROCEDURE GetDog()
-
+CREATE PROCEDURE GetDogs()
 BEGIN
-SELECT secondaryBreedID INTO @secondID FROM Dogs
 
-IF @secondID IS NULL THEN
-  SELECT Dogs.name, Dogs.bio, Breeds.breed, Breeds.link
-  FROM Dogs
-  INNER JOIN Breeds
-  ON Dogs.breedID = Breeds.breedID
-  WHERE Dogs.dogID = id;
-ELSE
-  SELECT breed, link INTO @secondBreed, @secondLink FROM Breeds WHERE breedID = @secondID;
+SELECT c1.name, breed1, breed2
+FROM (
+  (SELECT name, breed AS breed1
+   FROM Dogs
+   INNER JOIN
+   Breeds
+   ON Breeds.breedID = Dogs.breedID)
+  AS c1
+  INNER JOIN
+  (SELECT name, breed as breed2
+   FROM Dogs
+   INNER JOIN
+   Breeds
+   ON Breeds.breedID = Dogs.secondaryBreedID)
+  AS c2
+  ON
+  c1.name = c2.name
+)
+UNION
+SELECT name, breed AS breed1, NULL AS breed2
+FROM (
+  (SELECT *
+   FROM Dogs
+   WHERE secondaryBreedID IS NULL)
+  AS d1
+  INNER JOIN
+  Breeds
+  ON
+  Breeds.breedID = d1.breedID
+)
+ORDER BY name;
 
-  SELECT Dogs.name, Dogs.bio, Breeds.breed, Breeds.link, @secondBreed AS 'secondBreed', @secondLink AS 'secondLink'
-  FROM Dogs
-  INNER JOIN Breeds
-  ON Dogs.breedID = Breeds.breedID
-  WHERE Dogs.dogID = id;
-END IF;
 END //
 DELIMITER ;
