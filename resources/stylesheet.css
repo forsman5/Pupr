@@ -19,6 +19,13 @@ body, html {
   	justify-content: center;
   	align-items: center;
 }
+.selected{
+ border-bottom: 3px #158CBA solid
+}
+.nav-item{
+    margin-left: 10px;
+    margin-right: 30px;
+}
 .listbg{
     background-image: url("biggerDogSilhouette.jpg");
     background-position: center;
