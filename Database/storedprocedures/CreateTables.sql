@@ -6,6 +6,7 @@ BEGIN
 DROP TABLE IF EXISTS Visits;
 DROP TABLE IF EXISTS Dogs;
 DROP TABLE IF EXISTS Breeds;
+DROP TABLE IF EXISTS Users;
 
 CREATE TABLE Breeds (
 	breedID int NOT NULL auto_increment,
@@ -35,6 +36,14 @@ CREATE TABLE Visits(
 	
 	PRIMARY KEY (visitID),
 	FOREIGN KEY (dogID) REFERENCES Dogs(dogID)
+);
+CREATE TABLE Users(
+	userID int NOT NULL auto_increment,
+	name varchar(255) NOT NULL,
+	email varchar(255) NOT NULL,
+	password varchar(255) NOT NULL,
+
+	PRIMARY KEY (userID)
 );
 
 END //

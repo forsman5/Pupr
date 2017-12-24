@@ -5,8 +5,25 @@ var mysql = require('mysql');
 const express = require('express'); // for hosting
 var fs = require('fs'); //file system
 var helpers = require('express-helpers');
+var passport = require('passport');
+var flash    = require('connect-flash');
+var session = require('express-session');
+var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
+var morgan = require('morgan');
 
+require('./passport')(passport); // pass passport for configuration
 var app = express();
+
+app.use(morgan('dev')); // log every request to the console
+app.use(cookieParser()); // read cookies (needed for auth)
+app.use(bodyParser()); // get information from html forms
+
+// required for passport
+app.use(session({ secret: 'doggos' })); // session secret
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
+app.use(flash()); // use connect-flash for flash messages stored in session
 
 app.set('view engine', 'ejs');
 
@@ -75,13 +92,10 @@ app.get('/dogs/:dogId', function(req, res) {
   });
 });
 
-
-
-
 app.get('/login', function(req, res) {
   
   // render the page with flash data
-  res.render('pages/login.ejs');//, { message: req.flash('loginMessage') }); 
+  res.render('pages/login.ejs', { message: req.flash('loginMessage') }); 
 
 });
 
@@ -89,7 +103,28 @@ app.get('/login', function(req, res) {
 app.get('/signup', function(req, res) {
   
   // render the page with flash data
-  res.render('pages/signup.ejs');//, { message: req.flash('signupMessage') });
+  res.render('pages/signup.ejs', { message: req.flash('signupMessage') });
+});
+
+app.post('/signup', passport.authenticate('local-signup', {
+  successRedirect : '/dogs/', // redirect to dogs section
+  failureRedirect : '/signup', // redirect back to the signup page if there is an error
+  failureFlash : true, // allow flash messages
+  session: false
+  
+}));
+ // process the login form
+ app.post('/login', passport.authenticate('local-login', {
+  successRedirect : '/dogs/', // redirect to dogs section
+  failureRedirect : '/login', // redirect back to the signup page if there is an error
+  failureFlash : true, // allow flash messages
+  session: false
+  
+}));
+
+app.get('/logout', function(req, res){
+  req.logout();
+  res.redirect('/');
 });
 
 
@@ -116,3 +151,13 @@ function getFilesFromDirectory(dogName){
 
   return files;
 }
+//Returns true if user signed in. If not, redirect to login page 
+function isLoggedIn(req, res, next) {
+  
+      // If signed in, do nothing 
+      if (req.isAuthenticated())
+          return next();
+  
+      // if not signed in, redirect to login page
+      res.redirect('/login');
+  }
