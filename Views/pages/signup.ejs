@@ -8,6 +8,9 @@
             <h4 class = "display-4 signheader"> Signup</h4>
         
             <!-- LOGIN FORM -->
+            <% if (message.length > 0) { %>
+                <div class="alert alert-danger"><%= message %></div>
+            <% } %>
             <form action="/signup" method="post">
                 <div class="form-group">
                     <label>Name</label>

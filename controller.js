@@ -113,7 +113,7 @@ app.get('/login', function(req, res) {
     isSignedIn = true;
   }
   // render the page with flash data
-  res.render('pages/login.ejs', { message: req.flash('loginMessage'),loggedIn:isSignedIn }); 
+  res.render('pages/login.ejs', { message: req.flash('error'),loggedIn:isSignedIn }); 
 
 });
 
@@ -124,7 +124,7 @@ app.get('/signup', function(req, res) {
     isSignedIn = true;
   }
   // render the page with flash data
-  res.render('pages/signup.ejs', { message: req.flash('signupMessage'),loggedIn:isSignedIn });
+  res.render('pages/signup.ejs', { message: req.flash('error'),loggedIn:isSignedIn });
 });
 
 app.post('/signup', passport.authenticate('local-signup', {
