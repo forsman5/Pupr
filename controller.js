@@ -75,6 +75,27 @@ app.get('/dogs/:dogId', function(req, res) {
   });
 });
 
+
+
+
+app.get('/login', function(req, res) {
+  
+  // render the page with flash data
+  res.render('pages/login.ejs');//, { message: req.flash('loginMessage') }); 
+
+});
+
+
+app.get('/signup', function(req, res) {
+  
+  // render the page with flash data
+  res.render('pages/signup.ejs');//, { message: req.flash('signupMessage') });
+});
+
+
+
+
+
 app.listen(8080);
 
 /*Given a dog name, finds the directory for that dog and returns
