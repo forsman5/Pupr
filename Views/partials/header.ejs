@@ -22,9 +22,20 @@
           <a class="nav-link" href="/about/">About</a>        
         <% } %>
     </li>
+    <% if(loggedIn) { %>
     <li class="nav-item">
-          <a class="btn btn-primary" href="/logout">Logout</a>
+          <a class="btn btn-primary navbutton" href="/logout">Logout</a>
     </li>
+    <%} else { %>
+      <li class="nav-item">
+          <a class="btn btn-primary navbutton" href="/login">Log In</a>
+    </li>
+    <li class="nav-item">
+        <a class="btn btn-primary navbutton" href="/signup">Sign Up</a>
+  </li>
+  <% } %>
+
+
   </ul>
 
 </nav>

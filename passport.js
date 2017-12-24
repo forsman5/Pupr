@@ -22,14 +22,13 @@ module.exports = function(passport) {
 
     // used to serialize the user for the session
     passport.serializeUser(function(user, done) {
-		done(null, user.id);
+		done(null, user.userID);
     });
 
     // used to deserialize the user
     passport.deserializeUser(function(id, done) {
 		connection.query("select * from Users where userID = "+id,function(err,rows){	
             //console.log(id);
-            //console.log(rows);
 			done(err, rows[0]);
 		});
     });
