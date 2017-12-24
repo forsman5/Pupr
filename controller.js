@@ -101,7 +101,10 @@ app.get('/login', function(req, res) {
   var isSignedIn = containsUser(req);
 
   // render the page with flash data
-  res.render('pages/login.ejs', { message: req.flash('loginMessage'),loggedIn:isSignedIn });
+  res.render('pages/login.ejs', {
+    message: req.flash('loginMessage'),
+    loggedIn:isSignedIn
+  });
 
 });
 
@@ -110,7 +113,10 @@ app.get('/signup', function(req, res) {
   var isSignedIn = containsUser(req);
 
   // render the page with flash data
-  res.render('pages/signup.ejs', { message: req.flash('signupMessage'),loggedIn:isSignedIn });
+  res.render('pages/signup.ejs', {
+    message: req.flash('signupMessage'),
+    loggedIn:isSignedIn
+  });
 });
 
 app.post('/signup', passport.authenticate('local-signup', {
@@ -120,6 +126,7 @@ app.post('/signup', passport.authenticate('local-signup', {
   session: true
 
 }));
+
  // process the login form
  app.post('/login', passport.authenticate('local-login', {
   successRedirect : '/dogs/', // redirect to dogs section
