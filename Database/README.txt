@@ -11,3 +11,6 @@ sh RefreshSprocs.sh
 make sure you have the mysql connector installed before running any of the python scripts, or recreateDB:
 pip install mysql-connector-python
 
+When selecting from the users table, there is a bit value. Bits are not visible, so you have to do
+SELECT CAST(verified as unsigned) ...
+https://stackoverflow.com/questions/14248554/cant-see-mysql-bit-field-value-when-using-select

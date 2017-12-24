@@ -44,26 +44,20 @@ var con = mysql.createConnection({
 
 //homepage
 app.get('/', function(req, res) {
-  var isSignedIn = false;
-  if(req.user){
-    isSignedIn = true;
-  }
+  var isSignedIn = containsUser(req);
+
   res.render('pages/index',{loggedIn:isSignedIn});
 });
 
 app.get('/about/', function(req, res) {
-  var isSignedIn = false;
-  if(req.user){
-    isSignedIn = true;
-  }
+  var isSignedIn = containsUser(req);
+
   res.render('pages/about',{loggedIn:isSignedIn});
 });
 
 app.get('/dogs/', function(req,res){
-  var isSignedIn = false;
-  if(req.user){
-    isSignedIn = true;
-  }
+  var isSignedIn = containsUser(req);
+
   var sql = "call GetDogs()";
   con.query(sql, function (err, dogList) {
     if (err) throw err;
@@ -73,14 +67,10 @@ app.get('/dogs/', function(req,res){
   });
 });
 
-
-
 //dog detail page
 app.get('/dogs/:dogId', function(req, res) {
-  var isSignedIn = false;
-  if(req.user){
-    isSignedIn = true;
-  }
+  var isSignedIn = containsUser(req);
+
   var sql = "call GetDog(" + req.params.dogId + ")";
   con.query(sql, function (err, dogToShow) {
     if (err) throw err;
@@ -108,10 +98,8 @@ app.get('/dogs/:dogId', function(req, res) {
 });
 
 app.get('/login', function(req, res) {
-  var isSignedIn = false;
-  if(req.user){
-    isSignedIn = true;
-  }
+  var isSignedIn = containsUser(req);
+
   // render the page with flash data
   res.render('pages/login.ejs', { message: req.flash('error'),loggedIn:isSignedIn }); 
 
@@ -119,10 +107,8 @@ app.get('/login', function(req, res) {
 
 
 app.get('/signup', function(req, res) {
-  var isSignedIn = false;
-  if(req.user){
-    isSignedIn = true;
-  }
+  var isSignedIn = containsUser(req);
+
   // render the page with flash data
   res.render('pages/signup.ejs', { message: req.flash('error'),loggedIn:isSignedIn });
 });
@@ -132,23 +118,22 @@ app.post('/signup', passport.authenticate('local-signup', {
   failureRedirect : '/signup', // redirect back to the signup page if there is an error
   failureFlash : true, // allow flash messages
   session: true
-  
+
 }));
+
  // process the login form
  app.post('/login', passport.authenticate('local-login', {
   successRedirect : '/dogs/', // redirect to dogs section
   failureRedirect : '/login', // redirect back to the signup page if there is an error
   failureFlash : true, // allow flash messages
   session: true
-  
+
 }));
 //log user out
 app.get('/logout', function(req, res){
   req.logout();
   res.redirect('/');
 });
-
-
 
 
 
@@ -173,19 +158,23 @@ function getFilesFromDirectory(dogName){
   return files;
 }
 
-
-
-
 //Returns true if user signed in. If not, redirect to login page
-//This is intended for situations where the user attempts an operation that requires login 
+//This is intended for situations where the user attempts an operation that requires login
 function validateLogin(req, res, next) {
-      // If signed in, do nothing 
-      if (req.isAuthenticated()){
-          return next();
-      }
-      // if not signed in, redirect to login page
-      res.redirect('/login');
+  // If signed in, do nothing
+  if (req.isAuthenticated()){
+      return next();
+  }
+  // if not signed in, redirect to login page
+  res.redirect('/login');
+}
+
+//checks if the given request contains a user in the headers
+function containsUser(req) {
+  var isSignedIn = false;
+  if(req.user){
+    isSignedIn = true;
   }
 
-
-  
+  return isSignedIn;
+}
