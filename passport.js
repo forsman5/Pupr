@@ -22,7 +22,13 @@ module.exports = function(passport) {
 
     // used to serialize the user for the session
     passport.serializeUser(function(user, done) {
-		done(null, user.userID);
+        //when signing up, key is refered to as id, when logging in key is refered to as userID
+        if(user.id){
+            done(null, user.id);
+        }
+        else{
+            done(null, user.userID);
+        }
     });
 
     // used to deserialize the user
@@ -55,9 +61,9 @@ module.exports = function(passport) {
 
 				// if there is no user with that email
                 // create the user
-                var name = "hello";
+                var name = req.body.name;
                 var newUserMysql = new Object();
-				newUserMysql.name = "hello";
+				newUserMysql.name = name;
 				newUserMysql.email = email;
                 newUserMysql.password = password; // use the generateHash function in our user model
 			

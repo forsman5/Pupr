@@ -119,7 +119,10 @@ app.get('/login', function(req, res) {
 
 
 app.get('/signup', function(req, res) {
-  
+  var isSignedIn = false;
+  if(req.user){
+    isSignedIn = true;
+  }
   // render the page with flash data
   res.render('pages/signup.ejs', { message: req.flash('signupMessage'),loggedIn:isSignedIn });
 });
@@ -171,18 +174,7 @@ function getFilesFromDirectory(dogName){
 }
 
 
-// function loggedIn(req, res, next) {
-//   if (req.user) {
-//       next();
-//   }
-// }
-function isLoggedIn(requser){
-  var isLoggedIn = false;
-  if(requser){
-    isLoggedIn = true;
-  }
-  return isLoggedIn;
-}
+
 
 //Returns true if user signed in. If not, redirect to login page
 //This is intended for situations where the user attempts an operation that requires login 
