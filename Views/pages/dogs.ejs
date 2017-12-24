@@ -8,8 +8,11 @@
 
   <div class = "centeredBoxes" >
     <% dogs.forEach(function(dog) { %>
+
+      <%# Linking using the div this way won't work without html 5!! %>
+
+      <a href = "/dogs/<%= dog.dogID %>">
       <div class = "box bg-primary">
-        <!-- <img src = <% "/images/" + dog.name + " /profile.*" %> class = "profileImage rounded-circle "> --> <!-- does .* work?? -->
         <img src = "/images/<%= dog.name %>/profile.jpg" class = "profileImage rounded-circle ">
 
         <%# getting the breeds %>
@@ -20,8 +23,9 @@
         <% } %>
 
         <%# as far as i can tell, no classes with link to... %>
-        <p>Name: <a class = "dognamelink" href="/dogs/<%= dog.dogID %>"><%= dog.name %></a></p>
+        <p>Name: <%= dog.name %></p>
       </div>
+      </a>
     <% }); %>
   </div>
 </div>
