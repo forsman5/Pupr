@@ -5,11 +5,13 @@
   <div class="container-fluid bigtext">
     <h1 class="display-1 displayText">Man's Best Friend</h1>
     <a href = "/dogs/" class="btn btn-primary btn-lg">Come meet them</a>
+    <% if(!loggedIn){ %>
     <div class = "container-fluid bigtext">
         <h4 class="display-4 displayText">or</h4>
         <a href = "/login" class="btn btn-primary btn-lg homebutton">Log in</a>
         <a href = "/signup" class="btn btn-primary btn-lg homebutton">Sign up</a>        
     </div>
+    <% } %>
   </div>
 </div>
 
