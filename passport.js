@@ -57,7 +57,7 @@ module.exports = function(passport) {
   		connection.query("select * from Users where userID = "+id,
         function(err,rows){
           done(err, rows[0]);
-    		});
+    	});
     });
 
     // Signup with local strategy
@@ -103,9 +103,7 @@ module.exports = function(passport) {
         transporter.sendMail(mailOptions, function(error, info){
           if (error) {
             console.log(error);
-          } //else {
-            //console.log('Email sent: ' + info.response);
-          //}
+          }
 
           // NOTE:
           // if this doesnt work, it may be because of anti - virus!
@@ -113,11 +111,12 @@ module.exports = function(passport) {
         });
 
         //console.log(insertQuery);
-				connection.query(insertQuery,function(err,rows){
-  				newUserMysql.id = rows.insertId;
+				connection.query(insertQuery,
+          function(err,rows){
+    				newUserMysql.id = rows.insertId;
 
-  				return done(null, newUserMysql);
-				});
+    				return done(null, newUserMysql);
+  				});
       }
 		});
 }));
