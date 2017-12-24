@@ -47,18 +47,17 @@ module.exports = function(passport) {
         //when signing up, key is refered to as id, when logging in key is refered to as userID
         if(user.id){
             done(null, user.id);
-        }
-        else{
+        } else {
             done(null, user.userID);
         }
     });
 
     // used to deserialize the user
     passport.deserializeUser(function(id, done) {
-  		connection.query("select * from Users where userID = "+id,function(err,rows){
-              //console.log(id);
-  			done(err, rows[0]);
-  		});
+  		connection.query("select * from Users where userID = "+id,
+        function(err,rows){
+          done(err, rows[0]);
+    		});
     });
 
     // Signup with local strategy
@@ -71,21 +70,20 @@ module.exports = function(passport) {
     },
 
     function(req, email, password, done) {
-        // find a user whose email is the same as the forms email
-        // we are checking to see if the user trying to login already exists
-        connection.query("select * from Users where email = '"+email+"'",function(err,rows){
-			//console.log(rows);
-			//console.log("above row object");
-			if (err)
-                return done(err);
-			 if (rows.length) {
-                return done(null, false, {message: 'That email is already taken.'});
-            } else {
+      // find a user whose email is the same as the forms email
+      // we are checking to see if the user trying to login already exists
+      connection.query("select * from Users where email = '"+email+"'",function(err,rows){
 
-				// if there is no user with that email
-                // create the user
-                var name = req.body.name;
-                var newUserMysql = new Object();
+			if (err)
+        return done(err);
+
+      if (rows.length) {
+        return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
+      } else {
+        // if there is no user with that email
+        // create the user
+        var name = req.body.name;
+        var newUserMysql = new Object();
 				newUserMysql.name = name;
 				newUserMysql.email = email;
         newUserMysql.password = password; // use the generateHash function in our user model
@@ -94,19 +92,6 @@ module.exports = function(passport) {
 
         var insertQuery = "INSERT INTO Users (name, email, password, verifyHash ) values ('"+ name +"','" + email +"','"+ password +"', '" + hash + "')";
 
-         connection.query("SELECT * FROM `Users` WHERE `email` = '" + email + "'",function(err,rows){
-			if (err)
-                return done(err);
-			 if (!rows.length) {
-                return done(null, false, {message: 'No user found with that email.'}); // no user found with that email
-            } 
-			
-			// if the user is found but the password is wrong
-            if (!( rows[0].password == password))
-                return done(null, false, {message: 'Incorrect password.'}); // no user found with that password
-            // all is well, return successful user
-            return done(null, rows[0]);			
-		
         //add the options to mailOptions
         mailOptions.to = newUserMysql.email;
 
