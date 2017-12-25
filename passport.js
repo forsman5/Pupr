@@ -1,6 +1,7 @@
 var LocalStrategy   = require('passport-local').Strategy;
 var mysql = require('mysql');
 var nodemailer = require('nodemailer');
+var bcrypt = require('bcrypt');
 
 const SITE_HOST = "localhost:8080"
 
@@ -70,38 +71,26 @@ module.exports = function(passport) {
     },
 
     function(req, email, password, done) {
+      //return done(null, false, req.flash('signupMessage', 'Email bad format'));
+
       // find a user whose email is the same as the forms email
       // we are checking to see if the user trying to login already exists
-      var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;  
-      var passFormat = (/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}$/)      
-
       connection.query("select * from Users where email = '"+email+"'",function(err,rows){
 
 			if (err)
         return done(err);
 
       if (rows.length) {
-        return done(null, false, {message: "That email is already taken"});
-      }
-      //validate email with regex
-      else if(!email.match(mailformat)){
-        return done(null, false, {message: "Invalid email format"});        
-      } 
-      else if(!password.match(passFormat)){
-        return done(null, false, {message: "Password must be at least 6 characters, contain a number, an uppercase character, and a lowercase character"});                
-      }
-      else {
+        return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
+      } else {
         // if there is no user with that email
         // create the user
         var name = req.body.name;
         var newUserMysql = new Object();
 				newUserMysql.name = name;
 				newUserMysql.email = email;
-        newUserMysql.password = password; // use the generateHash function in our user model
 
         var hash = MD5(name);
-
-        var insertQuery = "INSERT INTO Users (name, email, password, verifyHash ) values ('"+ name +"','" + email +"','"+ password +"', '" + hash + "')";
 
         //add the options to mailOptions
         mailOptions.to = newUserMysql.email;
@@ -121,13 +110,18 @@ module.exports = function(passport) {
           // my mail wasn't working due to antivirus software stopping it.
         });
 
-        //console.log(insertQuery);
-				connection.query(insertQuery,
-          function(err,rows){
-    				newUserMysql.id = rows.insertId;
+        NUMBER_OF_SALTS = 10;
+        bcrypt.hash(password, NUMBER_OF_SALTS, function( err, bcryptedPassword) {
+           newUserMysql.password = bcryptedPassword;
 
-    				return done(null, newUserMysql);
-  				});
+           var insertQuery = "INSERT INTO Users (name, email, password, verifyHash ) values ('"+ name +"','" + email +"','"+ bcryptedPassword +"', '" + hash + "')";
+
+           connection.query(insertQuery, function(err,rows){
+       			newUserMysql.id = rows.insertId;
+
+     				return done(null, newUserMysql);
+   				});
+        });
       }
 		});
 }));
@@ -147,16 +141,23 @@ passport.use('local-login',
   		if (err)
         return done(err);
 
+      // user not found
       if (!rows.length) {
-        return done(null, false, {message: "no account exists with that email"}); // req.flash is the way to set flashdata using connect-flash
+        return done(null, false, req.flash('loginMessage', 'No user found.')); // req.flash is the way to set flashdata using connect-flash
       }
 
-      // if the user is found but the password is wrong
-      if (!( rows[0].password == password))
-        return done(null, false, {message: "Incorrect password"}); // create the loginMessage and save it to session as flashdata
-
-      // all is well, return successful user
-      return done(null, rows[0]);
+      //un hash pword, compare to supplied password
+      //password = user supplied password
+      var hash = rows[0].password;
+      bcrypt.compare(password, hash, function(err, doesMatch){
+        if (doesMatch){
+          // all is well, return successful user
+          return done(null, rows[0]);
+        }else{
+          // create the loginMessage and save it to session as flashdata
+          return done(null, false, req.flash('loginMessage', 'Incorrect password.'));
+        }
+       });
 
   	});
   }));
