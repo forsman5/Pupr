@@ -1,0 +1,18 @@
+<% include ../partials/head %>
+<%var tab = "login" %>
+<% include ../partials/header %>
+<div class = "aboutText">
+
+  <% if (success) { %>
+    <h3>Your account has been registered!</h3>
+    <p>Welcome to Petlandopia, <%= name %>!</p>
+    <p>Thanks for registering! <br>
+    We hope you enjoy your time here, and we look forward to seeing you around on the site! </p>
+  <% } else { %>
+    <h3>Whoops!</h3>
+    <p>Sorry, that account wasn't found. <br>
+    Please check the link in your email again, and if the problem persists, please send us an email over to webmaster@temp.com</p>
+  <% } %>
+
+</div>
+<% include ../partials/footer %>

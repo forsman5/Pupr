@@ -46,13 +46,17 @@ var con = mysql.createConnection({
 app.get('/', function(req, res) {
   var isSignedIn = containsUser(req);
 
-  res.render('pages/index',{loggedIn:isSignedIn});
+  res.render('pages/index', {
+    loggedIn:isSignedIn
+  });
 });
 
 app.get('/about/', function(req, res) {
   var isSignedIn = containsUser(req);
 
-  res.render('pages/about',{loggedIn:isSignedIn});
+  res.render('pages/about', {
+    loggedIn:isSignedIn
+  });
 });
 
 app.get('/dogs/', function(req,res){
@@ -62,7 +66,8 @@ app.get('/dogs/', function(req,res){
   con.query(sql, function (err, dogList) {
     if (err) throw err;
     res.render('pages/dogs', {
-      dogs: dogList[0],loggedIn:isSignedIn
+      dogs: dogList[0],
+      loggedIn:isSignedIn
     });
   });
 });
@@ -92,8 +97,45 @@ app.get('/dogs/:dogId', function(req, res) {
        */
 
       dog: dogToShow[0][0],
-      files:fileList, loggedIn:isSignedIn
+      files:fileList,
+      loggedIn:isSignedIn
     });
+  });
+});
+
+app.get('/verify/:hash', function(req, res) {
+  var isSignedIn = containsUser(req);
+  var updateSQL = "UPDATE Users SET verified = b'1' WHERE verifyHash = \"" + req.params.hash + "\"";
+
+  //TODO ??
+  //check if the record is already set to 1, if it is, let the user know theyre already
+  //verified?
+
+  con.query(updateSQL, function(err, results) {
+    if (err)
+      throw err;
+
+    if (results.affectedRows == 1) {
+      var getName = "SELECT name FROM Users WHERE verifyHash = \"" + req.params.hash + "\"";
+      con.query(getName, function(err, nameRes) {
+        if (err)
+          throw err;
+
+        console.log(nameRes);
+
+        res.render('pages/verify', {
+          loggedIn:isSignedIn,
+          name:nameRes[0].name,
+          success:true
+        });
+      })
+    } else { // hash not found
+      res.render('pages/verify', {
+        loggedIn:isSignedIn,
+        name:"",
+        success: false
+      });
+    }
   });
 });
 
@@ -101,16 +143,20 @@ app.get('/login', function(req, res) {
   var isSignedIn = containsUser(req);
 
   // render the page with flash data
-  res.render('pages/login.ejs', { message: req.flash('error'),loggedIn:isSignedIn }); 
-
+  res.render('pages/login.ejs', {
+    message: req.flash('error'),
+    loggedIn:isSignedIn
+  });
 });
-
 
 app.get('/signup', function(req, res) {
   var isSignedIn = containsUser(req);
 
   // render the page with flash data
-  res.render('pages/signup.ejs', { message: req.flash('error'),loggedIn:isSignedIn });
+  res.render('pages/signup.ejs', {
+    message: req.flash('error'),
+    loggedIn:isSignedIn
+  });
 });
 
 app.post('/signup', passport.authenticate('local-signup', {
@@ -118,7 +164,6 @@ app.post('/signup', passport.authenticate('local-signup', {
   failureRedirect : '/signup', // redirect back to the signup page if there is an error
   failureFlash : true, // allow flash messages
   session: true
-
 }));
 
  // process the login form
@@ -129,13 +174,12 @@ app.post('/signup', passport.authenticate('local-signup', {
   session: true
 
 }));
+
 //log user out
 app.get('/logout', function(req, res){
   req.logout();
   res.redirect('/');
 });
-
-
 
 app.listen(8080);
 
@@ -172,6 +216,7 @@ function validateLogin(req, res, next) {
 //checks if the given request contains a user in the headers
 function containsUser(req) {
   var isSignedIn = false;
+
   if(req.user){
     isSignedIn = true;
   }
