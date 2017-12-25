@@ -78,7 +78,7 @@ module.exports = function(passport) {
         return done(err);
 
       if (rows.length) {
-        return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
+        return done(null, false, {message: "That email is already taken"});
       } else {
         // if there is no user with that email
         // create the user
@@ -137,12 +137,12 @@ passport.use('local-login',
         return done(err);
 
       if (!rows.length) {
-        return done(null, false, req.flash('loginMessage', 'No user found.')); // req.flash is the way to set flashdata using connect-flash
+        return done(null, false, {message: "no account exists with that email"}); // req.flash is the way to set flashdata using connect-flash
       }
 
       // if the user is found but the password is wrong
       if (!( rows[0].password == password))
-        return done(null, false, req.flash('loginMessage', 'Incorrect password.')); // create the loginMessage and save it to session as flashdata
+        return done(null, false, {message: "Incorrect password"}); // create the loginMessage and save it to session as flashdata
 
       // all is well, return successful user
       return done(null, rows[0]);
