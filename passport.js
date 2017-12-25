@@ -3,7 +3,9 @@ var mysql = require('mysql');
 var nodemailer = require('nodemailer');
 var bcrypt = require('bcrypt');
 
+//to prevent magic numbers
 const SITE_HOST = "localhost:8080"
+const NUMBER_OF_SALTS = 10;
 
 //to send email
 var transporter = nodemailer.createTransport({
@@ -71,17 +73,24 @@ module.exports = function(passport) {
     },
 
     function(req, email, password, done) {
-      //return done(null, false, req.flash('signupMessage', 'Email bad format'));
-
       // find a user whose email is the same as the forms email
       // we are checking to see if the user trying to login already exists
+      var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+      var passFormat = (/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}$/)
+
       connection.query("select * from Users where email = '"+email+"'",function(err,rows){
 
 			if (err)
         return done(err);
 
       if (rows.length) {
-        return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
+        return done(null, false, {message: "That email is already taken"});
+      }
+      //validate email with regex
+      else if(!email.match(mailformat)){
+        return done(null, false, {message: "Invalid email format"});
+      } else if(!password.match(passFormat)){
+        return done(null, false, {message: "Password must be at least 6 characters, contain a number, an uppercase character, and a lowercase character"});
       } else {
         // if there is no user with that email
         // create the user
@@ -110,7 +119,6 @@ module.exports = function(passport) {
           // my mail wasn't working due to antivirus software stopping it.
         });
 
-        NUMBER_OF_SALTS = 10;
         bcrypt.hash(password, NUMBER_OF_SALTS, function( err, bcryptedPassword) {
            newUserMysql.password = bcryptedPassword;
 
