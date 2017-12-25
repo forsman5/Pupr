@@ -12,15 +12,14 @@
         <!-- <img src = <% "/images/" + dog.name + " /profile.*" %> class = "profileImage rounded-circle "> --> <!-- does .* work?? -->
         <img src = "/images/<%= dog.name %>/profile.jpg" class = "profileImage rounded-circle ">
 
+        <h5 class = "display-5"><a class = "dognamelink" href="/dogs/<%= dog.dogID %>"><%= dog.name %></a></h5>                  
         <%# getting the breeds %>
         <% if (dog.breed2 == null) { %>
-          <p> Breed: <%= dog.breed1 %> </p>
+          <p> <%= dog.breed1 %> </p>
         <% } else { %>
-          <p> Breed: <%= dog.breed1 %> <br /><%= dog.breed2 %> </p>
+          <p> <%= dog.breed1 %> <br /><%= dog.breed2 %> </p>
         <% } %>
 
-        <%# as far as i can tell, no classes with link to... %>
-        <p>Name: <a class = "dognamelink" href="/dogs/<%= dog.dogID %>"><%= dog.name %></a></p>
       </div>
     <% }); %>
   </div>
