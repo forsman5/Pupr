@@ -102,6 +102,30 @@ app.get('/dogs/:dogId', function(req, res) {
     });
   });
 });
+app.get('/account',function(req,res) {
+  var isSignedIn = containsUser(req);  
+  res.render('pages/account',{user:req.user, loggedIn:isSignedIn})
+});
+
+app.get('/update',function(req,res) {
+  var isSignedIn = containsUser(req);  
+  res.render('pages/update',{user:req.user, loggedIn:isSignedIn})
+});
+app.post('/update', function(req, res){
+  newName = req.body.name;
+  newEmail = req.body.email;
+  req.user.name = newName;
+  req.user.email = newEmail;
+  req.session.passport.user.name = newName;
+  req.session.passport.user.name = newEmail;
+  res.render('pages/account',{user:req.user, loggedIn:true});
+  
+
+  
+
+  
+});
+
 
 app.get('/verify/:hash', function(req, res) {
   var isSignedIn = containsUser(req);

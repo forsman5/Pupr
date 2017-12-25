@@ -1,0 +1,15 @@
+<% include ../partials/head %>
+<%var tab = "Account" %>
+<% include ../partials/header %>
+
+<div class = "listbg">
+    <div class = "aboutText">
+        <h3 class="display-3 displayText">Your Account</h3>
+       <p><%= user.name %></p>
+       <p><%= user.email %>  <a class="btn btn-primary" href="/update">Update</a></p>
+
+    </div>
+
+</div>
+
+<% include ../partials/footer %>
