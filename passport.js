@@ -72,6 +72,9 @@ module.exports = function(passport) {
     function(req, email, password, done) {
       // find a user whose email is the same as the forms email
       // we are checking to see if the user trying to login already exists
+      var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;  
+      var passFormat = (/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}$/)      
+
       connection.query("select * from Users where email = '"+email+"'",function(err,rows){
 
 			if (err)
@@ -79,7 +82,15 @@ module.exports = function(passport) {
 
       if (rows.length) {
         return done(null, false, {message: "That email is already taken"});
-      } else {
+      }
+      //validate email with regex
+      else if(!email.match(mailformat)){
+        return done(null, false, {message: "Invalid email format"});        
+      } 
+      else if(!password.match(passFormat)){
+        return done(null, false, {message: "Password must be at least 6 characters, contain a number, an uppercase character, and a lowercase character"});                
+      }
+      else {
         // if there is no user with that email
         // create the user
         var name = req.body.name;
