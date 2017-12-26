@@ -114,15 +114,15 @@ app.get('/dogs/:dogId', function(req, res) {
   });
 });
 app.get('/account',function(req,res) {
-  var isSignedIn = containsUser(req); 
+  var isSignedIn = containsUser(req);
   if(isSignedIn){
     var user = req.user;
-  } 
+  }
   res.render('pages/account',{user:req.user, loggedIn:isSignedIn, user:user})
 });
 
 app.get('/update',function(req,res) {
-  var isSignedIn = containsUser(req);    
+  var isSignedIn = containsUser(req);
   if(isSignedIn){
     var user = req.user;
   }
@@ -132,7 +132,7 @@ app.get('/update',function(req,res) {
 app.post('/update', function(req, res){
   //read html form
   var user = req.user;
-  var flashMessage = "";  
+  var flashMessage = "";
   var newName = req.body.name;
   var newEmail = req.body.email;
   //if user does not update name, then make it the same
@@ -142,7 +142,7 @@ app.post('/update', function(req, res){
   //if user does not update email, then make it the same
   if(newEmail == 0){
     newEmail = req.user.email;
-  }  
+  }
   var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
   //validate new email
   if(newEmail.match(mailformat)){
@@ -153,13 +153,13 @@ app.post('/update', function(req, res){
     req.user.name = newName;
     req.session.passport.user.name = newName;
     //update database
-    var sql = "UPDATE Users SET name = \"" +  newName + "\", email = \""  + newEmail + "\" WHERE userID = " + req.user.userID;   
-    console.log(sql); 
+    var sql = "UPDATE Users SET name = \"" +  newName + "\", email = \""  + newEmail + "\" WHERE userID = " + req.user.userID;
+    console.log(sql);
     con.query(sql, function(err, results) {
       if (err)
         throw err;
-      res.render('pages/account',{loggedIn:true, user:user});      
-      
+      res.render('pages/account',{loggedIn:true, user:user});
+
     });
   }
   else{
@@ -172,8 +172,9 @@ app.post('/update', function(req, res){
 
 app.get('/verify/:hash', function(req, res) {
   var isSignedIn = containsUser(req);
+  var user = "";
   if(isSignedIn){
-    var user = req.user;
+    user = req.user;
   }
   var updateSQL = "UPDATE Users SET verified = b'1' WHERE verifyHash = \"" + req.params.hash + "\"";
 
@@ -186,23 +187,15 @@ app.get('/verify/:hash', function(req, res) {
       throw err;
 
     if (results.affectedRows == 1) {
-      var getName = "SELECT name FROM Users WHERE verifyHash = \"" + req.params.hash + "\"";
-      con.query(getName, function(err, nameRes) {
-        if (err)
-          throw err;
-
-        console.log(nameRes);
-
-        res.render('pages/verify', {
-          loggedIn:isSignedIn,
-          name:nameRes[0].name,
-          success:true
-        });
-      })
+      res.render('pages/verify', {
+        loggedIn:isSignedIn,
+        user:user,
+        success:true
+      });
     } else { // hash not found
       res.render('pages/verify', {
         loggedIn:isSignedIn,
-        name:"",
+        user:"",
         success: false
       });
     }
