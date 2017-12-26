@@ -130,20 +130,28 @@ app.get('/update',function(req,res) {
 });
 
 app.post('/update', function(req, res){
+  //read html form
   var user = req.user;
   var flashMessage = "";  
   var newName = req.body.name;
   var newEmail = req.body.email;
-  if(newName.length != 0){
-    req.user.name = newName;
-    req.session.passport.user.name = newName;
+  //if user does not update name, then make it the same
+  if(newName.length == 0){
+    newName = req.user.name;
+  }
+  //if user does not update email, then make it the same
+  if(newEmail == 0){
+    newEmail = req.user.email;
   }  
   var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
   //validate new email
   if(newEmail.match(mailformat)){
-    //stackoverflow said this would work but it does not
+    //update email in current session
     req.user.email = newEmail;
     req.session.passport.user.name = newEmail;
+    //update name in current session
+    req.user.name = newName;
+    req.session.passport.user.name = newName;
     //update database
     var sql = "UPDATE Users SET name = \"" +  newName + "\", email = \""  + newEmail + "\" WHERE userID = " + req.user.userID;   
     console.log(sql); 
