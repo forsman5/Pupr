@@ -11,6 +11,8 @@ var session = require('express-session');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var morgan = require('morgan');
+var bcrypt = require('bcrypt');
+
 
 require('./passport')(passport); // pass passport for configuration
 var app = express();
@@ -208,6 +210,89 @@ app.get('/verify/:hash', function(req, res) {
     }
   });
 });
+
+
+app.get('/updatepass',function(req,res) {
+  var isSignedIn = containsUser(req);    
+  if(isSignedIn){
+    var user = req.user;
+  }
+  res.render('pages/newpassword',{loggedIn:isSignedIn, message:"", user:user})
+});
+
+app.post('/updatepass', function(req, res){
+  //read html form
+  var user = req.user;
+  var flashMessage = "";  
+  var newPassword = req.body.password;
+  //if user does not update name, then make it the same
+  var passFormat = (/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}$/)  
+  //validate new email
+  if(newPassword.match(passFormat)){
+    //update email in current session
+    req.user.email = newEmail;
+    req.session.passport.user.name = newEmail;
+    //update name in current session
+    req.user.name = newName;
+    req.session.passport.user.name = newName;
+    //update database
+    var sql = "UPDATE Users SET name = \"" +  newName + "\", email = \""  + newEmail + "\" WHERE userID = " + req.user.userID;   
+    console.log(sql); 
+    con.query(sql, function(err, results) {
+      if (err)
+        throw err;
+      res.render('pages/account',{loggedIn:true, user:user});      
+      
+    });
+  }
+  else{
+    flashMessage = "Invalid Email";
+    res.render('pages/update', {message: flashMessage,loggedIn:true, user:user});
+  }
+
+});
+
+
+app.get('/verify/:hash', function(req, res) {
+  var isSignedIn = containsUser(req);
+  if(isSignedIn){
+    var user = req.user;
+  }
+  var updateSQL = "UPDATE Users SET verified = b'1' WHERE verifyHash = \"" + req.params.hash + "\"";
+
+  //TODO ??
+  //check if the record is already set to 1, if it is, let the user know theyre already
+  //verified?
+
+  con.query(updateSQL, function(err, results) {
+    if (err)
+      throw err;
+
+    if (results.affectedRows == 1) {
+      var getName = "SELECT name FROM Users WHERE verifyHash = \"" + req.params.hash + "\"";
+      con.query(getName, function(err, nameRes) {
+        if (err)
+          throw err;
+
+        console.log(nameRes);
+
+        res.render('pages/verify', {
+          loggedIn:isSignedIn,
+          name:nameRes[0].name,
+          success:true
+        });
+      })
+    } else { // hash not found
+      res.render('pages/verify', {
+        loggedIn:isSignedIn,
+        name:"",
+        success: false
+      });
+    }
+  });
+});
+
+
 
 app.get('/login', function(req, res) {
   var isSignedIn = containsUser(req);
