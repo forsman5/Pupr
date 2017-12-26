@@ -122,12 +122,13 @@ app.get('/account',function(req,res) {
 });
 
 app.get('/update',function(req,res) {
+  var isSignedIn = containsUser(req);    
   if(isSignedIn){
     var user = req.user;
   }
-  var isSignedIn = containsUser(req);  
-  res.render('pages/update',{user:req.user, loggedIn:isSignedIn, message:"", user:user})
+  res.render('pages/update',{loggedIn:isSignedIn, message:"", user:user})
 });
+
 app.post('/update', function(req, res){
   var user = req.user;
   var flashMessage = "";  
@@ -143,8 +144,15 @@ app.post('/update', function(req, res){
     //stackoverflow said this would work but it does not
     req.user.email = newEmail;
     req.session.passport.user.name = newEmail;
-    res.render('pages/account',{user:req.user,loggedIn:true, user:user});
-    
+    //update database
+    var sql = "UPDATE Users SET name = \"" +  newName + "\", email = \""  + newEmail + "\" WHERE userID = " + req.user.userID;   
+    console.log(sql); 
+    con.query(sql, function(err, results) {
+      if (err)
+        throw err;
+      res.render('pages/account',{loggedIn:true, user:user});      
+      
+    });
   }
   else{
     flashMessage = "Invalid Email";
