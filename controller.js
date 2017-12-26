@@ -209,7 +209,7 @@ app.get('/verify/:hash', function(req, res) {
 
 
 app.get('/updatepass',function(req,res) {
-  var isSignedIn = containsUser(req);    
+  var isSignedIn = containsUser(req);
   if(isSignedIn){
     var user = req.user;
   }
@@ -219,20 +219,19 @@ app.get('/updatepass',function(req,res) {
 app.post('/updatepass', function(req, res){
   //read html form
   var user = req.user;
-  var hash = MD5(user.name);  
-  var flashMessage = "";  
+  var flashMessage = "";
   var newPassword = req.body.password;
-  var passFormat = (/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}$/)  
+  var passFormat = (/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}$/)
   if(newPassword.match(passFormat)){
     bcrypt.hash(newPassword, NUMBER_OF_SALTS, function( err, bcryptedPassword) {
 
-      var updateQuery = "UPDATE Users SET password = \"" +  bcryptedPassword + "\", verifiedHash = \"" +  hash + " WHERE userID = " + req.user.userID;
+      var updateQuery = "UPDATE Users SET password = \"" +  bcryptedPassword + "\", WHERE userID = " + req.user.userID;
 
       con.query(updateQuery, function(err,rows){
-        res.render('pages/account', {message: flashMessage,loggedIn:true, user:user});        
+        res.render('pages/account', {message: flashMessage,loggedIn:true, user:user});
       });
    });
-    
+
   }
   else{
     flashMessage = "Password must be at least 6 characters, contain a number, an uppercase character, and a lowercase character";
