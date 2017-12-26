@@ -45,29 +45,37 @@ var con = mysql.createConnection({
 //homepage
 app.get('/', function(req, res) {
   var isSignedIn = containsUser(req);
-
+  if(isSignedIn){
+    var user = req.user;
+  }
   res.render('pages/index', {
-    loggedIn:isSignedIn
+    loggedIn:isSignedIn,user:user
   });
 });
 
 app.get('/about/', function(req, res) {
   var isSignedIn = containsUser(req);
+  if(isSignedIn){
+    var user = req.user;
+  }
 
   res.render('pages/about', {
-    loggedIn:isSignedIn
+    loggedIn:isSignedIn, user:user
   });
 });
 
 app.get('/dogs/', function(req,res){
   var isSignedIn = containsUser(req);
+  if(isSignedIn){
+    var user = req.user;
+  }
 
   var sql = "call GetDogs()";
   con.query(sql, function (err, dogList) {
     if (err) throw err;
     res.render('pages/dogs', {
       dogs: dogList[0],
-      loggedIn:isSignedIn
+      loggedIn:isSignedIn, user:user
     });
   });
 });
@@ -75,6 +83,9 @@ app.get('/dogs/', function(req,res){
 //dog detail page
 app.get('/dogs/:dogId', function(req, res) {
   var isSignedIn = containsUser(req);
+  if(isSignedIn){
+    var user = req.user;
+  }
 
   var sql = "call GetDog(" + req.params.dogId + ")";
   con.query(sql, function (err, dogToShow) {
@@ -98,20 +109,27 @@ app.get('/dogs/:dogId', function(req, res) {
 
       dog: dogToShow[0][0],
       files:fileList,
-      loggedIn:isSignedIn
+      loggedIn:isSignedIn, user:user
     });
   });
 });
 app.get('/account',function(req,res) {
-  var isSignedIn = containsUser(req);  
-  res.render('pages/account',{user:req.user, loggedIn:isSignedIn})
+  var isSignedIn = containsUser(req); 
+  if(isSignedIn){
+    var user = req.user;
+  } 
+  res.render('pages/account',{user:req.user, loggedIn:isSignedIn, user:user})
 });
 
 app.get('/update',function(req,res) {
+  if(isSignedIn){
+    var user = req.user;
+  }
   var isSignedIn = containsUser(req);  
-  res.render('pages/update',{user:req.user, loggedIn:isSignedIn, message:""})
+  res.render('pages/update',{user:req.user, loggedIn:isSignedIn, message:"", user:user})
 });
 app.post('/update', function(req, res){
+  var user = req.user;
   var flashMessage = "";  
   var newName = req.body.name;
   var newEmail = req.body.email;
@@ -125,12 +143,12 @@ app.post('/update', function(req, res){
     //stackoverflow said this would work but it does not
     req.user.email = newEmail;
     req.session.passport.user.name = newEmail;
-    res.render('pages/account',{user:req.user, loggedIn:true});
+    res.render('pages/account',{user:req.user,loggedIn:true, user:user});
     
   }
   else{
     flashMessage = "Invalid Email";
-    res.render('pages/update', {message: flashMessage,loggedIn:true});
+    res.render('pages/update', {message: flashMessage,loggedIn:true, user:user});
   }
 
 });
@@ -138,6 +156,9 @@ app.post('/update', function(req, res){
 
 app.get('/verify/:hash', function(req, res) {
   var isSignedIn = containsUser(req);
+  if(isSignedIn){
+    var user = req.user;
+  }
   var updateSQL = "UPDATE Users SET verified = b'1' WHERE verifyHash = \"" + req.params.hash + "\"";
 
   //TODO ??
@@ -174,7 +195,9 @@ app.get('/verify/:hash', function(req, res) {
 
 app.get('/login', function(req, res) {
   var isSignedIn = containsUser(req);
-
+  if(isSignedIn){
+    var user = req.user;
+  }
   // render the page with flash data
   res.render('pages/login.ejs', {
     message: req.flash('error'),
@@ -184,11 +207,13 @@ app.get('/login', function(req, res) {
 
 app.get('/signup', function(req, res) {
   var isSignedIn = containsUser(req);
-
+  if(isSignedIn){
+    var user = req.user;
+  }
   // render the page with flash data
   res.render('pages/signup.ejs', {
     message: req.flash('error'),
-    loggedIn:isSignedIn
+    loggedIn:isSignedIn, user:user
   });
 });
 
