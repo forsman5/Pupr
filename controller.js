@@ -109,21 +109,30 @@ app.get('/account',function(req,res) {
 
 app.get('/update',function(req,res) {
   var isSignedIn = containsUser(req);  
-  res.render('pages/update',{user:req.user, loggedIn:isSignedIn})
+  res.render('pages/update',{user:req.user, loggedIn:isSignedIn, message:""})
 });
 app.post('/update', function(req, res){
-  newName = req.body.name;
-  newEmail = req.body.email;
-  req.user.name = newName;
-  req.user.email = newEmail;
-  req.session.passport.user.name = newName;
-  req.session.passport.user.name = newEmail;
-  res.render('pages/account',{user:req.user, loggedIn:true});
-  
+  var flashMessage = "";  
+  var newName = req.body.name;
+  var newEmail = req.body.email;
+  if(newName.length != 0){
+    req.user.name = newName;
+    req.session.passport.user.name = newName;
+  }  
+  var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  //validate new email
+  if(newEmail.match(mailformat)){
+    //stackoverflow said this would work but it does not
+    req.user.email = newEmail;
+    req.session.passport.user.name = newEmail;
+    res.render('pages/account',{user:req.user, loggedIn:true});
+    
+  }
+  else{
+    flashMessage = "Invalid Email";
+    res.render('pages/update', {message: flashMessage,loggedIn:true});
+  }
 
-  
-
-  
 });
 
 

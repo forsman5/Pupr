@@ -7,6 +7,9 @@
 <div class = "listbg">
         <div class = "aboutText">
             <h3 class="display-3 displayText">Your Account</h3>
+             <% if (message.length > 0) { %>
+                <div class="alert alert-danger"><%= message %></div>
+            <% } %>
             <form action="/update" method="post">
                 <div class="form-group">
                         <label>Name</label>

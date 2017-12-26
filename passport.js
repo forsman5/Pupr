@@ -151,8 +151,8 @@ passport.use('local-login',
 
       // user not found
       if (!rows.length) {
-        return done(null, false, req.flash('loginMessage', 'No user found.')); // req.flash is the way to set flashdata using connect-flash
-      }
+        return done(null, false, {message: "No user found with that email"});
+    }
 
       //un hash pword, compare to supplied password
       //password = user supplied password
@@ -163,7 +163,7 @@ passport.use('local-login',
           return done(null, rows[0]);
         }else{
           // create the loginMessage and save it to session as flashdata
-          return done(null, false, req.flash('loginMessage', 'Incorrect password.'));
+          return done(null, false, {message: "Incorrect Password"});
         }
        });
 
