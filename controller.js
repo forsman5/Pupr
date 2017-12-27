@@ -221,14 +221,20 @@ app.post('/updatepass', function(req, res){
   var user = req.user;
   var flashMessage = "";
   var newPassword = req.body.password;
-  var passFormat = (/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}$/)
+  var passFormat = (/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}$/);
+  console.log(newPassword);
+  
   if(newPassword.match(passFormat)){
     bcrypt.hash(newPassword, NUMBER_OF_SALTS, function( err, bcryptedPassword) {
-
-      var updateQuery = "UPDATE Users SET password = \"" +  bcryptedPassword + "\", WHERE userID = " + req.user.userID;
+      console.log(newPassword);
+      console.log(bcryptedPassword);
+      var updateQuery = "UPDATE Users SET password = \"" +  bcryptedPassword + "\" WHERE userID = " + req.user.userID;
 
       con.query(updateQuery, function(err,rows){
+        if (err)
+        throw err;
         res.render('pages/account', {message: flashMessage,loggedIn:true, user:user});
+
 
       });
    });
