@@ -229,12 +229,13 @@ app.post('/updatepass', function(req, res){
 
       con.query(updateQuery, function(err,rows){
         res.render('pages/account', {message: flashMessage,loggedIn:true, user:user});
+
       });
    });
 
   }
   else{
-    flashMessage = "Password must be at least 6 characters, contain a number, an uppercase character, and a lowercase character";
+    flashMessage = "Invalid Password";
     res.render('pages/update', {message: flashMessage,loggedIn:true, user:user});
   }
 
