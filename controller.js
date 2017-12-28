@@ -71,7 +71,8 @@ app.get('/', function(req, res) {
     var user = req.user;
   }
   res.render('pages/index', {
-    loggedIn:isSignedIn,user:user
+    loggedIn:isSignedIn,
+    user:user
   });
 });
 
@@ -82,7 +83,8 @@ app.get('/about/', function(req, res) {
   }
 
   res.render('pages/about', {
-    loggedIn:isSignedIn, user:user
+    loggedIn:isSignedIn,
+    user:user
   });
 });
 
@@ -140,7 +142,11 @@ app.get('/account',function(req,res) {
   if(isSignedIn){
     var user = req.user;
   }
-  res.render('pages/account',{user:req.user, loggedIn:isSignedIn, user:user})
+  res.render('pages/account', {
+    user:req.user,
+    loggedIn:isSignedIn,
+    user:user
+  });
 });
 
 app.get('/update',function(req,res) {
@@ -148,7 +154,12 @@ app.get('/update',function(req,res) {
   if(isSignedIn){
     var user = req.user;
   }
-  res.render('pages/update',{loggedIn:isSignedIn, message:"", user:user})
+
+  res.render('pages/update',{
+    loggedIn:isSignedIn,
+    message:"",
+    user:user
+  });
 });
 
 app.get('/resend',function(req,res) {
@@ -188,6 +199,7 @@ app.post('/update', function(req, res){
     newEmail = req.user.email;
   }
   var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
   //validate new email
   if(newEmail.match(mailformat)){
     //update email in current session
@@ -198,12 +210,14 @@ app.post('/update', function(req, res){
     req.session.passport.user.name = newName;
     //update database
     var sql = "UPDATE Users SET name = \"" +  newName + "\", email = \""  + newEmail + "\" WHERE userID = " + req.user.userID;
-    console.log(sql);
+
     con.query(sql, function(err, results) {
       if (err)
         throw err;
-      res.render('pages/account',{loggedIn:true, user:user});
-
+      res.render('pages/account',{
+        loggedIn:true,
+        user:user
+      });
     });
   }
   else{
@@ -218,6 +232,7 @@ app.get('/verify/:hash', function(req, res) {
   if(isSignedIn){
     user = req.user;
   }
+
   var updateSQL = "UPDATE Users SET verified = b'1' WHERE verifyHash = \"" + req.params.hash + "\"";
 
   //TODO ??
@@ -250,7 +265,11 @@ app.get('/updatepass',function(req,res) {
     var user = req.user;
   }
 
-  res.render('pages/newpassword',{loggedIn:isSignedIn, message:"", user:user})
+  res.render('pages/newpassword',{
+    loggedIn:isSignedIn,
+    message:"",
+    user:user
+  });
 });
 
 app.post('/updatepass', function(req, res){
@@ -313,7 +332,7 @@ app.get('/verify/:hash', function(req, res) {
           name:nameRes[0].name,
           success:true
         });
-      })
+      });
     } else { // hash not found
       res.render('pages/verify', {
         loggedIn:isSignedIn,
@@ -344,7 +363,8 @@ app.get('/signup', function(req, res) {
   // render the page with flash data
   res.render('pages/signup.ejs', {
     message: req.flash('error'),
-    loggedIn:isSignedIn, user:user
+    loggedIn:isSignedIn,
+    user:user
   });
 });
 
@@ -369,14 +389,62 @@ app.get('/logout', function(req, res){
   res.redirect('/');
 });
 
+app.get('/unverified', function(req, res) {
+  var isSignedIn = containsUser(req);
+  if (isSignedIn) {
+    var user = req.user;
+  }
+
+  console.log("succ");
+
+  res.render('pages/notverified', {
+    user: user,
+    loggedIn: isSignedIn
+  });
+});
+
+//must be signed in to get here, thus no if isSignedIn
 app.post("/favoriteDog", function(req, res) {
-
   //check if the user is verified!
+  var checkVerif = "SELECT CAST(verified as unsigned) AS verified FROM Users WHERE userID = " + req.user.userID;
+  con.query(checkVerif, function(err, verified) {
+    if (err)
+      throw err;
 
-  console.log(req.body.dog);
+    if (verified[0].verified) {
+      if (req.body.currentState) {
+        //true  -- add this favorite
+        var insert = "INSERT INTO Users_Dogs_favorites (userID, dogID) values (" + req.user.userID + ", " + req.body.dog + ")"
+        var updateCount = "UPDATE Dogs SET favorites = favorites + 1 WHERE dogID =" + req.body.dog;
 
-  console.log(req.user.userID);
+        con.query(insert, function(err, res) {
+          if (err)
+            throw err;
 
+          con.query(updateCount, function(err, innerRes) {
+            if (err)
+              throw err;
+          });
+        });
+      } else {
+        //false -- remove this favorite
+        var remove = "DELETE FROM Users_Dogs_favorites WHERE userID = " + req.user.userID + " AND dogID = " + req.body.dog
+        var updateCount = "UPDATE Dogs SET favorites = favorites - 1 WHERE dogID =" + req.body.dog;
+
+        con.query(remove, function(err, res) {
+          if (err)
+            throw err;
+
+          con.query(updateCount, function(err, innerRes) {
+            if (err)
+              throw err;
+          });
+        });
+      }
+    } else { // not verified
+      return res.redirect("/unverified");
+    }
+  });
 });
 
 app.listen(8080);
