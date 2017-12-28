@@ -3,6 +3,7 @@ DELIMITER //
 CREATE PROCEDURE CreateTables()
 BEGIN
 
+DROP TABLE IF EXISTS Users_Dogs_favorites;
 DROP TABLE IF EXISTS Visits;
 DROP TABLE IF EXISTS Dogs;
 DROP TABLE IF EXISTS Breeds;
@@ -49,6 +50,7 @@ CREATE TABLE Users(
 
 	PRIMARY KEY (userID)
 );
+
 CREATE TABLE Users_Dogs_favorites(
 	userID int NOT NULL,
 	dogID int NOT NULL,
@@ -56,15 +58,6 @@ CREATE TABLE Users_Dogs_favorites(
 	FOREIGN KEY (userID) REFERENCES Users(userID),
 	PRIMARY KEY (dogID,userID)
 );
-
-
-
-
-
-
-
-	
-}
 
 END //
 DELIMITER ;
