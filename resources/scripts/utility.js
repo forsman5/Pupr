@@ -17,3 +17,13 @@ function checkPasswords() {
     return false;
   }
 }
+function colorChange() {
+  document.write("clicked");
+    var background = document.getElementById("heartIconDetail").style.color;
+    if (background == "#BB0000") {
+        document.getElementById("heartIconDetail").style.color = "grey";
+    } else {
+        document.getElementById("heartIconDetail").style.color = "#BB0000";
+    }
+
+}

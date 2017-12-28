@@ -41,6 +41,7 @@
 </div>
 
 <div class = "bio">
+  
   <h2 class="display-2"><%= dog.name %></h2>
 
   <%# if this dog has two breeds %>
@@ -53,4 +54,9 @@
 <p class = "biotext">
     <%= dog.bio %>
 </p>
+  <div onclick = "colorChange();"><button type = "submit"  class = "fa fa-heart fa-4x" id = "heartIconDetail"> <%= dog.favorites %></button></div>  
+
+<br />  
+<br />
+
 <% include ../partials/footer %>

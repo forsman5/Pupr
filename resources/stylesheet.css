@@ -141,3 +141,19 @@ body, html {
 .dognamelink{
   color:white;
 }
+.heartIcon{
+    color: #BB0000;
+}
+#heartIconDetail{
+    color: gray;
+    margin-left: 40%;
+    background-color: transparent;
+    border: none;
+}
+#heartIconDetail:hover {
+    color: #BB0000;
+}
+
+
+
+

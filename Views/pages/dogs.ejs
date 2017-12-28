@@ -15,16 +15,19 @@
       <div class = "box bg-primary">
         <img src = "/images/<%= dog.name %>/profile.jpg" class = "profileImage rounded-circle ">
 
-        <h5 class = "display-5"><a class = "dognamelink" href="/dogs/<%= dog.dogID %>"><%= dog.name %></a></h5>                  
+        <h5 class = "display-5"><a class = "dognamelink" href="/dogs/<%= dog.dogID %>"><%= dog.name %></a> </h5>                  
         <%# getting the breeds %>
         <% if (dog.breed2 == null) { %>
           <p> <%= dog.breed1 %> </p>
         <% } else { %>
           <p> <%= dog.breed1 %> <br /><%= dog.breed2 %> </p>
         <% } %>
+        <p><span class = "fa fa-heart heartIcon fa-2x"></span><%= dog.favorites %></p>
+        
       </div>
       </a>
     <% }); %>
+    
   </div>
 </div>
 <% include ../partials/footer %>
