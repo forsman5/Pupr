@@ -23,5 +23,31 @@
         <% } %>
     </li>
   </ul>
+  
+  <ul class="navbar-nav ml-auto">        
+    <% if(loggedIn) { %>
+      <li class="nav-item dropdown navbutton">
+          <a class="nav-link dropdown-toggle " href="/account" id="navbardrop" data-toggle="dropdown">
+            <%= user.name %>
+          </a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="/account">View Account</a>
+            <a class="dropdown-item" href="#">Edit Account</a>
+            <a class="dropdown-item" href="/logout">Sign Out</a>
+          </div>
+        </li>
+      
+    <%} else { %>
+      <li class="nav-item">
+          <a class="btn btn-primary navbutton" href="/login">Log In</a>
+      </li>
+      <li class="nav-item">
+        <a class="btn btn-primary navbutton" href="/signup">Sign Up</a>
+      </li>
+  
+    <% } %>
+
+
+  </ul>
 
 </nav>

@@ -1,0 +1,45 @@
+<% include ../partials/head %>
+<%var tab = "login" %>
+<% include ../partials/header %>
+<div class="container signform">
+
+    <div class="col-sm-6 col-sm-offset-3">
+
+        <h4 class = "display-4 signheader">Create a New Account</h4>
+        <p>Password must be at least six characters long, and contain an uppercase letter, lowercase letter, and a number. </p>
+
+        <!-- LOGIN FORM -->
+        <% if (message.length > 0) { %>
+            <div class="alert alert-danger"><%= message %></div>
+        <% } %>
+        <form action="/signup" method="post" onsubmit="return checkPasswords();">
+            <div class="form-group">
+                <label>Name</label>
+                <input type="text" class="form-control" name="name">
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="text" class="form-control" name="email">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" onkeyup='check();' name = "password" id = "password" class="form-control" name="password" />
+            </div>
+            <div class="form-group">
+                <label>Confirm Password</label>
+                <input type="password" name="confirm_password" id="confirm_password" onkeyup='check();' class="form-control" name="confirmPassword" />
+                <span id='message'></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg">Create Account</button>
+        </form>
+
+        <hr>
+
+        <p>Already have an account? <a href="/login">Login</a></p>
+
+    </div>
+
+</div>
+
+<% include ../partials/footer %>
