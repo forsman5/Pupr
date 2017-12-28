@@ -22,6 +22,7 @@ CREATE TABLE Dogs(
 	bio varchar(2047),
 	breedID int NOT NULL,
 	secondaryBreedID int,
+	favorites int DEFAULT 0,
 
 	PRIMARY KEY (dogID),
 	FOREIGN KEY (breedID) REFERENCES Breeds(breedID),
@@ -48,6 +49,22 @@ CREATE TABLE Users(
 
 	PRIMARY KEY (userID)
 );
+CREATE TABLE Users_Dogs_favorites(
+	userID int NOT NULL,
+	dogID int NOT NULL,
+	FOREIGN KEY (dogID) REFERENCES Dogs(dogID),
+	FOREIGN KEY (userID) REFERENCES Users(userID),
+	PRIMARY KEY (dogID,userID)
+);
+
+
+
+
+
+
+
+	
+}
 
 END //
 DELIMITER ;
