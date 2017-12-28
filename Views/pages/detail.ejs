@@ -4,26 +4,26 @@
 <div id="demo" class="carousel slide" data-ride="carousel">
 
   <!-- Indicators -->
-  <ul class="carousel-indicators">    
+  <ul class="carousel-indicators">
   <%var i %>
   <% for(i = 0; i < files.length;i++){ %>
     <% if(i == 0){ %>
       <li data-target="#demo" data-slide-to="0" class="active"></li>
-    <% } else { %> 
+    <% } else { %>
       <li data-target="#demo" data-slide-to= <%= i.toString() %></li>></li>
     <% } %>
   <% } %>
   </ul>
 
   <!-- The slideshow -->
-  <%var x %>  
+  <%var x %>
   <div class="carousel-inner">
     <% for(x = 0; x < files.length; x++){ %>
-      <% if(x == 0){ %> 
+      <% if(x == 0){ %>
         <div class="carousel-item active">
           <img src="/images/<%= dog.name %>/<%=files[0] %>" class = "carousel_img">
         </div>
-      <% } else{ %>       
+      <% } else{ %>
         <div class="carousel-item">
           <img src= "/images/<%= dog.name %>/<%=files[x] %>" class = "carousel_img">
         </div>
@@ -41,7 +41,7 @@
 </div>
 
 <div class = "bio">
-  
+
   <h2 class="display-2"><%= dog.name %></h2>
 
   <%# if this dog has two breeds %>
@@ -55,11 +55,11 @@
     <%= dog.bio %>
 </p>
 <% if (loggedIn) { %>
-  <div onclick = "colorChange()"><i  class = "fa fa-heart fa-4x" id = "heartIconDetail"> </i></div>  
+  <div onclick = "favoriteDog()"><i  class = "fa fa-heart fa-4x" id = "heartIconDetail"> </i></div>  
 <% } else { %>
-  <div><a href = "/login" class = "fa fa-heart fa-4x" id = "heartIconDetail"> </a></div>    
+  <div><a href = "/login" class = "fa fa-heart fa-4x" id = "heartIconDetail"> </a></div>
 <% } %>
-<br />  
+<br />
 <br />
 
 <% include ../partials/footer %>

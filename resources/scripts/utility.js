@@ -17,10 +17,10 @@ function checkPasswords() {
     return false;
   }
 }
-    var el =   document.getElementById("heartIconDetail");
-    el.onclick = colorChange;
-function colorChange() {
-    document.write("clicked");
+
+function favoriteDog() {
+    //color change
+    //document.write("clicked");
     var el =   document.getElementById("heartIconDetail");
     var style = window.getComputedStyle(el,null);
     var color = style.getPropertyValue('color');
@@ -30,5 +30,11 @@ function colorChange() {
         el.style.color = "rgb(187,0,0)";
     }
 
-}
+    //send http req
+    //get params
+    var dogFromPage = window.location.pathname.substring(6); // just dog id, not anything else
 
+    $.post('/favoriteDog', { dog: dogFromPage, userID: "1"}, function(returnedData){});
+
+    return false;
+}

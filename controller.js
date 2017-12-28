@@ -171,9 +171,7 @@ app.post('/update', function(req, res){
     flashMessage = "Invalid Email";
     res.render('pages/update', {message: flashMessage,loggedIn:true, user:user});
   }
-
 });
-
 
 app.get('/verify/:hash', function(req, res) {
   var isSignedIn = containsUser(req);
@@ -207,12 +205,12 @@ app.get('/verify/:hash', function(req, res) {
   });
 });
 
-
 app.get('/updatepass',function(req,res) {
   var isSignedIn = containsUser(req);
   if(isSignedIn){
     var user = req.user;
   }
+
   res.render('pages/newpassword',{loggedIn:isSignedIn, message:"", user:user})
 });
 
@@ -223,7 +221,7 @@ app.post('/updatepass', function(req, res){
   var newPassword = req.body.password;
   var passFormat = (/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}$/);
   console.log(newPassword);
-  
+
   if(newPassword.match(passFormat)){
     bcrypt.hash(newPassword, NUMBER_OF_SALTS, function( err, bcryptedPassword) {
       console.log(newPassword);
@@ -233,9 +231,11 @@ app.post('/updatepass', function(req, res){
       con.query(updateQuery, function(err,rows){
         if (err)
         throw err;
-        res.render('pages/account', {message: flashMessage,loggedIn:true, user:user});
-
-
+        res.render('pages/account', {
+          message: flashMessage,
+          loggedIn:true,
+          user:user
+        });
       });
    });
 
@@ -244,9 +244,7 @@ app.post('/updatepass', function(req, res){
     flashMessage = "Invalid Password";
     res.render('pages/update', {message: flashMessage,loggedIn:true, user:user});
   }
-
 });
-
 
 app.get('/verify/:hash', function(req, res) {
   var isSignedIn = containsUser(req);
@@ -287,8 +285,6 @@ app.get('/verify/:hash', function(req, res) {
   });
 });
 
-
-
 app.get('/login', function(req, res) {
   var isSignedIn = containsUser(req);
   if(isSignedIn){
@@ -326,13 +322,22 @@ app.post('/signup', passport.authenticate('local-signup', {
   failureRedirect : '/login', // redirect back to the signup page if there is an error
   failureFlash : true, // allow flash messages
   session: true
-
 }));
 
 //log user out
 app.get('/logout', function(req, res){
   req.logout();
   res.redirect('/');
+});
+
+app.post("/favoriteDog", function(req, res) {
+
+  //check if the user is verified!
+
+  console.log(req.body.dog);
+
+  console.log(req.body.userID);
+
 });
 
 app.listen(8080);
