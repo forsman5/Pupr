@@ -17,13 +17,18 @@ function checkPasswords() {
     return false;
   }
 }
+    var el =   document.getElementById("heartIconDetail");
+    el.onclick = colorChange;
 function colorChange() {
-  document.write("clicked");
-    var background = document.getElementById("heartIconDetail").style.color;
-    if (background == "#BB0000") {
-        document.getElementById("heartIconDetail").style.color = "grey";
+    document.write("clicked");
+    var el =   document.getElementById("heartIconDetail");
+    var style = window.getComputedStyle(el,null);
+    var color = style.getPropertyValue('color');
+    if (color == "rgb(187,0,0)") {
+        el.style.color = "rgb(128,128,128)";
     } else {
-        document.getElementById("heartIconDetail").style.color = "#BB0000";
+        el.style.color = "rgb(187,0,0)";
     }
 
 }
+

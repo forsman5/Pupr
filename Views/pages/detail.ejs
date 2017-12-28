@@ -54,8 +54,11 @@
 <p class = "biotext">
     <%= dog.bio %>
 </p>
-  <div onclick = "colorChange();"><button type = "submit"  class = "fa fa-heart fa-4x" id = "heartIconDetail"> <%= dog.favorites %></button></div>  
-
+<% if (loggedIn) { %>
+  <div onclick = "colorChange()"><i  class = "fa fa-heart fa-4x" id = "heartIconDetail"> </i></div>  
+<% } else { %>
+  <div><a href = "/login" class = "fa fa-heart fa-4x" id = "heartIconDetail"> </a></div>    
+<% } %>
 <br />  
 <br />
 
