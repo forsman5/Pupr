@@ -31,12 +31,8 @@ body, html {
     background-position: center;
     background-size: cover;
     background-repeat: repeat;
-
-
-
 }
 .bigtext{
-
     color: white;
     display: block !important;
     text-align: center !important;
@@ -45,7 +41,6 @@ body, html {
 }
 .displayText{
     text-shadow: 2px 2px 2px black;
-
 }
 .footer{
     text-align: center;
@@ -80,11 +75,7 @@ body, html {
     -ms-transform: rotate(90deg); /* IE 9 */
     -webkit-transform: rotate(90deg); /* Chrome, Safari, Opera */
     transform: rotate(90deg);
-
-
 }
-
-
 .carousel_img{
      width: 80%;
      height:auto;
@@ -96,15 +87,11 @@ body, html {
     -ms-transform: rotate(90deg); /* IE 9 */
     -webkit-transform: rotate(90deg); /* Chrome, Safari, Opera */
     transform: rotate(90deg);
-
 }
-
-
 .bio{
     text-align: center;
     align-content: center;
 }
-
 .biotext{
     margin-right: auto;
     margin-left: auto;
@@ -124,7 +111,6 @@ body, html {
     align-content: center;
 
 }
-
 .aboutText{
     font-size:1.1em;
     background-color: white;
@@ -140,8 +126,8 @@ body, html {
 }
 .signform{
     margin-top:30px;
-    margin-bottom: 50px; 
-    
+    margin-bottom: 50px;
+
 }
 .signheader{
     margin-bottom: 20px;
@@ -151,4 +137,7 @@ body, html {
 }
 .navbutton{
     text-align: right;
+}
+.dognamelink{
+  color:white;
 }
