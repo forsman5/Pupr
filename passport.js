@@ -4,7 +4,6 @@ var nodemailer = require('nodemailer');
 var bcrypt = require('bcrypt');
 
 //to prevent magic numbers
-const SITE_HOST = "localhost:8080"
 const NUMBER_OF_SALTS = 10;
 
 //to send email
@@ -124,7 +123,7 @@ module.exports = function(passport) {
 
         //<a> doesnt work here... figure out a better solution? Maybe this is fine..
         //link is not clickable, but i believe it would be with http:// instead of localhost
-        mailOptions.html = "Thanks for using Petlandopia! Please verify your email by clicking below: <br>" + SITE_HOST + "/verify/" + hash + "<br>Thanks again!";
+        mailOptions.html = "Thanks for using Petlandopia! Please verify your email by clicking below: <br>" + req.headers.host + "/verify/" + hash + "<br>Thanks again!";
 
         //send the verification email
         transporter.sendMail(mailOptions, function(error, info){
