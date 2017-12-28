@@ -8,8 +8,11 @@
 
   <div class = "centeredBoxes" >
     <% dogs.forEach(function(dog) { %>
+
+      <%# Linking using the div this way won't work without html 5!! %>
+
+      <a href = "/dogs/<%= dog.dogID %>">
       <div class = "box bg-primary">
-        <!-- <img src = <% "/images/" + dog.name + " /profile.*" %> class = "profileImage rounded-circle "> --> <!-- does .* work?? -->
         <img src = "/images/<%= dog.name %>/profile.jpg" class = "profileImage rounded-circle ">
 
         <h5 class = "display-5"><a class = "dognamelink" href="/dogs/<%= dog.dogID %>"><%= dog.name %></a></h5>                  
@@ -19,8 +22,8 @@
         <% } else { %>
           <p> <%= dog.breed1 %> <br /><%= dog.breed2 %> </p>
         <% } %>
-
       </div>
+      </a>
     <% }); %>
   </div>
 </div>

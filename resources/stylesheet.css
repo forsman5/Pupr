@@ -86,9 +86,9 @@ body, html {
 
 
 .carousel_img{
-     width: 80%; 
+     width: 80%;
      height:auto;
-     margin-left:10%;      
+     margin-left:10%;
      align-content: center;
      text-align: center;
      image-orientation: inherit;
@@ -121,13 +121,10 @@ body, html {
 #demo{
     background-color: black;
     width: 100%;
-    align-content: center; 
-    
+    align-content: center;
+
 }
 
-.dognamelink {
-  color: white;
-}
 .aboutText{
     font-size:1.1em;
     background-color: white;

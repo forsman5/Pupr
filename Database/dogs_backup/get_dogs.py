@@ -41,7 +41,7 @@ for folder in folders:
     res = cursor.fetchone()
     breedID = str(res[0])
 
-    cursor.execute(getID + lines[1] + "\"")
+    cursor.execute(getID + lines[1][:len(lines[1]) - 1] + "\"")
     res = cursor.fetchone()
     if (res is not None):
         secondaryBreedID = str(res[0])
