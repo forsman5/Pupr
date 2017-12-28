@@ -11,16 +11,15 @@
        <a class="btn btn-primary" href="/updatepass">Change Password</a>
        <br>
        <br>
-       <%if(!(user.verified == 1)) { %>
-        <h4 class="display-4">Your account is not verified</h4>        
-        <a class="btn btn-primary" href="/resend">Resend Verification</a>        
+       <%if (!user.verified) { %>
+        <h4 class="display-4">Your account is not verified</h4>
+        <a class="btn btn-primary" href="/resend">Resend Verification</a>
         <% } else { %>
-            <h5 class="display-5">Your account has been verified. You are good to go!</h5>                    
+            <h5 class="display-5">Your account has been verified. You are good to go!</h5>
         <% } %>
 
 
     </div>
-<!-- TODO - RESEND VERIFICATION EMAIL IF THEY NEED IT! -->
 </div>
 
 <% include ../partials/footer %>

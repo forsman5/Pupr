@@ -59,7 +59,27 @@ var con = mysql.createConnection({
   host: "petlanddb.cv18qdrgjzn8.us-east-2.rds.amazonaws.com",
   user: "admin",
   password: "password",
-  database: "petland"
+  database: "petland",
+
+  //cast any bit types to true / false (1 / 0)
+  typeCast: function castField( field, useDefaultTypeCasting ) {
+
+        // We only want to cast bit fields that have a single-bit in them. If the field
+        // has more than one bit, then we cannot assume it is supposed to be a Boolean.
+        if ( ( field.type === "BIT" ) && ( field.length === 1 ) ) {
+
+            var bytes = field.buffer();
+
+            // A Buffer in Node represents a collection of 8-bit unsigned integers.
+            // Therefore, our single "bit field" comes back as the bits '0000 0001',
+            // which is equivalent to the number 1.
+            return( bytes[ 0 ] === 1 );
+
+        }
+
+        return( useDefaultTypeCasting() );
+
+    }
 });
 
 //homepage
@@ -68,6 +88,7 @@ app.get('/', function(req, res) {
   if(isSignedIn){
     var user = req.user;
   }
+
   res.render('pages/index', {
     loggedIn:isSignedIn,
     user:user
@@ -365,7 +386,7 @@ app.get('/unverified', function(req, res) {
 //must be signed in to get here, thus no if isSignedIn
 app.post("/favoriteDog", function(req, res) {
   //check if the user is verified!
-  var checkVerif = "SELECT CAST(verified as unsigned) AS verified FROM Users WHERE userID = " + req.user.userID;
+  var checkVerif = "SELECT verified FROM Users WHERE userID = " + req.user.userID;
   con.query(checkVerif, function(err, verified) {
     if (err)
       throw err;
