@@ -170,7 +170,7 @@ app.get('/resend',function(req,res) {
   var name  = req.user.name;
   var hash = MD5(name);
   //add the options to mailOptions
-  mailOptions.to = newUserMysql.email;
+  mailOptions.to = req.user.email;
   mailOptions.html = "Thanks for using Petlandopia! Please verify your email by clicking below: <br>" + SITE_HOST + "/verify/" + hash + "<br>Thanks again!";
 
   //send the verification email
@@ -180,7 +180,7 @@ app.get('/resend',function(req,res) {
     }
   });
   
-  res.render('pages/update',{loggedIn:isSignedIn, message:"", user:user})
+  res.render('pages/resend',{loggedIn:isSignedIn, message:"", user:user})
 });
 
 

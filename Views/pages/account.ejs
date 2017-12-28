@@ -11,7 +11,7 @@
        <a class="btn btn-primary" href="/updatepass">Change Password</a>
        <br>
        <br>
-       <%if(!user.verified == 1) { %>
+       <%if(!(user.verified == 1)) { %>
         <h4 class="display-4">Your account is not verified</h4>        
         <a class="btn btn-primary" href="/resend">Resend Verification</a>        
         <% } else { %>
