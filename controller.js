@@ -336,7 +336,7 @@ app.post("/favoriteDog", function(req, res) {
 
   console.log(req.body.dog);
 
-  console.log(req.body.userID);
+  console.log(req.user.userID);
 
 });
 

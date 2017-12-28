@@ -34,7 +34,7 @@ function favoriteDog() {
     //get params
     var dogFromPage = window.location.pathname.substring(6); // just dog id, not anything else
 
-    $.post('/favoriteDog', { dog: dogFromPage, userID: "1"}, function(returnedData){});
+    $.post('/favoriteDog', { dog: dogFromPage }, function(returnedData){});
 
     return false;
 }
