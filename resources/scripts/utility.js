@@ -24,7 +24,7 @@ function favoriteDog() {
     var el =   document.getElementById("heartIconDetail");
     var style = window.getComputedStyle(el,null);
     var color = style.getPropertyValue('color');
-    if (color == "rgb(187,0,0)") {
+    if (color === "rgb(187, 0, 0)") {
         el.style.color = "rgb(128,128,128)";
     } else {
         el.style.color = "rgb(187,0,0)";
