@@ -151,7 +151,7 @@ passport.use('local-login',
 
       // user not found
       if (!rows.length) {
-        return done(null, false, {message: "No user found with that email"});
+        return done(null, false, {message: "No account was found that matches that username and password."});
     }
 
       //un hash pword, compare to supplied password
@@ -163,7 +163,7 @@ passport.use('local-login',
           return done(null, rows[0]);
         }else{
           // create the loginMessage and save it to session as flashdata
-          return done(null, false, {message: "Incorrect Password"});
+          return done(null, false, {message: "No account was found that matches that username and password."});
         }
        });
 
