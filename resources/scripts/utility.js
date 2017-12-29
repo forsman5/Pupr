@@ -18,7 +18,7 @@ function checkPasswords() {
   }
 }
 
-function favoriteDog(numLikes) {
+function favoriteDog(numLikes, liked) {
   //this is to tell the server if the dog is already favorited.
   var favorited;
 
@@ -31,11 +31,20 @@ function favoriteDog(numLikes) {
   if (color === "rgb(187, 0, 0)") {
       el.style.color = "rgb(128,128,128)";
       favorited = false;
-      num.innerHTML = parseInt(numLikes) - 1;
+      if(liked){
+        num.innerHTML = parseInt(numLikes) - 1;
+      }
+      else{
+        num.innerHTML = parseInt(numLikes);
+      }
   } else {
       el.style.color = "rgb(187,0,0)";
-      num.innerHTML = parseInt(numLikes) + 1;
-
+      if(liked){
+        num.innerHTML = parseInt(numLikes);
+      }
+      else{
+        num.innerHTML = parseInt(numLikes) + 1;
+      }
       favorited = true;
   }
 
