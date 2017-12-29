@@ -63,23 +63,21 @@ var con = mysql.createConnection({
 
   //cast any bit types to true / false (1 / 0)
   typeCast: function castField( field, useDefaultTypeCasting ) {
+    // We only want to cast bit fields that have a single-bit in them. If the field
+    // has more than one bit, then we cannot assume it is supposed to be a Boolean.
+    if ( ( field.type === "BIT" ) && ( field.length === 1 ) ) {
 
-        // We only want to cast bit fields that have a single-bit in them. If the field
-        // has more than one bit, then we cannot assume it is supposed to be a Boolean.
-        if ( ( field.type === "BIT" ) && ( field.length === 1 ) ) {
+        var bytes = field.buffer();
 
-            var bytes = field.buffer();
-
-            // A Buffer in Node represents a collection of 8-bit unsigned integers.
-            // Therefore, our single "bit field" comes back as the bits '0000 0001',
-            // which is equivalent to the number 1.
-            return( bytes[ 0 ] === 1 );
-
-        }
-
-        return( useDefaultTypeCasting() );
+        // A Buffer in Node represents a collection of 8-bit unsigned integers.
+        // Therefore, our single "bit field" comes back as the bits '0000 0001',
+        // which is equivalent to the number 1.
+        return( bytes[ 0 ] === 1 );
 
     }
+
+    return( useDefaultTypeCasting() );
+  }
 });
 
 //homepage
@@ -139,17 +137,17 @@ app.get('/dogs/:dogId', function(req, res) {
     if(isSignedIn){
       var getHeartColor = "SELECT * FROM Users_Dogs_favorites WHERE userID = " + req.user.userID + " AND dogID = " + req.params.dogId;
       con.query(getHeartColor,function(err,rows){
-        if (err) throw err;      
+        if (err) throw err;
         if(rows.length > 0){
           heartSelected = true;
         }
         console.log(heartSelected)
-        res.render('pages/detail', {          
+        res.render('pages/detail', {
         dog: dogToShow[0][0],
         files:fileList,
         loggedIn:isSignedIn, user:user, selected: heartSelected
-      });      
-      });  
+      });
+      });
     }
     else{
     res.render('pages/detail', {
@@ -171,7 +169,7 @@ app.get('/dogs/:dogId', function(req, res) {
       dog: dogToShow[0][0],
       files:fileList,
       loggedIn:isSignedIn, user:user, selected: heartSelected
-    
+
     });
   }
   });
@@ -411,45 +409,39 @@ app.get('/unverified', function(req, res) {
 //must be signed in to get here, thus no if isSignedIn
 app.post("/favoriteDog", function(req, res) {
   //check if the user is verified!
-  var checkVerif = "SELECT verified FROM Users WHERE userID = " + req.user.userID;
-  con.query(checkVerif, function(err, verified) {
-    if (err)
-      throw err;
+  if (req.user.verified) {
+    if (req.body.currentState) {
+      //true  -- add this favorite
+      var insert = "INSERT INTO Users_Dogs_favorites (userID, dogID) values (" + req.user.userID + ", " + req.body.dog + ")"
+      var updateCount = "UPDATE Dogs SET favorites = favorites + 1 WHERE dogID =" + req.body.dog;
 
-    if (verified[0].verified) {
-      if (req.body.currentState) {
-        //true  -- add this favorite
-        var insert = "INSERT INTO Users_Dogs_favorites (userID, dogID) values (" + req.user.userID + ", " + req.body.dog + ")"
-        var updateCount = "UPDATE Dogs SET favorites = favorites + 1 WHERE dogID =" + req.body.dog;
+      con.query(insert, function(err, res) {
+        if (err)
+          throw err;
 
-        con.query(insert, function(err, res) {
+        con.query(updateCount, function(err, innerRes) {
           if (err)
             throw err;
-
-          con.query(updateCount, function(err, innerRes) {
-            if (err)
-              throw err;
-          });
         });
-      } else {
-        //false -- remove this favorite
-        var remove = "DELETE FROM Users_Dogs_favorites WHERE userID = " + req.user.userID + " AND dogID = " + req.body.dog
-        var updateCount = "UPDATE Dogs SET favorites = favorites - 1 WHERE dogID =" + req.body.dog;
+      });
+    } else {
+      //false -- remove this favorite
+      var remove = "DELETE FROM Users_Dogs_favorites WHERE userID = " + req.user.userID + " AND dogID = " + req.body.dog
+      var updateCount = "UPDATE Dogs SET favorites = favorites - 1 WHERE dogID =" + req.body.dog;
 
-        con.query(remove, function(err, res) {
+      con.query(remove, function(err, res) {
+        if (err)
+          throw err;
+
+        con.query(updateCount, function(err, innerRes) {
           if (err)
             throw err;
-
-          con.query(updateCount, function(err, innerRes) {
-            if (err)
-              throw err;
-          });
         });
-      }
-    } else { // not verified
-      return res.redirect("/unverified");
+      });
     }
-  });
+  } else { // not verified
+    return res.redirect("/unverified");
+  }
 });
 
 app.listen(8080);
