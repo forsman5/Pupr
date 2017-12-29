@@ -3,9 +3,9 @@ DELIMITER //
 CREATE PROCEDURE GetDogs()
 BEGIN
 
-SELECT c1.dogID, c1.name, breed1, breed2
+SELECT c1.dogID, c1.name, c1.favorites, breed1, breed2
 FROM (
-  (SELECT dogID, name, breed AS breed1
+  (SELECT dogID, name, favorites, breed AS breed1
    FROM Dogs
    INNER JOIN
    Breeds
@@ -22,7 +22,7 @@ FROM (
   c1.name = c2.name
 )
 UNION
-SELECT dogID, name, breed AS breed1, NULL AS breed2
+SELECT dogID, name, favorites, breed AS breed1, NULL AS breed2
 FROM (
   (SELECT *
    FROM Dogs
