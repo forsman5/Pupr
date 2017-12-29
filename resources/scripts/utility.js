@@ -23,14 +23,13 @@ function favoriteDog(numLikes, liked) {
   var favorited;
 
   //color change
-  //document.write("clicked");
   var el =   document.getElementById("heartIconDetail");
   var num =  document.getElementById("numLikes");
   var style = window.getComputedStyle(el,null);
   var color = style.getPropertyValue('color');
   if (color === "rgb(187, 0, 0)") {
       el.style.color = "rgb(128,128,128)";
-      favorited = false;
+      favorited = "favorite";
       if(liked){
         num.innerHTML = parseInt(numLikes) - 1;
       }
@@ -45,7 +44,7 @@ function favoriteDog(numLikes, liked) {
       else{
         num.innerHTML = parseInt(numLikes) + 1;
       }
-      favorited = true;
+      favorited = "unfavorite";
   }
 
   //send http req

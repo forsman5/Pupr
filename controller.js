@@ -409,9 +409,10 @@ app.get('/unverified', function(req, res) {
 //must be signed in to get here, thus no if isSignedIn
 app.post("/favoriteDog", function(req, res) {
   //check if the user is verified!
+
   if (req.user.verified) {
-    if (req.body.currentState) {
-      //true  -- add this favorite
+    //current state = action to take
+    if (req.body.currentState == "favorite") {
       var insert = "INSERT INTO Users_Dogs_favorites (userID, dogID) values (" + req.user.userID + ", " + req.body.dog + ")"
       var updateCount = "UPDATE Dogs SET favorites = favorites + 1 WHERE dogID =" + req.body.dog;
 
@@ -424,8 +425,7 @@ app.post("/favoriteDog", function(req, res) {
             throw err;
         });
       });
-    } else {
-      //false -- remove this favorite
+    } else { // currentState == unfavorite
       var remove = "DELETE FROM Users_Dogs_favorites WHERE userID = " + req.user.userID + " AND dogID = " + req.body.dog
       var updateCount = "UPDATE Dogs SET favorites = favorites - 1 WHERE dogID =" + req.body.dog;
 
