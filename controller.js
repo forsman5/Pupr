@@ -125,7 +125,8 @@ app.get('/dogs/', function(req,res){
 
 //dog detail page
 app.get('/dogs/:dogId', function(req, res) {
-  var isSignedIn = containsUser(req);
+  var isSignedIn = containsUser(req)
+  var heartSelected = false;
   if(isSignedIn){
     var user = req.user;
   }
@@ -134,6 +135,23 @@ app.get('/dogs/:dogId', function(req, res) {
   con.query(sql, function (err, dogToShow) {
     if (err) throw err;
     var fileList = getFilesFromDirectory(dogToShow[0][0].name);
+
+    if(isSignedIn){
+      var getHeartColor = "SELECT * FROM Users_Dogs_favorites WHERE userID = " + req.user.userID + " AND dogID = " + req.params.dogId;
+      con.query(getHeartColor,function(err,rows){
+        if (err) throw err;      
+        if(rows.length > 0){
+          heartSelected = true;
+        }
+        console.log(heartSelected)
+        res.render('pages/detail', {          
+        dog: dogToShow[0][0],
+        files:fileList,
+        loggedIn:isSignedIn, user:user, selected: heartSelected
+      });      
+      });  
+    }
+    else{
     res.render('pages/detail', {
 
       /*
@@ -152,8 +170,10 @@ app.get('/dogs/:dogId', function(req, res) {
 
       dog: dogToShow[0][0],
       files:fileList,
-      loggedIn:isSignedIn, user:user
+      loggedIn:isSignedIn, user:user, selected: heartSelected
+    
     });
+  }
   });
 });
 app.get('/account',function(req,res) {

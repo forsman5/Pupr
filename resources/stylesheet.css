@@ -145,10 +145,15 @@ body, html {
     color: #BB0000;
 }
 #heartIconDetail{
-    color: gray;
     margin-left: 40%;
     background-color: transparent;
     border: none;
+}
+.selectedHeart{
+    color: #BB0000 !important;    
+}
+.unselectedHeart{
+    color: gray !important;    
 }
 .bigNum{
     font-size: 2em;

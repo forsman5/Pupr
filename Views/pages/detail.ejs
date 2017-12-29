@@ -55,9 +55,13 @@
     <%= dog.bio %>
 </p>
 <% if (loggedIn) { %>
-  <div onclick = "favoriteDog('<%= dog.favorites %>')"><i  class = "fa fa-heart fa-4x" id = "heartIconDetail"> </i><span class = "bigNum" id = "numLikes"><%= dog.favorites %></span></div>
-<% } else { %>
-  <div><a href = "/login" class = "fa fa-heart fa-4x" id = "heartIconDetail"> </a> <span class = "bigNum"><%= dog.favorites %></span></div>
+    <% if(selected) { %>
+      <div onclick = "favoriteDog('<%= dog.favorites %>')"><i  class = "fa fa-heart fa-4x" id = "heartIconDetail" class = "selectedHeart" style = "color:#BB0000"> </i><span class = "bigNum" id = "numLikes"><%= dog.favorites %></span></div>      
+    <% } else { %>
+      <div onclick = "favoriteDog('<%= dog.favorites %>')"><i  class = "fa fa-heart fa-4x" id = "heartIconDetail" class = "unselectedHeart" style = "color:gray"> </i><span class = "bigNum" id = "numLikes"><%= dog.favorites %></span></div>
+    <% } %>
+  <% } else { %>
+  <div><a href = "/login" class = "fa fa-heart fa-4x" id = "heartIconDetail" class = "unselectedHeart" style = "color:gray"> </a> <span class = "bigNum"><%= dog.favorites %></span></div>
 <% } %>
 <br />
 <br />
