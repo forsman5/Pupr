@@ -18,20 +18,24 @@ function checkPasswords() {
   }
 }
 
-function favoriteDog() {
+function favoriteDog(numLikes) {
   //this is to tell the server if the dog is already favorited.
   var favorited;
 
   //color change
   //document.write("clicked");
   var el =   document.getElementById("heartIconDetail");
+  var num =  document.getElementById("numLikes");
   var style = window.getComputedStyle(el,null);
   var color = style.getPropertyValue('color');
   if (color === "rgb(187, 0, 0)") {
       el.style.color = "rgb(128,128,128)";
       favorited = false;
+      num.innerHTML = parseInt(numLikes) - 1;
   } else {
       el.style.color = "rgb(187,0,0)";
+      num.innerHTML = parseInt(numLikes) + 1;
+
       favorited = true;
   }
 
