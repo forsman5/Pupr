@@ -18,7 +18,7 @@ function checkPasswords() {
   }
 }
 
-function favoriteDog(numLikes, liked) {
+function favoriteDog() {
   //this is to tell the server if the dog is already favorited.
   var favorited;
 
@@ -30,20 +30,10 @@ function favoriteDog(numLikes, liked) {
   if (color === "rgb(187, 0, 0)") {
       el.style.color = "rgb(128,128,128)";
       favorited = "favorite";
-      if(liked){
-        num.innerHTML = parseInt(numLikes) - 1;
-      }
-      else{
-        num.innerHTML = parseInt(numLikes);
-      }
+      num.innerHTML = parseInt(num.innerText) - 1;
   } else {
       el.style.color = "rgb(187,0,0)";
-      if(liked){
-        num.innerHTML = parseInt(numLikes);
-      }
-      else{
-        num.innerHTML = parseInt(numLikes) + 1;
-      }
+      num.innerHTML = parseInt(num.innerText) + 1;
       favorited = "unfavorite";
   }
 
