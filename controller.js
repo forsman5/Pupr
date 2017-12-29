@@ -185,6 +185,31 @@ app.get('/account',function(req,res) {
     user:user
   });
 });
+app.get('/favorites',function(req,res){
+  var isSignedIn = containsUser(req);
+  if(isSignedIn){
+    var user = req.user;
+  }
+  var sql ="SELECT * FROM Users_Dogs_favorites WHERE userID = " + req.user.userID;
+  con.query(sql, function(err, results) {
+    if (err)
+      throw err;
+      //get favorite dog ids
+      var dogIds = results.map(function(element){
+        return element.dogID;
+      });
+      var getFavs = "call GetDogs()";
+      con.query(getFavs,function(err, dogs){
+        if(err) throw err;
+        //filter dogs so only favorites are included
+        var favdogs = dogs[0].filter(function(element){
+          return (dogIds.indexOf(element.dogID)) > -1;
+        });
+        res.render('pages/favorites', {user:req.user, loggedIn:isSignedIn,dogs:favdogs})
+      })
+  });
+});
+
 
 app.get('/update',function(req,res) {
   var isSignedIn = containsUser(req);
