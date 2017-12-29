@@ -150,6 +150,9 @@ body, html {
     background-color: transparent;
     border: none;
 }
+.bigNum{
+    font-size: 2em;
+}
 
 
 
