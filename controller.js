@@ -121,37 +121,38 @@ app.get('/dogs/:dogId', function(req, res) {
         if(rows.length > 0){
           heartSelected = true;
         }
-        console.log(heartSelected)
+
         res.render('pages/detail', {
+          dog: dogToShow[0][0],
+          files:fileList,
+          loggedIn:isSignedIn,
+          user:user,
+          selected: heartSelected
+        });
+      });
+    } else{
+      res.render('pages/detail', {
+
+        /*
+         * Okay, this is weird.
+         *
+         * When calling a stored procedure, it returns a list two elements, the first being
+         * a list of results and the second being an object with status on the sproc.
+         *
+         * So you have to take the first object returned and the first of the last list.
+         *
+         * (as I understand it)
+         *
+         * I'm just not sure why it doesn't do this when calling a single query, as done
+         * elsewhere in this file. I can't find any documentation on this online, but I guess this works.
+         */
+
         dog: dogToShow[0][0],
         files:fileList,
         loggedIn:isSignedIn, user:user, selected: heartSelected
-      });
+
       });
     }
-    else{
-    res.render('pages/detail', {
-
-      /*
-       * Okay, this is weird.
-       *
-       * When calling a stored procedure, it returns a list two elements, the first being
-       * a list of results and the second being an object with status on the sproc.
-       *
-       * So you have to take the first object returned and the first of the last list.
-       *
-       * (as I understand it)
-       *
-       * I'm just not sure why it doesn't do this when calling a single query, as done
-       * elsewhere in this file. I can't find any documentation on this online, but I guess this works.
-       */
-
-      dog: dogToShow[0][0],
-      files:fileList,
-      loggedIn:isSignedIn, user:user, selected: heartSelected
-
-    });
-  }
   });
 });
 app.get('/account',function(req,res) {
@@ -219,9 +220,7 @@ app.get('/resend',function(req,res) {
 
   //send the verification email
   transporter.sendMail(mailOptions, function(error, info){
-    if (error) {
-      console.log(error);
-    }
+    if (error) console.log(error);
   });
 
   res.render('pages/resend',{
@@ -230,7 +229,6 @@ app.get('/resend',function(req,res) {
     user:user
   })
 });
-
 
 app.post('/update', function(req, res){
   //read html form
@@ -267,8 +265,7 @@ app.post('/update', function(req, res){
         user:user
       });
     });
-  }
-  else{
+  } else {
     flashMessage = "Invalid Email";
     res.render('pages/update', {message: flashMessage,loggedIn:true, user:user});
   }
@@ -329,8 +326,6 @@ app.post('/updatepass', function(req, res){
 
   if(newPassword.match(passFormat)){
     bcrypt.hash(newPassword, NUMBER_OF_SALTS, function( err, bcryptedPassword) {
-      console.log(newPassword);
-      console.log(bcryptedPassword);
       var updateQuery = "UPDATE Users SET password = \"" +  bcryptedPassword + "\" WHERE userID = " + req.user.userID;
 
       con.query(updateQuery, function(err,rows){
@@ -344,8 +339,7 @@ app.post('/updatepass', function(req, res){
       });
    });
 
-  }
-  else{
+ } else {
     flashMessage = "Invalid Password";
     res.render('pages/update', {message: flashMessage,loggedIn:true, user:user});
   }

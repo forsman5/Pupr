@@ -27,14 +27,16 @@ function favoriteDog() {
   var num =  document.getElementById("numLikes");
   var style = window.getComputedStyle(el,null);
   var color = style.getPropertyValue('color');
+
+  //187 == red
   if (color === "rgb(187, 0, 0)") {
       el.style.color = "rgb(128,128,128)";
-      favorited = "favorite";
+      favorited = "unfavorite";
       num.innerHTML = parseInt(num.innerText) - 1;
   } else {
       el.style.color = "rgb(187,0,0)";
       num.innerHTML = parseInt(num.innerText) + 1;
-      favorited = "unfavorite";
+      favorited = "favorite";
   }
 
   //send http req
