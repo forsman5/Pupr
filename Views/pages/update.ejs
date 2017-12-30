@@ -2,35 +2,30 @@
 <%var tab = "login" %>
 <% include ../partials/header %>
 
-
-
 <div class = "listbg">
-        <div class = "aboutText">
-            <h3 class="display-3 displayText">Your Account</h3>
-             <% if (message.length > 0) { %>
-                <div class="alert alert-danger"><%= message %></div>
-            <% } %>
-            <form action="/update" method="post">
-                <div class="form-group">
-                        <label>Name</label>
-                        <input type="text" class="form-control" name="name">
-                    </div>
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="text" class="form-control" name="email">
+    <div class = "aboutText">
+        <h3 class="display-3 displayText">Your Account</h3>
+        <p>If you don't want to update one of the fields, simply leave it blank.</p>
+        <% if (message.length > 0) { %>
+            <div class="alert alert-danger"><%= message %></div>
+        <% } %>
+        <form action="/update" method="post">
+            <div class="form-group">
+                <label>Name</label>
+                    <input type="text" class="form-control" name="name">
                 </div>
-                <div class="form-group">
-                        <label>Enter Password to Confirm Changes</label>
-                        <input type="password" class="form-control" name="password">
-                </div>
-            
-                <button type="submit" class="btn btn-primary btn-lg">Update</button>
-            </form>
-        
-        </div>
-    
+            <div class="form-group">
+                <label>Email</label>
+                <input type="text" class="form-control" name="email">
+            </div>
+            <div class="form-group">
+                <label>Enter Password to Confirm Changes</label>
+                <input type="password" class="form-control" name="password">
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg">Update</button>
+        </form>
     </div>
-    
 </div>
 
 <% include ../partials/footer %>

@@ -138,6 +138,7 @@ app.get('/dogs/:dogId', function(req, res) {
     }
   });
 });
+
 app.get('/account',function(req,res) {
   var isSignedIn = containsUser(req);
   if(isSignedIn){
@@ -188,7 +189,6 @@ app.get('/favorites',function(req,res){
   });
 });
 
-
 app.get('/update',function(req,res) {
   var isSignedIn = containsUser(req);
   if(isSignedIn){
@@ -229,47 +229,80 @@ app.post('/update', function(req, res){
   bcrypt.compare(password, req.user.password, function(err, doesMatch){
     if (doesMatch){
        //if user does not update name, then make it the same
-      if(newName.length == 0){
-        newName = req.user.name;
-      }
-      //if user does not update email, then make it the same
-      if(newEmail == 0){
-        newEmail = req.user.email;
-      }
-      var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-
-      //validate new email
-      if(newEmail.match(mailformat)){
-        //update email in current session
-        req.user.email = newEmail;
-        req.session.passport.user.name = newEmail;
+      if(newName.length != 0) {
         //update name in current session
         req.user.name = newName;
         req.session.passport.user.name = newName;
-        //update database
-        var sql = "UPDATE Users SET name = \"" +  newName + "\", email = \""  + newEmail + "\" WHERE userID = " + req.user.userID;
+
+        var sql = "UPDATE Users SET name = \"" +  newName + "\" WHERE userID = " + req.user.userID;
 
         con.query(sql, function(err, results) {
           if (err)
             throw err;
-          res.render('pages/account',{
-            loggedIn:true,
-            user:user
-          });
         });
-      } else {
-        flashMessage = "Invalid Email";
-        res.render('pages/update', {message: flashMessage,loggedIn:true, user:user});
+      }
+
+      //if user does not update email, then make it the same
+      if(newEmail != 0) {
+        // check if this email already exists
+        con.query("SELECT * FROM Users WHERE email = '" + newEmail + "'", function(err,rows){
+          //if this email doesnt exist
+          if (rows.length == 0) {
+            //change the email
+            var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+            //validate new email
+            if(newEmail.match(mailformat)){
+              //update email in current session
+              req.user.email = newEmail;
+              req.session.passport.user.email = newEmail;
+              req.user.verified = false;
+              req.session.passport.user.verified = false;
+
+              //update database
+              //unverify the email
+              var sql = "UPDATE Users SET email = \""  + newEmail + "\", verified = b'0' WHERE userID = " + req.user.userID;
+
+              con.query(sql, function(err, results) {
+                if (err)
+                  throw err;
+
+                universal.sendVerificationEmail(req, newEmail);
+              });
+            } else {
+              flashMessage = "Invalid Email";
+              res.render('pages/update', {
+                message: flashMessage,
+                loggedIn:true,
+                user:user
+              });
+            }
+
+            //execution finished successfully
+            res.render('pages/account',{
+              loggedIn:true,
+              user:user
+            });
+          } else {
+            //email taken
+            flashMessage = "An account already exists with that email";
+            res.render('pages/update', {
+              message: flashMessage,
+              loggedIn:true,
+              user:user
+            });
+          }
+        }); //end connection.query -- does this email exist
       }
     }else{
       flashMessage = "Incorrect Password";
-      res.render('pages/update', {message: flashMessage,loggedIn:true, user:user});
+      res.render('pages/update', {
+        message: flashMessage,
+        loggedIn:true,
+        user:user
+      });
     }
    });
-
-
-
-
 });
 
 app.get('/verify/:hash', function(req, res) {
@@ -326,7 +359,6 @@ app.post('/updatepass', function(req, res){
   var passFormat = (/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}$/);
   var oldPassword = req.body.oldPassword;
 
-
   bcrypt.compare(oldPassword, req.user.password, function(err, doesMatch){
     if (doesMatch){
       if(newPassword.match(passFormat)){
@@ -373,6 +405,7 @@ app.get('/signup', function(req, res) {
   if(isSignedIn){
     var user = req.user;
   }
+
   // render the page with flash data
   res.render('pages/signup.ejs', {
     message: req.flash('error'),
