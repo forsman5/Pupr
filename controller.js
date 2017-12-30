@@ -335,26 +335,36 @@ app.post('/updatepass', function(req, res){
   var flashMessage = "";
   var newPassword = req.body.password;
   var passFormat = (/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}$/);
+  var oldPassword = req.body.oldPassword;
 
-  if(newPassword.match(passFormat)){
-    bcrypt.hash(newPassword, NUMBER_OF_SALTS, function( err, bcryptedPassword) {
-      var updateQuery = "UPDATE Users SET password = \"" +  bcryptedPassword + "\" WHERE userID = " + req.user.userID;
 
-      con.query(updateQuery, function(err,rows){
-        if (err)
-        throw err;
-        res.render('pages/account', {
-          message: flashMessage,
-          loggedIn:true,
-          user:user
-        });
-      });
+  bcrypt.compare(oldPassword, req.user.password, function(err, doesMatch){
+    if (doesMatch){
+      if(newPassword.match(passFormat)){
+        bcrypt.hash(newPassword, NUMBER_OF_SALTS, function( err, bcryptedPassword) {
+          var updateQuery = "UPDATE Users SET password = \"" +  bcryptedPassword + "\" WHERE userID = " + req.user.userID;
+    
+          con.query(updateQuery, function(err,rows){
+            if (err)
+            throw err;
+            res.render('pages/account', {
+              message: flashMessage,
+              loggedIn:true,
+              user:user
+            });
+          });
+       });
+    
+     } else {
+        flashMessage = "Invalid Password";
+        res.render('pages/newpassword', {message: flashMessage,loggedIn:true, user:user});
+      }
+   
+    }else{
+      flashMessage = "Incorrect password";
+      res.render('pages/newpassword', {message: flashMessage,loggedIn:true, user:user});
+    }
    });
-
- } else {
-    flashMessage = "Invalid Password";
-    res.render('pages/update', {message: flashMessage,loggedIn:true, user:user});
-  }
 });
 
 app.get('/login', function(req, res) {
