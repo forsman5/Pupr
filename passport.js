@@ -1,5 +1,4 @@
 var LocalStrategy   = require('passport-local').Strategy;
-var mysql = require('mysql');
 var nodemailer = require('nodemailer');
 var bcrypt = require('bcrypt');
 var universal = require('./universal');

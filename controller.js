@@ -1,7 +1,6 @@
 var http = require('http');
 var url = require('url');
 var path = require('path');
-var mysql = require('mysql');
 const express = require('express'); // for hosting
 var fs = require('fs'); //file system
 var helpers = require('express-helpers');
@@ -278,9 +277,9 @@ app.post('/update', function(req, res){
     }
    });
 
- 
-   
-  
+
+
+
 });
 
 app.get('/verify/:hash', function(req, res) {
@@ -343,7 +342,7 @@ app.post('/updatepass', function(req, res){
       if(newPassword.match(passFormat)){
         bcrypt.hash(newPassword, NUMBER_OF_SALTS, function( err, bcryptedPassword) {
           var updateQuery = "UPDATE Users SET password = \"" +  bcryptedPassword + "\" WHERE userID = " + req.user.userID;
-    
+
           con.query(updateQuery, function(err,rows){
             if (err)
             throw err;
@@ -354,12 +353,12 @@ app.post('/updatepass', function(req, res){
             });
           });
        });
-    
+
      } else {
         flashMessage = "Invalid Password";
         res.render('pages/newpassword', {message: flashMessage,loggedIn:true, user:user});
       }
-   
+
     }else{
       flashMessage = "Incorrect password";
       res.render('pages/newpassword', {message: flashMessage,loggedIn:true, user:user});
