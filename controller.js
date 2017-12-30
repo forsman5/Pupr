@@ -121,7 +121,6 @@ app.get('/dogs/:dogId', function(req, res) {
         if(rows.length > 0){
           heartSelected = true;
         }
-
         res.render('pages/detail', {
           dog: dogToShow[0][0],
           files:fileList,
@@ -236,39 +235,52 @@ app.post('/update', function(req, res){
   var flashMessage = "";
   var newName = req.body.name;
   var newEmail = req.body.email;
-  //if user does not update name, then make it the same
-  if(newName.length == 0){
-    newName = req.user.name;
-  }
-  //if user does not update email, then make it the same
-  if(newEmail == 0){
-    newEmail = req.user.email;
-  }
-  var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  var password = req.body.password;
 
-  //validate new email
-  if(newEmail.match(mailformat)){
-    //update email in current session
-    req.user.email = newEmail;
-    req.session.passport.user.name = newEmail;
-    //update name in current session
-    req.user.name = newName;
-    req.session.passport.user.name = newName;
-    //update database
-    var sql = "UPDATE Users SET name = \"" +  newName + "\", email = \""  + newEmail + "\" WHERE userID = " + req.user.userID;
+  bcrypt.compare(password, req.user.password, function(err, doesMatch){
+    if (doesMatch){
+       //if user does not update name, then make it the same
+      if(newName.length == 0){
+        newName = req.user.name;
+      }
+      //if user does not update email, then make it the same
+      if(newEmail == 0){
+        newEmail = req.user.email;
+      }
+      var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
-    con.query(sql, function(err, results) {
-      if (err)
-        throw err;
-      res.render('pages/account',{
-        loggedIn:true,
-        user:user
-      });
-    });
-  } else {
-    flashMessage = "Invalid Email";
-    res.render('pages/update', {message: flashMessage,loggedIn:true, user:user});
-  }
+      //validate new email
+      if(newEmail.match(mailformat)){
+        //update email in current session
+        req.user.email = newEmail;
+        req.session.passport.user.name = newEmail;
+        //update name in current session
+        req.user.name = newName;
+        req.session.passport.user.name = newName;
+        //update database
+        var sql = "UPDATE Users SET name = \"" +  newName + "\", email = \""  + newEmail + "\" WHERE userID = " + req.user.userID;
+
+        con.query(sql, function(err, results) {
+          if (err)
+            throw err;
+          res.render('pages/account',{
+            loggedIn:true,
+            user:user
+          });
+        });
+      } else {
+        flashMessage = "Invalid Email";
+        res.render('pages/update', {message: flashMessage,loggedIn:true, user:user});
+      }
+    }else{
+      flashMessage = "Incorrect Password";
+      res.render('pages/update', {message: flashMessage,loggedIn:true, user:user});
+    }
+   });
+
+ 
+   
+  
 });
 
 app.get('/verify/:hash', function(req, res) {
