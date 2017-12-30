@@ -25,8 +25,7 @@ function favoriteDog() {
   //color change
   var el =   document.getElementById("heartIconDetail");
   var num =  document.getElementById("numLikes");
-  var style = window.getComputedStyle(el,null);
-  var color = style.getPropertyValue('color');
+  var color = window.getComputedStyle(el,null).getPropertyValue('color');
 
   //187 == red
   if (color === "rgb(187, 0, 0)") {
