@@ -149,6 +149,20 @@ app.get('/account',function(req,res) {
     user:user
   });
 });
+
+app.get('/deleted',function(req,res){
+  var sql = "DELETE FROM Users WHERE userID = " + req.user.userID;
+  con.query(sql, function(err, results) {
+    if (err)
+      throw err;
+      req.logout();
+      res.render('pages/deleted',{
+        loggedIn: false,
+      });          
+
+  });
+
+});
 app.get('/favorites',function(req,res){
   var isSignedIn = containsUser(req);
   if(isSignedIn){
