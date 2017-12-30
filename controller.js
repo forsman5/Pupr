@@ -11,7 +11,6 @@ var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var morgan = require('morgan');
 var bcrypt = require('bcrypt');
-var nodemailer = require('nodemailer');
 var universal = require('./universal');
 
 //function to generate MD5 hash
@@ -21,20 +20,6 @@ var MD5 = universal.MD5;
 var con = universal.dbConnection;
 
 const NUMBER_OF_SALTS = universal.NUMBER_OF_SALTS;
-
-//to send email
-var transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: 'petlanddb@gmail.com',
-    pass: 'petland1'
-  }
-});
-
-var mailOptions = {
-  from: 'petlanddb@gmail.com',
-  subject: 'Please Verify Your Petlandopia Account',
-};
 
 require('./passport')(passport); // pass passport for configuration
 
@@ -210,16 +195,7 @@ app.get('/resend',function(req,res) {
     var user = req.user;
   }
 
-  var hash = MD5(req.user.name);
-
-  //add the options to mailOptions
-  mailOptions.to = req.user.email;
-  mailOptions.html = "Thanks for using Petlandopia! Please verify your email by clicking below: <br>" + req.headers.host + "/verify/" + hash + "<br>Thanks again!";
-
-  //send the verification email
-  transporter.sendMail(mailOptions, function(error, info){
-    if (error) console.log(error);
-  });
+  universal.sendVerificationEmail(req, req.user.email);
 
   res.render('pages/resend',{
     loggedIn:isSignedIn,

@@ -6,20 +6,6 @@ var universal = require('./universal');
 //to prevent magic numbers
 const NUMBER_OF_SALTS = universal.NUMBER_OF_SALTS;
 
-//to send email
-var transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: 'petlanddb@gmail.com',
-    pass: 'petland1'
-  }
-});
-
-var mailOptions = {
-  from: 'petlanddb@gmail.com',
-  subject: 'Please Verify Your Petlandopia Account',
-};
-
 //function to generate MD5 hash
 var MD5 = universal.MD5;
 
@@ -92,33 +78,17 @@ module.exports = function(passport) {
 				newUserMysql.name = name;
 				newUserMysql.email = email;
 
-        var hash = MD5(name);
-
-        //add the options to mailOptions
-        mailOptions.to = newUserMysql.email;
-
-        //<a> doesnt work here... figure out a better solution? Maybe this is fine..
-        //link is not clickable, but i believe it would be with http:// instead of localhost
-        mailOptions.html = "Thanks for using Petlandopia! Please verify your email by clicking below: <br>" + req.headers.host + "/verify/" + hash + "<br>Thanks again!";
-
-        //send the verification email
-        transporter.sendMail(mailOptions, function(error, info){
-          if (error) {
-            console.log(error);
-          }
-
-          // NOTE:
-          // if this doesnt work, it may be because of anti - virus!
-          // my mail wasn't working due to antivirus software stopping it.
-        });
-
         bcrypt.hash(password, NUMBER_OF_SALTS, function( err, bcryptedPassword) {
            newUserMysql.password = bcryptedPassword;
 
-           var insertQuery = "INSERT INTO Users (name, email, password, verifyHash ) values ('"+ name +"','" + email +"','"+ bcryptedPassword +"', '" + hash + "')";
+           var insertQuery = "INSERT INTO Users (name, email, password, verifyHash) values ('"+ name +"','" + email +"','"+ bcryptedPassword +"', 'TEMPORARY')";
 
            connection.query(insertQuery, function(err,rows){
        			newUserMysql.id = rows.insertId;
+
+            // this must be called after inserting the user, because calling this will update the users hash!
+            //there must be a user to update the hash of
+            universal.sendVerificationEmail(req, newUserMysql.email);
 
      				return done(null, newUserMysql);
    				});
