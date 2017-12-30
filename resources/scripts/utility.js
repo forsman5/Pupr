@@ -30,11 +30,13 @@ function favoriteDog() {
 
   //187 == red
   if (color === "rgb(187, 0, 0)") {
-      el.style.color = "rgb(128,128,128)";
+      el.classList.add("unselectedHeart");
+      el.classList.remove("selectedHeart");
       favorited = "unfavorite";
       num.innerHTML = parseInt(num.innerText) - 1;
   } else {
-      el.style.color = "rgb(187,0,0)";
+      el.classList.add("selectedHeart");
+      el.classList.remove("unselectedHeart");
       num.innerHTML = parseInt(num.innerText) + 1;
       favorited = "favorite";
   }

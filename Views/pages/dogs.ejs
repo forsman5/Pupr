@@ -9,7 +9,7 @@
   <div class = "centeredBoxes" >
     <% dogs.forEach(function(dog) { %>
 
-      <%# Linking using the div this way won't work without html 5!! %>
+      <%# Linking using the div this way wont work without html 5!! %>
 
       <a href = "/dogs/<%= dog.dogID %>">
       <div class = "box bg-primary">
@@ -22,8 +22,8 @@
         <% } else { %>
           <p> <%= dog.breed1 %> <br /><%= dog.breed2 %> </p>
         <% } %>
-        <p><span class = "fa fa-heart heartIcon fa-2x"></span><%= dog.favorites %></p>
-        
+        <p><span class = "fa fa-heart selectedHeart fa-2x"></span><%= dog.favorites %></p>
+
       </div>
       </a>
     <% }); %>

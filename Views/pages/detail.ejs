@@ -56,10 +56,10 @@
 </p>
 <% if (loggedIn) { %>
   <%# assigning the class for the below div %>
-  <% var classSelect = (selected) ? "selectedHeart":"unselectedHeart" %>
-  <div onclick = "favoriteDog()"><i  class = "fa fa-heart fa-4x" id = "heartIconDetail" class = "<%= classSelect %>" style = "color:#BB0000"> </i><span class = "bigNum" id = "numLikes"><%= dog.favorites %></span></div>
+  <% var className = (selected) ? "selectedHeart":"unselectedHeart" %>
+  <div onclick = "favoriteDog()"><i  class = "fa fa-heart fa-4x <%- className %>" id = "heartIconDetail" > </i><span class = "bigNum" id = "numLikes"><%= dog.favorites %></span></div>
 <% } else { %>
-  <div><a href = "/login" class = "fa fa-heart fa-4x" id = "heartIconDetail" class = "unselectedHeart" style = "color:gray"> </a> <span class = "bigNum"><%= dog.favorites %></span></div>
+  <div><a href = "/login" class = "fa fa-heart fa-4x unselectedHeart" id = "heartIconDetail"> </a> <span class = "bigNum"><%= dog.favorites %></span></div>
 <% } %>
 <br />
 <br />
