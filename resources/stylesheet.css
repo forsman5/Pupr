@@ -182,5 +182,20 @@ border-bottom: 1px solid #eee;
 	color: #6b6e80;
 	position: relative;
 }
+.commentBox{
+    margin-bottom: 20px;
+}
+.pb-cmnt-container {
+    font-family: Lato;
+    margin-top: 100px;
+}
+
+.pb-cmnt-textarea {
+    resize: none;
+    padding: 20px;
+    height: 130px;
+    width: 100%;
+    border: 1px solid #F2F2F2;
+}
 
 

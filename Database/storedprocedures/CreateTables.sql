@@ -63,9 +63,10 @@ CREATE TABLE Users_Dogs_comments(
 	userID int NOT NULL,
 	dogID int NOT NULL,
 	comment varchar(2047),
+	commentID int NOT NULL auto_increment,
 	FOREIGN KEY (dogID) REFERENCES Dogs(dogID),
 	FOREIGN KEY (userID) REFERENCES Users(userID),
-	PRIMARY KEY (dogID,userID)
+	PRIMARY KEY (commentID)
 );
 
 END //
