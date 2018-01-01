@@ -22,9 +22,16 @@ var PORT_NUM = universal.PORT_NUM;
 //establish database connection
 var con = universal.dbConnection;
 
+//number of salts to salt a password with -- more is more secure, harder to crack and
+//also slows down the process when logging in or out, as decrypting the password takes longer.
+//THIS IS A GOOD THING!
+//the longer it takes to decrypt a password, the fewer requests someone can make in a time period,
+//thus the harder it is to brute force a password for the site
 const NUMBER_OF_SALTS = universal.NUMBER_OF_SALTS;
 
 require('./passport')(passport); // pass passport for configuration
+
+//setting  up the server
 
 var app = express();
 
@@ -47,10 +54,13 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 
 app.set('view engine', 'ejs');
 
+//point all requests for static resources to the resources folder automatically
 app.use(express.static(path.join(__dirname, '/resources')));
 
 //adding helpers
 helpers(app);
+
+//all the server routes are below
 
 //homepage
 app.get('/', function(req, res) {
@@ -145,9 +155,11 @@ app.get('/dogs/:dogId', function(req, res) {
 
           dog: dogToShow[0][0],
           files:fileList,
-          loggedIn:isSignedIn, user:user, selected: heartSelected, comments:commentsWithNames, dogID: req.params.dogId
-
-
+          loggedIn:isSignedIn,
+          user:user,
+          selected: heartSelected,
+          comments:commentsWithNames,
+          dogID: req.params.dogId
         });
       }
     });
@@ -329,10 +341,6 @@ app.get('/verify/:hash', function(req, res) {
 
   var updateSQL = "UPDATE Users SET verified = b'1' WHERE verifyHash = \"" + req.params.hash + "\"";
 
-  //TODO ??
-  //check if the record is already set to 1, if it is, let the user know theyre already
-  //verified?
-
   con.query(updateSQL, function(err, results) {
     if (err)
       throw err;
@@ -455,6 +463,7 @@ app.get('/unverified', function(req, res) {
   if (isSignedIn) {
     var user = req.user;
   }
+
   console.log("succ");
 
   res.render('pages/notverified.ejs', {
@@ -496,12 +505,15 @@ app.post("/favoriteDog", function(req, res) {
         });
       });
     }
-  }
-  else { // not verified
-    console.log('redirect');
-    res.redirect("/unverified");
+  } else { // not verified
+    //console.log('redirect');
+    //res.redirect("/unverified");
+
+    // this is now depreceiated, and is handled by client js
   }
 });
+
+
 app.post("/comment",function(req,res){
   var user = req.user;
   console.log("starting post")
@@ -510,16 +522,22 @@ app.post("/comment",function(req,res){
   var dogID = req.body.dogID
   console.log(dogID);
   var createComment = "INSERT INTO Users_Dogs_comments (userID, dogID, comment) VALUES (" + user.userID + ", " + dogID + ", '" + commentText + "')"
-  con.query(createComment, function(err, res){
+  con.query(createComment, function(err, results){
     if (err)
     throw err;
     console.log("query finished")
+
+    res.redirect('/dogs/' + dogID);
   });
 });
 
+// initialize server
 app.listen(PORT_NUM, function () {
   console.log('Server is running. Point your browser to: http://localhost:' + PORT_NUM);
 });
+
+// other methods below
+
 /*Given a dog name, finds the directory for that dog and returns
 an arrat of all images related to that dog*/
 function getFilesFromDirectory(dogName){
