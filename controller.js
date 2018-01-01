@@ -27,7 +27,14 @@ var app = express();
 
 app.use(morgan('dev')); // log every request to the console
 app.use(cookieParser()); // read cookies (needed for auth)
-app.use(bodyParser()); // get information from html forms
+
+// specify we want to parse encoded urls and json
+//app.use(bodyparser) is depreceiated
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+
+app.use(bodyParser.json());
 
 // required for passport
 app.use(session({ secret: 'doggos' })); // session secret
@@ -81,7 +88,7 @@ app.get('/dogs/', function(req,res){
     res.render('pages/dogs', {
       dogs: dogList[0],
       loggedIn:isSignedIn, user:user
-    });    
+    });
   });
 });
 
@@ -117,7 +124,7 @@ app.get('/dogs/:dogId', function(req, res) {
             dogID: req.params.dogId
           });
         });
-      } 
+      }
       else{
          res.render('pages/detail', {
 
@@ -138,7 +145,7 @@ app.get('/dogs/:dogId', function(req, res) {
           dog: dogToShow[0][0],
           files:fileList,
           loggedIn:isSignedIn, user:user, selected: heartSelected, comments:commentsWithNames, dogID: req.params.dogId
-          
+
 
         });
       }
@@ -166,7 +173,7 @@ app.get('/deleted',function(req,res){
       req.logout();
       res.render('pages/deleted',{
         loggedIn: false,
-      });          
+      });
 
   });
 
@@ -488,7 +495,7 @@ app.post("/favoriteDog", function(req, res) {
         });
       });
     }
-  } 
+  }
   else { // not verified
     console.log('redirect');
     res.redirect("/unverified");
@@ -498,9 +505,9 @@ app.post("/comment",function(req,res){
   var user = req.user;
   console.log("starting post")
   var commentText = req.body.commentBody;
-  console.log("got body")  
+  console.log("got body")
   var dogID = req.body.dogID
-  console.log(dogID); 
+  console.log(dogID);
   var createComment = "INSERT INTO Users_Dogs_comments (userID, dogID, comment) VALUES (" + user.userID + ", " + dogID + ", '" + commentText + "')"
   con.query(createComment, function(err, res){
     if (err)
