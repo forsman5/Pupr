@@ -113,7 +113,8 @@ app.get('/dogs/:dogId', function(req, res) {
             loggedIn:isSignedIn,
             user:user,
             selected: heartSelected,
-            comments: commentsWithNames
+            comments: commentsWithNames,
+            dogID: req.params.dogId
           });
         });
       } 
@@ -136,7 +137,8 @@ app.get('/dogs/:dogId', function(req, res) {
 
           dog: dogToShow[0][0],
           files:fileList,
-          loggedIn:isSignedIn, user:user, selected: heartSelected, comments:commentsWithNames
+          loggedIn:isSignedIn, user:user, selected: heartSelected, comments:commentsWithNames, dogID: req.params.dogId
+          
 
         });
       }
@@ -492,16 +494,18 @@ app.post("/favoriteDog", function(req, res) {
     res.redirect("/unverified");
   }
 });
-app.post("/dogs/:dogId",function(req,res){
+app.post("/comment",function(req,res){
   var user = req.user;
+  console.log("starting post")
   var commentText = req.body.commentBody;
-  var dogID = req.params.dogId
+  console.log("got body")  
+  var dogID = req.body.dogID
   console.log(dogID); 
-  var createComment = "INSERT INTO Users_Dogs_comments (userID, dogID, comment) VALUES (" + req.user.userID + ", " + req.params.dogId + ", '" + commentText + "')"
+  var createComment = "INSERT INTO Users_Dogs_comments (userID, dogID, comment) VALUES (" + user.userID + ", " + dogID + ", '" + commentText + "')"
   con.query(createComment, function(err, res){
     if (err)
     throw err;
-    
+    console.log("query finished")
   });
 });
 
