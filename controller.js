@@ -117,14 +117,14 @@ app.get('/dogs/:dogId', function(req, res) {
     var fileList = getFilesFromDirectory(dogToShow[0][0].name);
     var getComments = "SELECT U.name, C.commentID, C.userID, C.comment FROM Users_Dogs_comments C INNER JOIN Users U ON C.userID = U.userID WHERE C.dogID = " + req.params.dogId;
     con.query(getComments,function(err,commentsWithNames){
-    if (err) throw err;
-    if(isSignedIn){
+      if (err) throw err;
+      if(isSignedIn){
           var getHeartColor = "SELECT * FROM Users_Dogs_favorites WHERE userID = " + req.user.userID + " AND dogID = " + req.params.dogId;
           con.query(getHeartColor,function(err,rows){
-          if (err) throw err;
-          if(rows.length > 0){
-           heartSelected = true;
-          }
+            if (err) throw err;
+            if(rows.length > 0){
+             heartSelected = true;
+            }
             res.render('pages/detail', {
             dog: dogToShow[0][0],
             files:fileList,
@@ -135,8 +135,7 @@ app.get('/dogs/:dogId', function(req, res) {
             dogID: req.params.dogId
           });
         });
-      }
-      else{
+      } else {
          res.render('pages/detail', {
 
           /*
