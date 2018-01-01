@@ -155,6 +155,14 @@ body, html {
 .bigNum{
     font-size: 2em;
 }
+.favWarning{
+    width: 50%;
+    align-content: center;
+    text-align: center;
+    margin-left:  auto; /* this will center  it */
+    margin-right: auto; /* this will center  it */
+    margin-bottom: 20px;
+}
 
 
 
