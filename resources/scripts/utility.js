@@ -61,3 +61,9 @@ function redirect(){
   // return false;
 
 }
+function deleteComment(selectedID, dogID){
+  $.post('/deletecomment', { commentID: selectedID, dog: dogID}, function(returnedData){
+
+  });
+
+} 

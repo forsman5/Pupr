@@ -203,5 +203,8 @@ border-bottom: 1px solid #eee;
 .report{
     display: inline;
 }
+.deleteForm{
+    display: inline;
+}
 
 
