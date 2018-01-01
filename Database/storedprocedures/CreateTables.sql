@@ -62,7 +62,7 @@ CREATE TABLE Users_Dogs_favorites(
 CREATE TABLE Users_Dogs_comments(
 	userID int NOT NULL,
 	dogID int NOT NULL,
-	bio varchar(2047),
+	comment varchar(2047),
 	FOREIGN KEY (dogID) REFERENCES Dogs(dogID),
 	FOREIGN KEY (userID) REFERENCES Users(userID),
 	PRIMARY KEY (dogID,userID)
