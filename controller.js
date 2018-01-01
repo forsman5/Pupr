@@ -100,7 +100,6 @@ app.get('/dogs/:dogId', function(req, res) {
     var getComments = "SELECT * FROM Users_Dogs_comments WHERE dogID = " + req.params.dogId;
     con.query(getComments,function(err,comments){
     if (err) throw err;
-    console.log(comments);      
     if(isSignedIn){
           var getHeartColor = "SELECT * FROM Users_Dogs_favorites WHERE userID = " + req.user.userID + " AND dogID = " + req.params.dogId;
           con.query(getHeartColor,function(err,rows){
@@ -113,7 +112,8 @@ app.get('/dogs/:dogId', function(req, res) {
             files:fileList,
             loggedIn:isSignedIn,
             user:user,
-            selected: heartSelected
+            selected: heartSelected,
+            comments: comments
           });
         });
       } 
@@ -136,7 +136,7 @@ app.get('/dogs/:dogId', function(req, res) {
 
           dog: dogToShow[0][0],
           files:fileList,
-          loggedIn:isSignedIn, user:user, selected: heartSelected, comments
+          loggedIn:isSignedIn, user:user, selected: heartSelected, comments:comments
 
         });
       }

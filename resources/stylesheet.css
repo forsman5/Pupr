@@ -163,6 +163,24 @@ body, html {
     margin-right: auto; /* this will center  it */
     margin-bottom: 20px;
 }
-
+.commentHeader{
+font-size: 13px;
+color: #aaaaaa;
+padding-bottom: 8px;
+margin-bottom: 10px !important;
+border-bottom: 1px solid #eee;
+}
+.comment{
+    border: 1px solid #eee;
+    margin-bottom: 20px;
+    
+	margin-right: 0px;
+    padding: 10px 20px;
+    position: relative;
+   
+	background: #fff;
+	color: #6b6e80;
+	position: relative;
+}
 
 
