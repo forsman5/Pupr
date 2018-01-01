@@ -81,7 +81,7 @@ app.get('/dogs/', function(req,res){
     res.render('pages/dogs', {
       dogs: dogList[0],
       loggedIn:isSignedIn, user:user
-    });
+    });    
   });
 });
 
@@ -440,19 +440,18 @@ app.get('/unverified', function(req, res) {
   if (isSignedIn) {
     var user = req.user;
   }
-
   console.log("succ");
 
-  res.render('pages/notverified', {
+  res.render('pages/notverified.ejs', {
     user: user,
     loggedIn: isSignedIn
   });
+
 });
 
 //must be signed in to get here, thus no if isSignedIn
 app.post("/favoriteDog", function(req, res) {
   //check if the user is verified!
-
   if (req.user.verified) {
     //current state = action to take
     if (req.body.currentState == "favorite") {
@@ -482,8 +481,10 @@ app.post("/favoriteDog", function(req, res) {
         });
       });
     }
-  } else { // not verified
-    return res.redirect("/unverified");
+  } 
+  else { // not verified
+    console.log('redirect');
+    res.redirect("/unverified");
   }
 });
 

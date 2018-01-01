@@ -57,7 +57,12 @@
 <% if (loggedIn) { %>
   <%# assigning the class for the below div %>
   <% var className = (selected) ? "selectedHeart":"unselectedHeart" %>
-  <div onclick = "favoriteDog()"><i  class = "fa fa-heart fa-4x <%- className %>" id = "heartIconDetail" > </i><span class = "bigNum" id = "numLikes"><%= dog.favorites %></span></div>
+    <% if (user.verified) { %>
+      <div onclick = "favoriteDog()"><i  class = "fa fa-heart fa-4x <%- className %>" id = "heartIconDetail" > </i><span class = "bigNum" id = "numLikes"><%= dog.favorites %></span></div>
+    <% } else { %>
+      <div onclick = "redirect()"><i  class = "fa fa-heart fa-4x <%- className %>" id = "heartIconDetail" > </i><span class = "bigNum" id = "numLikes"><%= dog.favorites %></span></div>
+
+    <% } %>
 <% } else { %>
   <div><a href = "/login" class = "fa fa-heart fa-4x unselectedHeart" id = "heartIconDetail"> </a> <span class = "bigNum"><%= dog.favorites %></span></div>
 <% } %>

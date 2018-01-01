@@ -52,3 +52,12 @@ function favoriteDog() {
 
   return false;
 }
+function redirect(){
+  alert("You must confirm your account to favorite dogs");
+
+  // $.get('/unverified',function(returnedData){
+
+  // });
+  // return false;
+
+}
