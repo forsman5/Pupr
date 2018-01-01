@@ -75,5 +75,6 @@ module.exports = {
       });
     });
   },
-  NUMBER_OF_SALTS: 10
+  NUMBER_OF_SALTS: 10,
+  PORT_NUM: 8080
 };

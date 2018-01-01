@@ -16,6 +16,9 @@ var universal = require('./universal');
 //function to generate MD5 hash
 var MD5 = universal.MD5;
 
+// port to host on
+var PORT_NUM = universal.PORT_NUM;
+
 //establish database connection
 var con = universal.dbConnection;
 
@@ -48,8 +51,6 @@ app.use(express.static(path.join(__dirname, '/resources')));
 
 //adding helpers
 helpers(app);
-
-console.log("Server starting...");
 
 //homepage
 app.get('/', function(req, res) {
@@ -516,8 +517,9 @@ app.post("/comment",function(req,res){
   });
 });
 
-app.listen(8080);
-
+app.listen(PORT_NUM, function () {
+  console.log('Server is running. Point your browser to: http://localhost:' + PORT_NUM);
+});
 /*Given a dog name, finds the directory for that dog and returns
 an arrat of all images related to that dog*/
 function getFilesFromDirectory(dogName){
