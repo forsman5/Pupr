@@ -73,7 +73,7 @@
 <h4 class="display-4"> Comments</h4>
   <% comments.forEach(function(comment) { %>
     <div class = "container comment">
-        <p class="commentHeader"><%= user.name %> </p>
+        <p class="commentHeader"><%= comment.name %> </p>
         <p class = "commentBody"> <%= comment.comment %> </p>
     </div>
   <% }); %>
