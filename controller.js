@@ -492,6 +492,18 @@ app.post("/favoriteDog", function(req, res) {
     res.redirect("/unverified");
   }
 });
+app.post("/dogs/:dogId",function(req,res){
+  var user = req.user;
+  var commentText = req.body.commentBody;
+  var dogID = req.params.dogId
+  console.log(dogID); 
+  var createComment = "INSERT INTO Users_Dogs_comments (userID, dogID, comment) VALUES (" + req.user.userID + ", " + req.params.dogId + ", '" + commentText + "')"
+  con.query(createComment, function(err, res){
+    if (err)
+    throw err;
+    
+  });
+});
 
 app.listen(8080);
 

@@ -71,12 +71,14 @@
 <br />
 <div class = "commentSection container">
 <h4 class="display-4"> Comments</h4>
+<% if(loggedIn && user.verified) { %>
 <div class="panel-body commentBox">
     <form action = "/comment" method = "post" class="form-inline">
         <textarea placeholder="Write your comment here!" class="pb-cmnt-textarea" name = "commentBody" type = "text"></textarea>        
-        <button class="btn btn-primary pull-right" type="button">Share</button>
+        <button class="btn btn-primary pull-right submitComment" type="submit">Share</button>
     </form>
 </div>
+<% } %>
 
 
   <% comments.forEach(function(comment) { %>
