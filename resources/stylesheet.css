@@ -209,5 +209,8 @@ border-bottom: 1px solid #eee;
 .fa-times:hover{
     color:red !important;
 }
+.report:hover{
+    color:#158CBA;
+}
 
 
