@@ -529,6 +529,7 @@ app.post("/comment",function(req,res){
     res.redirect('/dogs/' + dogID);
   });
 });
+
 app.post("/deletecomment",function(req,res){
   var commentID = req.body.commentID;
   var dogID = req.body.dog;
@@ -540,7 +541,7 @@ app.post("/deletecomment",function(req,res){
     throw err;
     console.log("comment deleted");
     res.redirect('/dogs/' + dogID);
-    
+
   });
 });
 

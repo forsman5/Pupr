@@ -52,6 +52,7 @@ function favoriteDog() {
 
   return false;
 }
+
 function redirect(){
   alert("You must confirm your account to favorite dogs");
 
@@ -61,13 +62,17 @@ function redirect(){
   // return false;
 
 }
+
 function deleteComment(selectedID, dogID){
   if(confirm('Are you sure you want to delete this comment?')){
     $.post('/deletecomment', { commentID: selectedID, dog: dogID}, function(returnedData){
 
     });
-    $location.path('/dogs/' + dogID);
+
+    //refresh the page, now without the comment
+    document.location.reload();
+    
     return true;
   }
 
-} 
+}
