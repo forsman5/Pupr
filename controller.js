@@ -140,7 +140,7 @@ app.get('/dogs/', function(req,res){
    console.log(filteredList);    
     res.render('pages/dogs', {
       dogs: filteredList,
-      loggedIn:isSignedIn, user:user
+      loggedIn:isSignedIn, user:user, searchName:name, searchBreed:breed, searchOrder:order
     });
   });
 });

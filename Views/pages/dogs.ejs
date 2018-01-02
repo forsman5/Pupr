@@ -4,18 +4,18 @@
 <div class = "listbg">
   <div class = "container searchForm">
     <h3 class="display-3 displayText bigtext">Search for a Dog</h3>      
-    <form class = action="/dogs/" method="get">
+    <form  action="/dogs/" method="get">
           <div class="form-group">
               <label>Name</label>
-              <input type="text" class="form-control" name="name">
+              <input type="text" class="form-control" name="name" value="<%= searchName %>">
           </div>
           <div class="form-group">
               <label>Breed</label>
-              <input type="text" class="form-control" name="breed">
+              <input type="text" class="form-control" name="breed" value="<%= searchBreed %>">
           </div>
           <div class="form-group">
               <label for="sel1">Order</label>
-              <select class="form-control" id="sel1" name = "ordering">
+              <select class="form-control" id="sel1" name = "ordering" value = "<%= searchOrder %>">
                 <option>Alphabetically</option>                  
                 <option>Number of Favorites</option>
                 <option>Number of Comments</option>
