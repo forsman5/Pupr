@@ -105,13 +105,16 @@ app.get('/dogs/', function(req,res){
    if(name != null && name != ""){
      filteredList = dogList[0].filter(function(dog,index){
        //console.log(dog[index].name);
-       return dog.name == name;
+       return dog.name.toUpperCase() == name.toUpperCase();
      },name);
    }
    if(breed != null && breed != ""){
     filteredList = filteredList.filter(function(dog,index){
-      if(breed.indexOf(dog.breed1) != -1 || breed.indexOf(dog.breed2) != -1){
+      if(breed.toUpperCase().indexOf(dog.breed1.toUpperCase()) != -1){
           return true;
+      }
+      else if(dog.breed2 != null && breed.toUpperCase().indexOf(dog.breed2.toUpperCase()) != -1 ) {
+        return true;
       }
       else{
         return false;
