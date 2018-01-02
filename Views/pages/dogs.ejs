@@ -16,9 +16,10 @@
           <div class="form-group">
               <label for="sel1">Order</label>
               <select class="form-control" id="sel1" name = "ordering" value = "<%= searchOrder %>">
+                
                 <option>Alphabetically</option>                  
-                <option>Number of Favorites</option>
-                <option>Number of Comments</option>
+                <option <% if(searchOrder == 'Number of Favorites'){%> selected = "selected" <% } %> s>Number of Favorites</option>
+                <option <% if(searchOrder == 'Number of Comments'){%> selected = "selected" <% } %> s>Number of Comments</option>
               </select>
             </div>
             <button type="submit" class="btn btn-primary">Search</button>            
