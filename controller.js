@@ -92,12 +92,51 @@ app.get('/dogs/', function(req,res){
   if(isSignedIn){
     var user = req.user;
   }
-
+  console.log(req.query.ordering);
+  
   var sql = "call GetDogs()";
   con.query(sql, function (err, dogList) {
     if (err) throw err;
+    var name = req.query.name;
+    var breed = req.query.breed;
+    var order = req.query.ordering;
+    var filteredList = dogList[0];
+    
+   if(name != null && name != ""){
+     filteredList = dogList[0].filter(function(dog,index){
+       //console.log(dog[index].name);
+       return dog.name == name;
+     },name);
+   }
+   if(breed != null && breed != ""){
+    filteredList = filteredList.filter(function(dog,index){
+      if(breed.indexOf(dog.breed1) != -1 || breed.indexOf(dog.breed2) != -1){
+          return true;
+      }
+      else{
+        return false;
+      }
+    },breed);      
+   }
+
+   console.log(order);
+   if(order != null && order != ""){
+     if(order == "Number of Favorites"){
+        filteredList.sort(function(dog1,dog2){
+          return dog2.favorites - dog1.favorites
+        });
+      }
+      else if(order == "Number of Comments"){
+        filteredList.sort(function(dog1,dog2){
+          console.log("this dog has " + dog1.comments);
+          return dog2.comments - dog1.comments
+        });
+      }
+   }
+   
+   console.log(filteredList);    
     res.render('pages/dogs', {
-      dogs: dogList[0],
+      dogs: filteredList,
       loggedIn:isSignedIn, user:user
     });
   });
