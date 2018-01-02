@@ -1,6 +1,6 @@
 body, html {
     height: 100%;
-    background-color: aliceblue;
+    background-color: white;
 }
 
 .bg {
@@ -9,7 +9,8 @@ body, html {
 
     /* Full height */
     height: 100%;
-
+    margin-top: 0px;
+    padding-top: 0px;
     /* Center and scale the image nicely */
     background-position: center;
     background-repeat: no-repeat;
@@ -41,6 +42,7 @@ body, html {
 }
 .displayText{
     text-shadow: 2px 2px 2px black;
+    color:white;
 }
 .footer{
     text-align: center;
@@ -212,5 +214,10 @@ border-bottom: 1px solid #eee;
 .report:hover{
     color:#158CBA;
 }
-
+.searchForm{
+    background-color: white;
+    width: 40%;
+    margin-top: 20px;
+    margin-bottom: 2opx;
+}
 
