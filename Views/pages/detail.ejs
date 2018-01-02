@@ -60,7 +60,7 @@
     <% if (user.verified) { %>
       <div onclick = "favoriteDog()"><i  class = "fa fa-heart fa-4x <%- className %>" id = "heartIconDetail" > </i><span class = "bigNum" id = "numLikes"><%= dog.favorites %></span></div>
     <% } else { %>
-      <div class="alert alert-warning favWarning">Your email is not verified. You can't favorite dogs until you confirm your account.</div>      
+      <div class="alert alert-warning favWarning">Your email is not verified. You can't favorite dogs until you confirm your account.</div>
       <div onclick = "redirect()"><i  class = "fa fa-heart fa-4x <%- className %>" id = "heartIconDetail" > </i><span class = "bigNum" id = "numLikes"><%= dog.favorites %></span></div>
 
     <% } %>
@@ -74,8 +74,8 @@
 <% if(loggedIn && user.verified) { %>
 <div class="panel-body commentBox">
     <form action = "/comment" method = "post" class="form-inline">
-        <input type="hidden" name="dogID" value="<%= dogID %>">      
-        <textarea placeholder="Write your comment here!" class="pb-cmnt-textarea" name = "commentBody" type = "text"></textarea>        
+        <input type="hidden" name="dogID" value="<%= dogID %>">
+        <textarea placeholder="Write your comment here!" class="pb-cmnt-textarea" name = "commentBody" type = "text"></textarea>
         <button type="submit" class="btn btn-primary btn-lg">Submit</button>
       </form>
 </div>
@@ -87,13 +87,16 @@
       <% if(loggedIn && (comment.userID == user.userID)) { %>
         <p class="commentHeader"><%= comment.name %>  <a class="fa fa-times pull-right" onclick = "deleteComment('<%= comment.commentID %>', '<%= dogID %>')"></a></p>
       <% } else  { %>
-        <p class="commentHeader"><%= comment.name %>  <span class="pull-right report">Report</span></p>        
+        <p class="commentHeader"><%= comment.name %>  <span class="pull-right report">Report</span></p>
       <% } %>
         <p class = "commentBody"> <%= comment.comment %> </p>
     </div>
   <% }); %>
+
+  <%# If no comments, display this message %>
+  <% if (comments.length == 0) { %>
+    <p>No comments yet for this dog. Start a conversation! </p>
+  <% } %>
 </div>
-  
-  
 
 <% include ../partials/footer %>
