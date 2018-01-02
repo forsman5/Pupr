@@ -62,8 +62,12 @@ function redirect(){
 
 }
 function deleteComment(selectedID, dogID){
-  $.post('/deletecomment', { commentID: selectedID, dog: dogID}, function(returnedData){
+  if(confirm('Are you sure you want to delete this comment?')){
+    $.post('/deletecomment', { commentID: selectedID, dog: dogID}, function(returnedData){
 
-  });
+    });
+    $location.path('/dogs/' + dogID);
+    return true;
+  }
 
 } 

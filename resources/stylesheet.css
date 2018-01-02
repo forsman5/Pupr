@@ -206,5 +206,8 @@ border-bottom: 1px solid #eee;
 .deleteForm{
     display: inline;
 }
+.fa-times:hover{
+    color:red !important;
+}
 
 
