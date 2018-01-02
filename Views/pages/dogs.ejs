@@ -24,11 +24,16 @@
             <button type="submit" class="btn btn-primary">Search</button>            
       </form>
   </div>
-  <div class="container-fluid bigtext">
-  	<h2 class="display-2 displayText">Click on any dog to learn more</h2>
-  </div>
-
+  
   <div class = "centeredBoxes" >
+    <% if(dogs.length == 0) { %>
+      <h4 class="display-4 displayText loneText">Your search criteria did not find any dogs</h4>      
+    <% } else { %>
+      <div class="container-fluid bigtext">
+          <h2 class="display-2 displayText">Click on any dog to learn more</h2>
+      </div>
+    <% } %>
+
     <% dogs.forEach(function(dog) { %>
 
       <%# Linking using the div this way wont work without html 5!! %>
