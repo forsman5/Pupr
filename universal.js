@@ -59,9 +59,9 @@ module.exports = {
 
     var mailOptions = {
       from: 'petlanddb@gmail.com',
-      subject: 'Please Verify Your Petlandopia Account',
+      subject: 'Please Verify Your Pupr Account',
       to: email,
-      html: "Thanks for using Petlandopia! Please verify your email by clicking below: <br>" + req.headers.host + "/verify/" + hash + "<br>Thanks again!"
+      html: "Thanks for using Pupr! Please verify your email by clicking below: <br>" + req.headers.host + "/verify/" + hash + "<br>Thanks again!"
     };
 
     var updateSQL = "UPDATE Users SET verifyHash = '" + hash + "' WHERE email = '" + email + "'";

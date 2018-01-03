@@ -20,6 +20,10 @@ body, html {
   	justify-content: center;
   	align-items: center;
 }
+.navicon{
+    margin: 0px;
+    margin: 0px;
+}
 .selected{
  border-bottom: 3px #158CBA solid
 }
