@@ -595,14 +595,15 @@ app.post("/favoriteDog", function(req, res) {
   }
 });
 
-
 app.post("/comment",function(req,res){
   var user = req.user;
   console.log("starting post")
-  var commentText = req.body.commentBody;
+  var rawComment = req.body.commentBody;
   console.log("got body")
   var dogID = req.body.dogID
   console.log(dogID);
+  var commentText = rawComment.replace(/'/g , "''");
+  
   var createComment = "INSERT INTO Users_Dogs_comments (userID, dogID, comment) VALUES (" + user.userID + ", " + dogID + ", '" + commentText + "')"
   con.query(createComment, function(err, results){
     if (err)

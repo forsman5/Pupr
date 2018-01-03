@@ -83,9 +83,9 @@ body, html {
     transform: rotate(90deg);
 }
 .carousel_img{
-     width: 80%;
+     width: 65%;
      height:auto;
-     margin-left:10%;
+     margin-left:18%;
      align-content: center;
      text-align: center;
      image-orientation: inherit;
@@ -148,15 +148,24 @@ body, html {
   color:white;
 }
 #heartIconDetail{
-    margin-left: 40%;
+    
     background-color: transparent;
     border: none;
+    text-decoration:none
 }
 .selectedHeart{
     color: #BB0000 !important;
 }
 .unselectedHeart{
     color: gray !important;
+    text-decoration:none;
+}
+.centeredHeart{
+    display: block;
+    margin-left: auto;
+    margin-right: auto; 
+    align-content: center;
+    text-align: center;
 }
 .bigNum{
     font-size: 2em;

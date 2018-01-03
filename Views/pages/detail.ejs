@@ -58,14 +58,14 @@
   <%# assigning the class for the below div %>
   <% var className = (selected) ? "selectedHeart":"unselectedHeart" %>
     <% if (user.verified) { %>
-      <div onclick = "favoriteDog()"><i  class = "fa fa-heart fa-4x <%- className %>" id = "heartIconDetail" > </i><span class = "bigNum" id = "numLikes"><%= dog.favorites %></span></div>
+      <div onclick = "favoriteDog()" class = "centeredHeart"><i  class = "fa fa-heart fa-4x <%- className %>" id = "heartIconDetail" > </i><span class = "bigNum" id = "numLikes"><%= dog.favorites %></span></div>
     <% } else { %>
       <div class="alert alert-warning favWarning">Your email is not verified. You can't favorite dogs until you confirm your account.</div>
-      <div onclick = "redirect()"><i  class = "fa fa-heart fa-4x <%- className %>" id = "heartIconDetail" > </i><span class = "bigNum" id = "numLikes"><%= dog.favorites %></span></div>
+      <div onclick = "redirect()" class = "centeredHeart"><i  class = "fa fa-heart fa-4x <%- className %>" id = "heartIconDetail" > </i><span class = "bigNum" id = "numLikes"><%= dog.favorites %></span></div>
 
     <% } %>
 <% } else { %>
-  <div><a href = "/login" class = "fa fa-heart fa-4x unselectedHeart" id = "heartIconDetail"> </a> <span class = "bigNum"><%= dog.favorites %></span></div>
+  <div class = "centeredHeart"><a href = "/login" class = "fa fa-heart fa-4x unselectedHeart" id = "heartIconDetail"> </a> <span class = "bigNum"><%= dog.favorites %></span></div>
 <% } %>
 <br />
 <br />
