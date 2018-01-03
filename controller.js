@@ -249,10 +249,51 @@ app.get('/favorites',function(req,res){
       con.query(getFavs,function(err, dogs){
         if(err) throw err;
         //filter dogs so only favorites are included
-        var favdogs = dogs[0].filter(function(element){
+        var favDogs = dogs[0].filter(function(element){
           return (dogIds.indexOf(element.dogID)) > -1;
         });
-        res.render('pages/favorites', {user:req.user, loggedIn:isSignedIn,dogs:favdogs})
+
+        var name = req.query.name;
+        var breed = req.query.breed;
+        var order = req.query.ordering;
+        var filteredList = favDogs;
+        
+       if(name != null && name != ""){
+         filteredList = favDogs.filter(function(dog,index){
+           //console.log(dog[index].name);
+           return dog.name.toUpperCase() == name.toUpperCase();
+         },name);
+       }
+       if(breed != null && breed != ""){
+        filteredList = filteredList.filter(function(dog,index){
+          if(breed.toUpperCase().indexOf(dog.breed1.toUpperCase()) != -1){
+              return true;
+          }
+          else if(dog.breed2 != null && breed.toUpperCase().indexOf(dog.breed2.toUpperCase()) != -1 ) {
+            return true;
+          }
+          else{
+            return false;
+          }
+        },breed);      
+       }
+    
+       console.log(order);
+       if(order != null && order != ""){
+         if(order == "Number of Favorites"){
+            filteredList.sort(function(dog1,dog2){
+              return dog2.favorites - dog1.favorites
+            });
+          }
+          else if(order == "Number of Comments"){
+            filteredList.sort(function(dog1,dog2){
+              console.log("this dog has " + dog1.comments);
+              return dog2.comments - dog1.comments
+            });
+          }
+       }
+
+        res.render('pages/favorites', {user:req.user, loggedIn:isSignedIn,dogs:filteredList, searchName:name, searchBreed:breed, searchOrder:order})
       })
   });
 });

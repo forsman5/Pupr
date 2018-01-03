@@ -2,11 +2,38 @@
 <%var tab = "Dogs" %>
 <% include ../partials/header %>
 <div class = "listbg">
-  <div class="container-fluid bigtext">
-  	<h2 class="display-2 displayText">Your Favorites</h2>
-  </div>
-
+    <div class = "container searchForm">
+        <h3 class="display-3 displayText bigtext">Search for a Dog</h3>      
+        <form  action="/favorites" method="get">
+              <div class="form-group">
+                  <label>Name</label>
+                  <input type="text" class="form-control" name="name" value="<%= searchName %>">
+              </div>
+              <div class="form-group">
+                  <label>Breed</label>
+                  <input type="text" class="form-control" name="breed" value="<%= searchBreed %>">
+              </div>
+              <div class="form-group">
+                  <label for="sel1">Order</label>
+                  <select class="form-control" id="sel1" name = "ordering" value = "<%= searchOrder %>">
+                    
+                    <option>Alphabetically</option>                  
+                    <option <% if(searchOrder == 'Number of Favorites'){%> selected = "selected" <% } %> s>Number of Favorites</option>
+                    <option <% if(searchOrder == 'Number of Comments'){%> selected = "selected" <% } %> s>Number of Comments</option>
+                  </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Search</button>            
+          </form>
+      </div>
+    
   <div class = "centeredBoxes" >
+    <% if(dogs.length == 0) { %>
+      <h4 class="display-4 displayText loneText">Your search criteria did not find any dogs</h4>      
+    <% } else { %>
+      <div class="container-fluid bigtext">
+          <h2 class="display-2 displayText">Your Favorites</h2>
+      </div>
+    <% } %>
     <% dogs.forEach(function(dog) { %>
       <a href = "/dogs/<%= dog.dogID %>">
       <div class = "box bg-primary">

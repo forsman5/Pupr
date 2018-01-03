@@ -34,7 +34,7 @@ body, html {
 .listbg{
     background-image: url("biggerDogSilhouette.jpg");
     background-position: center;
-    background-size: cover;
+    background-size: contain;
     background-repeat: repeat;
 }
 .bigtext{
