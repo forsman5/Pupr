@@ -4,6 +4,7 @@ var path = require('path');
 const express = require('express'); // for hosting
 var fs = require('fs'); //file system
 var helpers = require('express-helpers');
+var mime    =   require('mime');
 var passport = require('passport');
 var flash    = require('connect-flash');
 var session = require('express-session');
@@ -14,6 +15,7 @@ var bcrypt = require('bcrypt');
 var universal = require('./universal');
 var formidable = require('formidable');
 var nodemailer = require('nodemailer');
+var multer	=	require('multer');
 var transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -69,6 +71,21 @@ app.use(express.static(path.join(__dirname, '/resources')));
 
 //adding helpers
 helpers(app);
+
+
+var storage	=	multer.diskStorage({
+  destination: function (req, file, callback) {
+    callback(null, './uploads');
+  },
+  filename: function (req, file, callback) {
+    callback(null, file.fieldname + '-' + Date.now() + '.' + mime.getExtension(file.mimetype));
+  }
+});
+var upload = multer({ storage : storage }).array('pic');
+
+
+
+
 
 //all the server routes are below
 
@@ -648,30 +665,50 @@ app.get("/submit",function(req,res){
     user:user
   });
 });
-app.post("/submit",function(req,res){
-  var form = new formidable.IncomingForm();  
-  form.parse(req);
-  form.on('fileBegin', function (name, file){
-    file.path = __dirname + '/uploads/' + file.name;
-    console.log(file.path);
-    console.log(file);
-  });
 
-  var name = req.body.dogName;
-  var breed1 = req.body.dogBreed1;
-  var breed2 = req.body.dogBreed2;
-  var bio = req.body.dogBio;
+app.post("/submit",function(req,res){
+  console.log("beginning submission")
+ 
+	// upload(req,res,function(err) {
+	// 	console.log(req.files); // Here i getting proper output and image also uploading to concern folder
+  // });
+  
+  var form = new formidable.IncomingForm(); 
+  var files = []; 
+   form.parse(req, function (err, fields, files) {
+     console.log("parsing the form")
+     var name = fields.dogName;
+     var breed1 = fields.dogBreed1;
+     var breed2 = fields.dogBreed2;
+     var bio = fields.dogBio;
+     var oldpath = files.pic.path;
+     var newpath = './uploads/' + files.pic.name;
+     console.log(newpath);
+     fs.rename(oldpath, newpath, function (err) {
+       if (err) throw err;
+       res.end();
+       });
+   
+  
   var mailOptions = {
     from: 'petlanddb@gmail.com',
     subject: 'New Dog',
     to: 'allegretti813@gmail.com',
-    html:'name: ' + name + '\n breed1: ' + breed1 + '\n + breed2: ' + breed2 + '\n + bio: ' + bio 
+    html:'name: ' + name + '\n breed1: ' + breed1 + '\n + breed2: ' + breed2 + '\n + bio: ' + bio,
+    attachments: [
+      {   // utf-8 string as an attachment
+          filename: files.pic.name,
+          path: newpath
+      }]
   };
   transporter.sendMail(mailOptions, function(error, info){
     if (error) console.log(error);
   });
+});
+  console.log("finishing submission by rendering page");
   res.redirect('/confirmation');
 });
+
 app.get('/confirmation',function(req, res){
   var isSignedIn = containsUser(req);
   if(isSignedIn){

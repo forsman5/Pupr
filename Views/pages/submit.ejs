@@ -14,7 +14,7 @@
     <div class="col-sm-6 col-sm-offset-3">
                 <h4 class = "display-4 signheader"> Your Dog</h4>
                 <!-- LOGIN FORM -->
-                <form action="/submit" method="post">
+                <form action="/submit" method="post" enctype="multipart/form-data">
                     <div class="form-group">
                         <label>Dog name</label>
                         <input type="text" class="form-control" name="dogName">
@@ -31,7 +31,7 @@
                             <label>Dog Bio</label>                            
                             <textarea placeholder="Tell us about your dog" class="pb-cmnt-textarea" name = "dogBio" type = "text"></textarea>
                     </div>
-                    <input id="upload-input" type="file" name="uploads[]" multiple="multiple"></br>
+                    <input id="upload-input" type="file" name="pic" multiple="multiple"></br> <br>
                     <button type="submit" class="btn btn-primary btn-lg">Submit</button>
                 </form>
                
