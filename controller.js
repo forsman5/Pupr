@@ -628,6 +628,16 @@ app.post("/deletecomment",function(req,res){
 
   });
 });
+app.get("/submit",function(req,res){
+  var isSignedIn = containsUser(req);
+  if(isSignedIn){
+    var user = req.user;
+  }
+  res.render('pages/submit', {
+    loggedIn:isSignedIn,
+    user:user
+  });
+});
 
 // initialize server
 app.listen(PORT_NUM, function () {

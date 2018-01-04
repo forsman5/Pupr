@@ -141,6 +141,9 @@ body, html {
 .homebutton{
     margin: 20px;
 }
+.headerSpacing{
+ margin-top:20px;
+}
 .navbutton{
     text-align: right;
 }
