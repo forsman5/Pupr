@@ -12,6 +12,16 @@ var cookieParser = require('cookie-parser');
 var morgan = require('morgan');
 var bcrypt = require('bcrypt');
 var universal = require('./universal');
+var formidable = require('formidable');
+var nodemailer = require('nodemailer');
+var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'petlanddb@gmail.com',
+    pass: 'petland1'
+  }
+});
+
 
 //function to generate MD5 hash
 var MD5 = universal.MD5;
@@ -637,6 +647,30 @@ app.get("/submit",function(req,res){
     loggedIn:isSignedIn,
     user:user
   });
+});
+app.post("/submit",function(req,res){
+  var form = new formidable.IncomingForm();  
+  form.parse(req);
+  form.on('fileBegin', function (name, file){
+    file.path = __dirname + '/uploads/' + file.name;
+    console.log(file.path);
+    console.log(file);
+  });
+
+  var name = req.body.dogName;
+  var breed1 = req.body.dogBreed1;
+  var breed2 = req.body.dogBreed2;
+  var bio = req.body.dogBio;
+  var mailOptions = {
+    from: 'petlanddb@gmail.com',
+    subject: 'New Dog',
+    to: 'allegretti813@gmail.com',
+    html:'name: ' + name + '\n breed1: ' + breed1 + '\n + breed2: ' + breed2 + '\n + bio: ' + bio 
+  };
+  transporter.sendMail(mailOptions, function(error, info){
+    if (error) console.log(error);
+  });
+  res.redirect('/');
 });
 
 // initialize server

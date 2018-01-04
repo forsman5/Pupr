@@ -1,7 +1,7 @@
 <% include ../partials/head %>
-<% var tab = "Home" %>
+<% var tab = "Submit" %>
 <% include ../partials/header %>
-<
+
 <div class = "searchform container">
     <h4 class="display-4 signheader headerSpacing">Submit a Dog</h4>
     <p>
@@ -31,10 +31,12 @@
                             <label>Dog Bio</label>                            
                             <textarea placeholder="Tell us about your dog" class="pb-cmnt-textarea" name = "dogBio" type = "text"></textarea>
                     </div>
-            
+                    <input id="upload-input" type="file" name="uploads[]" multiple="multiple"></br>
                     <button type="submit" class="btn btn-primary btn-lg">Submit</button>
                 </form>
-            
+               
+                
+                
                 <hr>            
             </div>
     
