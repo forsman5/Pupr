@@ -670,7 +670,18 @@ app.post("/submit",function(req,res){
   transporter.sendMail(mailOptions, function(error, info){
     if (error) console.log(error);
   });
-  res.redirect('/');
+  res.redirect('/confirmation');
+});
+app.get('/confirmation',function(req, res){
+  var isSignedIn = containsUser(req);
+  if(isSignedIn){
+    var user = req.user;
+  }
+  res.render('pages/confirmation', {
+    loggedIn:isSignedIn,
+    user:user
+  });
+  
 });
 
 // initialize server

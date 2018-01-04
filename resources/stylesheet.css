@@ -20,6 +20,15 @@ body, html {
   	justify-content: center;
   	align-items: center;
 }
+.smallerbg{
+    background-image: url("biggerDogSilhouette.jpg");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+   
+
+}
 .navicon{
     margin: 0px;
     margin: 0px;
