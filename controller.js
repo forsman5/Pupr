@@ -719,7 +719,10 @@ app.post("/submit",function(req,res){
       valid = false;
       message = "Must have at least 1 image"
      }
-
+     else if(imgArray.length > 5){
+       valid = false;
+       message = "Can't submit more than 5 images"
+     }
      if(!valid){
       res.render('pages/submit', {
         loggedIn:true,
@@ -728,7 +731,6 @@ app.post("/submit",function(req,res){
       });
      }
      else{
-      //imgArray.length = 6;
       console.log(imgArray);
       for (var i = 0; i < imgArray.length; i++) {
         //get each file and process file name
@@ -746,7 +748,14 @@ app.post("/submit",function(req,res){
       //    if (err) throw err;
       //    res.end();
       //    });
-    
+    //expand array length to 5 if it already isnt
+    var prevLength = imgArray.length
+    imgArray.length = 5;
+    //copy over undefined elements
+    for(var i = prevLength; i < 5; i++){
+      console.log(i);
+      imgArray[i] = imgArray[0];
+    }
     
     var mailOptions = {
       from: 'petlanddb@gmail.com',
@@ -759,27 +768,27 @@ app.post("/submit",function(req,res){
             filename: imgArray[0].name,
             path: imgArray[0].path
         }
-        // ,
-        // {
-        //   filename: imgArray[1].name,
-        //   path: imgArray[1].path
+        ,
+        {
+          filename: imgArray[1].name,
+          path: imgArray[1].path
 
-        // },
-        // {
-        //   filename: imgArray[2].name,
-        //   path: imgArray[2].path
+        },
+        {
+          filename: imgArray[2].name,
+          path: imgArray[2].path
 
-        // },
-        // {
-        //   filename: imgArray[3].name,
-        //   path: imgArray[3].path
+        },
+        {
+          filename: imgArray[3].name,
+          path: imgArray[3].path
 
-        // },
-        // {
-        //   filename: imgArray[4].name,
-        //   path: imgArray[4].path
+        },
+        {
+          filename: imgArray[4].name,
+          path: imgArray[4].path
 
-      //  }
+       }
       ]
     };
     transporter.sendMail(mailOptions, function(error, info){
