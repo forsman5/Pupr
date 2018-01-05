@@ -732,9 +732,10 @@ app.post("/submit",function(req,res){
       console.log(imgArray);
       for (var i = 0; i < imgArray.length; i++) {
         //get each file and process file name
-          var newPath = './uploads/'+fields.imgName;
+          var newPath = './uploads/';
           var singleImg = imgArray[i];
           newPath+= singleImg.originalFilename;
+          console.log(newPath);
           imgArray[i].path = newPath;
           readAndWriteFile(singleImg, newPath);           
       }
