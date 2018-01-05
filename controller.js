@@ -16,6 +16,8 @@ var universal = require('./universal');
 var formidable = require('formidable');
 var nodemailer = require('nodemailer');
 var multer	=	require('multer');
+var multiparty = require('multiparty');
+
 var transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -672,34 +674,70 @@ app.post("/submit",function(req,res){
 	// upload(req,res,function(err) {
 	// 	console.log(req.files); // Here i getting proper output and image also uploading to concern folder
   // });
+  var form = new multiparty.Form();
   
-  var form = new formidable.IncomingForm(); 
-  var files = []; 
+  //var form = new formidable.IncomingForm(); 
    form.parse(req, function (err, fields, files) {
-     console.log("parsing the form")
+     console.log("parsing the form");
+     //Get basic dog info
      var name = fields.dogName;
      var breed1 = fields.dogBreed1;
      var breed2 = fields.dogBreed2;
      var bio = fields.dogBio;
-     var oldpath = files.pic.path;
-     var newpath = './uploads/' + files.pic.name;
-     console.log(newpath);
-     fs.rename(oldpath, newpath, function (err) {
-       if (err) throw err;
-       res.end();
-       });
+     //images
+     var imgArray = files.images;
+     //imgArray.length = 6;
+     console.log(imgArray);
+     
+     
+         for (var i = 0; i < imgArray.length; i++) {
+           //get each file and process file name
+             var newPath = './uploads/'+fields.imgName;
+             var singleImg = imgArray[i];
+             newPath+= singleImg.originalFilename;
+             imgArray[i].path = newPath;
+             readAndWriteFile(singleImg, newPath);           
+         }
+    //  var oldpath = files.pic.path;
+    //  var newpath = './uploads/' + files.pic.name;
+    //  console.log(newpath);
+    //  fs.rename(oldpath, newpath, function (err) {
+    //    if (err) throw err;
+    //    res.end();
+    //    });
    
   
   var mailOptions = {
     from: 'petlanddb@gmail.com',
     subject: 'New Dog',
     to: 'allegretti813@gmail.com',
-    html:'name: ' + name + '\n breed1: ' + breed1 + '\n + breed2: ' + breed2 + '\n + bio: ' + bio,
+    html:'name: ' + name + '<br> breed1: ' + breed1 + '<br> + breed2: ' + breed2 + '<br> + bio: ' + bio,
+    //each attachment is a separate image. Max of 6
     attachments: [
       {   // utf-8 string as an attachment
-          filename: files.pic.name,
-          path: newpath
-      }]
+          filename: imgArray[0].name,
+          path: imgArray[0].path
+      },
+       {
+        filename: imgArray[1].name,
+        path: imgArray[1].path
+
+       },
+       {
+        filename: imgArray[2].name,
+        path: imgArray[2].path
+
+       },
+       {
+        filename: imgArray[3].name,
+        path: imgArray[3].path
+
+       },
+       {
+        filename: imgArray[4].name,
+        path: imgArray[4].path
+
+       }]
   };
   transporter.sendMail(mailOptions, function(error, info){
     if (error) console.log(error);
@@ -768,3 +806,12 @@ function containsUser(req) {
 
   return isSignedIn;
 }
+function readAndWriteFile(singleImg, newPath) {
+  
+          fs.readFile(singleImg.path , function(err,data) {
+              fs.writeFile(newPath,data, function(err) {
+                  if (err) console.log('ERRRRRR!! :'+err);
+                  console.log('Fitxer: '+singleImg.originalFilename +' - '+ newPath);
+              })
+          })
+  }
