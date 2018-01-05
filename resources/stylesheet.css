@@ -28,7 +28,7 @@ body, html {
 }
    
 
-}
+
 .navicon{
     margin: 0px;
     margin: 0px;
@@ -155,6 +155,10 @@ body, html {
 }
 .navbutton{
     text-align: right;
+
+}
+.shifted{
+    margin-right: 5%;
 }
 .dognamelink{
   color:white;
