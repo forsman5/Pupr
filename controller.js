@@ -700,11 +700,31 @@ app.post("/submit",function(req,res){
      console.log(imgArray.length);
      console.log(imgArray);
      //validate input
-     if(name == "" || breed1 == "" || bio == "" || (imgArray.length == 0) || imgArray[0].originalFilename == ''){
+     var valid = true;
+     var message = "";
+     if(name == ""){
+        valid = false;
+        message = "Missing Name";
+     }
+     else if(breed1 == ""){
+      valid = false;
+      message = "Breed 1 Required"
+
+     }
+     else if(bio == ""){
+      valid = false;
+      message = "Missing Bio"
+     }
+     else if((imgArray.length == 0) || (imgArray[0].originalFilename == '')){
+      valid = false;
+      message = "Must have at least 1 image"
+     }
+
+     if(!valid){
       res.render('pages/submit', {
         loggedIn:true,
         user:user,
-        message: "Name, Breed1, and Bio must all be filled in, and at least 1 images must be submitted"
+        message: message
       });
      }
      else{
