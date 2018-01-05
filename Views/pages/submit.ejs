@@ -13,8 +13,11 @@
     </p>      
     <div class="col-sm-6 col-sm-offset-3">
                 <h4 class = "display-4 signheader"> Your Dog</h4>
-                <!-- LOGIN FORM -->
-                <form action="/submit" method="post" enctype="multipart/form-data">
+                <!-- Dog submission form -->
+                <% if (message.length > 0) { %>
+                    <div class="alert alert-danger"><%= message %></div>
+                <% } %>
+                <form action="/submit" method="post" enctype="multipart/form-data" name = "submitForm">
                     <div class="form-group">
                         <label>Dog name</label>
                         <input type="text" class="form-control" name="dogName">
@@ -24,7 +27,7 @@
                         <input type="text" class="form-control" name="dogBreed1">
                     </div>
                     <div class="form-group">
-                            <label>Dog Breed 2</label>
+                            <label>Dog Breed 2 (If Applicable)</label>
                             <input type="text" class="form-control" name="dogBreed2">
                     </div>
                     <div class = "form-group">
@@ -33,7 +36,7 @@
                     </div>
                     <input id="upload-input" type="file" name="images" multiple="multiple"></br><br>
                 
-                    <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+                    <button type="submit" class="btn btn-primary btn-lg" >Submit</button>
                 </form>
                
                 

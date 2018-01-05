@@ -77,4 +77,32 @@ function deleteComment(selectedID, dogID){
   }
 
 }
+function checkEmpty(){
+  document.write("Checking")
+  var valid = false;
+  var warning = document.getElementById("submitWarning")
+  if(document.forms["submitForm"]["dogName"].value == ""){
+    valid = false;
+    warning.innerHTML += "Missing name";
+    warning.style.visibility='visible';
+  }
+  else if(document.forms["submitForm"]["dogBreed1"].value == "" && document.forms["submitForm"]["dogBreed2"].value == "")
+    valid = false;
+      warning.innerHTML += "Must have at least 1 breed";
+      warning.style.visibility='visible';
 
+  }
+  else if(document.forms["submitForm"]["dogBio"].value == ""){
+    valid = false;
+      warning.innerHTML += "Missing bio";
+      warning.style.visibility='visible';
+
+  }
+  else{
+    warning.innerHTML += "";
+      warning.style.visibility='hidden';
+  }
+  return valid;
+
+
+}
