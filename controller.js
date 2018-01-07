@@ -646,13 +646,15 @@ app.post("/reportcomment", function(req, res) {
   var reportSql = "INSERT INTO Reported_comments (reporterID, commentID, reason) VALUES " + "( " + req.user.userID + "," + req.body.commentID + ", \'" + req.body.reason + "\')";
 
   con.query(reportSql, function(err, results) {
-    if (err)
-      throw err;
+    //if (err)
+      //throw err;
       //DO NOT THROW ALL THE TIME!
       //A user can only report a comment once. if a user tries to report the comment again, it'll throw a mysql error and not insert.
       //TODO
       //handle this better
       //for now, this simply ignores the error and doesnt insert it again
+
+      //TODO -- no report button for comments that already exist in the report db
   });
 });
 
