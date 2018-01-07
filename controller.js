@@ -121,8 +121,7 @@ app.get('/dogs/', function(req,res){
   if(isSignedIn){
     var user = req.user;
   }
-  console.log(req.query.ordering);
-  
+
   var sql = "call GetDogs()";
   con.query(sql, function (err, dogList) {
     if (err) throw err;
@@ -130,7 +129,7 @@ app.get('/dogs/', function(req,res){
     var breed = req.query.breed;
     var order = req.query.ordering;
     var filteredList = dogList[0];
-    
+
    if(name != null && name != ""){
      filteredList = dogList[0].filter(function(dog,index){
        //console.log(dog[index].name);
@@ -148,10 +147,9 @@ app.get('/dogs/', function(req,res){
       else{
         return false;
       }
-    },breed);      
+    },breed);
    }
 
-   console.log(order);
    if(order != null && order != ""){
      if(order == "Number of Favorites"){
         filteredList.sort(function(dog1,dog2){
@@ -160,13 +158,11 @@ app.get('/dogs/', function(req,res){
       }
       else if(order == "Number of Comments"){
         filteredList.sort(function(dog1,dog2){
-          console.log("this dog has " + dog1.comments);
           return dog2.comments - dog1.comments
         });
       }
    }
-   
-   console.log(filteredList);    
+
     res.render('pages/dogs', {
       dogs: filteredList,
       loggedIn:isSignedIn, user:user, searchName:name, searchBreed:breed, searchOrder:order
@@ -286,7 +282,7 @@ app.get('/favorites',function(req,res){
         var breed = req.query.breed;
         var order = req.query.ordering;
         var filteredList = favDogs;
-        
+
        if(name != null && name != ""){
          filteredList = favDogs.filter(function(dog,index){
            //console.log(dog[index].name);
@@ -304,10 +300,9 @@ app.get('/favorites',function(req,res){
           else{
             return false;
           }
-        },breed);      
+        },breed);
        }
-    
-       console.log(order);
+
        if(order != null && order != ""){
          if(order == "Number of Favorites"){
             filteredList.sort(function(dog1,dog2){
@@ -316,7 +311,6 @@ app.get('/favorites',function(req,res){
           }
           else if(order == "Number of Comments"){
             filteredList.sort(function(dog1,dog2){
-              console.log("this dog has " + dog1.comments);
               return dog2.comments - dog1.comments
             });
           }
@@ -626,18 +620,14 @@ app.post("/favoriteDog", function(req, res) {
 
 app.post("/comment",function(req,res){
   var user = req.user;
-  console.log("starting post")
   var rawComment = req.body.commentBody;
-  console.log("got body")
   var dogID = req.body.dogID
-  console.log(dogID);
   var commentText = rawComment.replace(/'/g , "''");
-  
+
   var createComment = "INSERT INTO Users_Dogs_comments (userID, dogID, comment) VALUES (" + user.userID + ", " + dogID + ", '" + commentText + "')"
   con.query(createComment, function(err, results){
     if (err)
     throw err;
-    console.log("query finished")
 
     res.redirect('/dogs/' + dogID);
   });
@@ -646,13 +636,12 @@ app.post("/comment",function(req,res){
 app.post("/deletecomment",function(req,res){
   var commentID = req.body.commentID;
   var dogID = req.body.dog;
-  console.log(commentID);
   var deleteSql = "DELETE FROM Users_Dogs_comments WHERE commentID = " + commentID;
-  console.log(deleteSql)
+
   con.query(deleteSql, function(err, results){
     if (err)
     throw err;
-    console.log("comment deleted");
+
     res.redirect('/dogs/' + dogID);
 
   });
@@ -662,7 +651,6 @@ app.get("/submit",function(req,res){
   if(isSignedIn){
     var user = req.user;
     if(!user.verified){
-      console.log('about to redirect')
       res.redirect('/');
     }
     else{
@@ -676,18 +664,18 @@ app.get("/submit",function(req,res){
   else{
     res.redirect('/login')
   }
- 
+
 });
 
 app.post("/submit",function(req,res){
   console.log("beginning submission")
- 
+
 	// upload(req,res,function(err) {
 	// 	console.log(req.files); // Here i getting proper output and image also uploading to concern folder
   // });
   var form = new multiparty.Form();
   var user = req.user;
-  //var form = new formidable.IncomingForm(); 
+  //var form = new formidable.IncomingForm();
    form.parse(req, function (err, fields, files) {
      console.log("parsing the form");
      //Get basic dog info and images
@@ -739,7 +727,7 @@ app.post("/submit",function(req,res){
           newPath+= singleImg.originalFilename;
           console.log(newPath);
           imgArray[i].path = newPath;
-          readAndWriteFile(singleImg, newPath);           
+          readAndWriteFile(singleImg, newPath);
       }
       //  var oldpath = files.pic.path;
       //  var newpath = './uploads/' + files.pic.name;
@@ -756,7 +744,7 @@ app.post("/submit",function(req,res){
       console.log(i);
       imgArray[i] = imgArray[0];
     }
-    
+
     var mailOptions = {
       from: 'petlanddb@gmail.com',
       subject: 'New Dog',
@@ -798,9 +786,9 @@ app.post("/submit",function(req,res){
     res.redirect('/confirmation');
   }
 });
- 
 
-   
+
+
 });
 
 app.get('/confirmation',function(req, res){
@@ -812,7 +800,7 @@ app.get('/confirmation',function(req, res){
     loggedIn:isSignedIn,
     user:user
   });
-  
+
 });
 
 // initialize server
@@ -863,7 +851,7 @@ function containsUser(req) {
   return isSignedIn;
 }
 function readAndWriteFile(singleImg, newPath) {
-  
+
           fs.readFile(singleImg.path , function(err,data) {
               fs.writeFile(newPath,data, function(err) {
                   if (err) console.log('ERRRRRR!! :'+err);

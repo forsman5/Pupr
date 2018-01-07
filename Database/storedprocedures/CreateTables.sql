@@ -72,7 +72,7 @@ CREATE TABLE Users_Dogs_comments(
 	PRIMARY KEY (commentID)
 );
 
-CREATE TABLE Reported_commnets(
+CREATE TABLE Reported_comments(
 	reporterID int NOT NULL,
 	commentID int NOT NULL,
 
