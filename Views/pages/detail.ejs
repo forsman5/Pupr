@@ -88,8 +88,8 @@
     <div class = "container comment">
       <% if(loggedIn && (comment.userID == user.userID)) { %>
         <p class="commentHeader"><%= comment.name %>  <a class="fa fa-times pull-right" onclick = "deleteComment('<%= comment.commentID %>', '<%= dogID %>')"></a></p>
-      <% } else if (user.verified) { %>
-        <p class="commentHeader"><%= comment.name %>  <span class="pull-right report">Report</span></p>
+      <% } else if (loggedIn && user.verified) { %>
+        <p class="commentHeader"><%= comment.name %>  <a class="pull-right report" onclick="reportComment('<%= comment.commentID %>')">Report</a></p>
       <% } %>
         <p class = "commentBody"> <%= comment.comment %> </p>
     </div>
