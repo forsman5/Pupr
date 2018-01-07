@@ -3,6 +3,8 @@ DELIMITER //
 CREATE PROCEDURE CreateTables()
 BEGIN
 
+DROP TABLE IF EXISTS Reported_commnets;
+DROP TABLE IF EXISTS Users_Dogs_comments;
 DROP TABLE IF EXISTS Users_Dogs_favorites;
 DROP TABLE IF EXISTS Visits;
 DROP TABLE IF EXISTS Dogs;
@@ -47,6 +49,7 @@ CREATE TABLE Users(
 	password varchar(255) NOT NULL,
 	verified BIT(1) NOT NULL DEFAULT 0,
 	verifyHash VARCHAR(32),
+	admin BIT(1) NOT NULL DEFAULT 0,
 
 	PRIMARY KEY (userID)
 );
@@ -67,6 +70,14 @@ CREATE TABLE Users_Dogs_comments(
 	FOREIGN KEY (dogID) REFERENCES Dogs(dogID),
 	FOREIGN KEY (userID) REFERENCES Users(userID),
 	PRIMARY KEY (commentID)
+);
+
+CREATE TABLE Reported_commnets(
+	reporterID int NOT NULL,
+	commentID int NOT NULL,
+
+	FOREIGN KEY (reporterID) REFERENCES Users(userID),
+	FOREIGN KEY (commentID) REFERENCES Users_Dogs_comments(commentID)
 );
 
 END //
