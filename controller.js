@@ -634,18 +634,28 @@ app.post("/comment",function(req,res){
 });
 
 app.post("/deletecomment",function(req,res){
-  var commentID = req.body.commentID;
-  var dogID = req.body.dog;
-  var deleteSql = "DELETE FROM Users_Dogs_comments WHERE commentID = " + commentID;
+  var deleteSql = "DELETE FROM Users_Dogs_comments WHERE commentID = " + req.body.commentID;
 
   con.query(deleteSql, function(err, results){
     if (err)
-    throw err;
-
-    res.redirect('/dogs/' + dogID);
-
+      throw err;
   });
 });
+
+app.post("/reportcomment", function(req, res) {
+  var reportSql = "INSERT INTO Reported_comments (reporterID, commentID, reason) VALUES " + "( " + req.user.userID + "," + req.body.commentID + ", \'" + req.body.reason + "\')";
+
+  con.query(reportSql, function(err, results) {
+    if (err)
+      throw err;
+      //DO NOT THROW ALL THE TIME!
+      //A user can only report a comment once. if a user tries to report the comment again, it'll throw a mysql error and not insert.
+      //TODO
+      //handle this better
+      //for now, this simply ignores the error and doesnt insert it again
+  });
+});
+
 app.get("/submit",function(req,res){
   var isSignedIn = containsUser(req);
   if(isSignedIn){

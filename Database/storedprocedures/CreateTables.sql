@@ -75,6 +75,7 @@ CREATE TABLE Users_Dogs_comments(
 CREATE TABLE Reported_comments(
 	reporterID int NOT NULL,
 	commentID int NOT NULL,
+	reason varchar(511) NOT NULL,
 
 	FOREIGN KEY (reporterID) REFERENCES Users(userID),
 	FOREIGN KEY (commentID) REFERENCES Users_Dogs_comments(commentID)

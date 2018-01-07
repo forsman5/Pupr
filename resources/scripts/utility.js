@@ -71,11 +71,25 @@ function deleteComment(selectedID, dogID){
 
     //refresh the page, now without the comment
     document.location.reload();
-    
+
     return true;
   }
-
 }
 
+function reportComment(commentID) {
+  var userReason = prompt("Please give a short reason why this comment shouldn't be allowed on the site.", "");
+  //if the user didn't cancel the submission
+  if (!(userReason == null || userReason == "")) {
 
+    $.post('/reportcomment', { commentID: commentID, reason: userReason}, function(returnedData){
 
+    });
+
+    alert("Comment reported! Thank you for helping to make Pupr a better site.");
+
+    //refresh the page
+    document.location.reload();
+
+    return true;
+  }
+}
