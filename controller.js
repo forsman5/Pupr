@@ -666,11 +666,19 @@ app.get("/submit",function(req,res){
       res.redirect('/');
     }
     else{
-      res.render('pages/submit', {
-        loggedIn:isSignedIn,
-        user:user,
-        message: ""
-      });
+      var getBreeds = "SELECT * FROM Breeds"
+      con.query(getBreeds, function(err, allBreeds){
+        if (err)
+          throw err;
+          console.log(allBreeds);
+          res.render('pages/submit', {
+            loggedIn:isSignedIn,
+            user:user,
+            message: "",
+            breeds: allBreeds
+            
+          });
+        });
     }
   }
   else{
