@@ -814,6 +814,27 @@ app.get('/confirmation',function(req, res){
   });
 
 });
+app.get('/submissions',function(req,res){
+  var isSignedIn = containsUser(req);
+  if(isSignedIn){
+    var user = req.user;
+    if(!user.verified){
+      res.redirect('/');
+    }
+    else{ 
+      var getSubmissions = "SELECT * FROM Submitted_Dogs WHERE userID = " + req.user.userID;
+      con.query(getSubmissions, function(err, results){
+        if (err)
+        throw err;
+        res.render('/submissions');
+      });
+    }
+  }
+  else{
+    res.redirect('/login');
+  }
+
+});
 
 // initialize server
 app.listen(PORT_NUM, function () {

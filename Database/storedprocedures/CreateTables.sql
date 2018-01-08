@@ -80,6 +80,18 @@ CREATE TABLE Reported_comments(
 	FOREIGN KEY (reporterID) REFERENCES Users(userID),
 	FOREIGN KEY (commentID) REFERENCES Users_Dogs_comments(commentID)
 );
+CREATE TABLE Submitted_Dogs(
+	userID int NOT NULL,
+	submissionID int NOT NULL,
+	name varchar(255) NOT NULL,
+	breed1 varchar(255) NOT NULL,
+	breed2 varchar(255) NOT NULL,
+	numberOfFiles int NOT NULL,
+	bio varchar(2047),
+	commentID int NOT NULL auto_increment,
+	FOREIGN KEY (userID) REFERENCES Users(userID),
+	PRIMARY KEY (submissionID)
+);
 
 END //
 DELIMITER ;
