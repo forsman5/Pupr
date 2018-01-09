@@ -1,0 +1,20 @@
+<% include ../partials/head %>
+<%var tab = "Dogs" %>
+<% include ../partials/header %>
+<table>
+  <tr>
+    <th>Comment</th>
+    <th>Reaon</th>
+    <th>Dismiss</th>
+    <th>Delete Comment</th>
+  </tr>
+  <% comments.forEach(function (comment) { %>
+    <tr>
+      <td> <%= comment.commentID %> </td>
+      <td> <%= comment.reason %> </td>
+      <td> BUTTON TODO </td>
+      <td> BUTTON TODO </td>
+    </tr>
+  <% }); %>
+</table>
+<% include ../partials/footer %>

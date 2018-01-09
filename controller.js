@@ -680,7 +680,7 @@ app.get("/submit",function(req,res){
             user:user,
             message: passedVariable,
             breeds: allBreeds
-            
+
           });
         });
     }
@@ -817,27 +817,25 @@ app.post("/submit",function(req,res){
       else{
         var createNewSubmission;
         if(breeds.length == 2){
-          createNewSubmission = "INSERT INTO Submitted_Dogs (userID, name, breedID, secondaryBreedID, numberOfFiles, bio) VALUES (" + user.userID + ", '" + name + "', " + breeds[0].breedID + ", " + breeds[1].breedID + ", " + prevLength + ", '" + bio + "')"    
+          createNewSubmission = "INSERT INTO Submitted_Dogs (userID, name, breedID, secondaryBreedID, numberOfFiles, bio) VALUES (" + user.userID + ", '" + name + "', " + breeds[0].breedID + ", " + breeds[1].breedID + ", " + prevLength + ", '" + bio + "')"
         }
         else{
-          createNewSubmission = "INSERT INTO Submitted_Dogs (userID, name, breedID, numberOfFiles, bio) VALUES (" + user.userID + ", '" + name + "', " + breeds[0].breedID + ", " + prevLength +  ", '" + bio + "')"    
+          createNewSubmission = "INSERT INTO Submitted_Dogs (userID, name, breedID, numberOfFiles, bio) VALUES (" + user.userID + ", '" + name + "', " + breeds[0].breedID + ", " + prevLength +  ", '" + bio + "')"
         }
         console.log(createNewSubmission)
         con.query(createNewSubmission, function(err, result){
           if (err)
             throw (err);
-          
+
             console.log("finishing submission by rendering page");
-            res.redirect('/confirmation');        
+            res.redirect('/confirmation');
         });
       }
 
     });
-    
+
   }
 });
-
-
 
 });
 
@@ -859,7 +857,7 @@ app.get('/submissions',function(req,res){
     if(!user.verified){
       res.redirect('/');
     }
-    else{ 
+    else{
       var getSubmissions = "SELECT * FROM Submitted_Dogs WHERE userID = " + req.user.userID;
       con.query(getSubmissions, function(err, results){
         if (err)
@@ -872,6 +870,31 @@ app.get('/submissions',function(req,res){
     res.redirect('/login');
   }
 
+});
+
+app.get('/reportedComments', function(req, res) {
+  var isSignedIn = containsUser(req);
+
+  // only allow the user to this hidden page if they are verified and have the admin tag
+  if (isSignedIn) {
+    if (req.user.verified && req.user.admin) {
+      //query for comments here
+      var sql = "SELECT * FROM Reported_comments"
+      con.query(sql, function(err, results) {
+        console.log(results);
+
+        res.render('pages/reportedcomments', {
+          loggedIn: true,
+          user: req.user,
+          comments: results
+        });
+      });
+    } else {
+      res.redirect('/');
+    }
+  } else {
+    res.redirect('/');
+  }
 });
 
 // initialize server
@@ -923,10 +946,10 @@ function containsUser(req) {
 }
 function readAndWriteFile(singleImg, newPath) {
 
-          fs.readFile(singleImg.path , function(err,data) {
-              fs.writeFile(newPath,data, function(err) {
-                  if (err) console.log('ERRRRRR!! :'+err);
-                  console.log('Fitxer: '+singleImg.originalFilename +' - '+ newPath);
-              })
-          })
+    fs.readFile(singleImg.path , function(err,data) {
+        fs.writeFile(newPath,data, function(err) {
+            if (err) console.log('ERRRRRR!! :'+err);
+            console.log('Fitxer: '+singleImg.originalFilename +' - '+ newPath);
+        })
+    })
   }
