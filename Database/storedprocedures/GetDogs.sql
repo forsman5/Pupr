@@ -31,8 +31,7 @@ FROM (
    Breeds
    ON Breeds.breedID = Dogs.secondaryBreedID)
   AS c2
-  ON
-  c1.name = c2.name
+  ON c1.name = c2.name
 )
 UNION
 SELECT dogID, name, favorites, breed AS breed1, NULL AS breed2
@@ -43,8 +42,7 @@ FROM (
   AS d1
   INNER JOIN
   Breeds
-  ON
-  Breeds.breedID = d1.breedID
+  ON Breeds.breedID = d1.breedID
 )) AS outer2
 ON outer1.dogID = outer2.dogID
 ORDER BY outer1.dogID;
