@@ -23,7 +23,7 @@
                         <input type="text" class="form-control" name="dogName">
                     </div>
                     <div class="form-group">
-                        <label>Dog Breed 1</label>
+                        <label>Dog Breed 1 (Use one of the suggested breeds)</label>
                         <input class="form-control" name="dogBreed1" list = "breeds">
                     </div>
                     <div class="form-group">
@@ -32,7 +32,7 @@
                     </div>
                     <datalist id = "breeds">
                         <% breeds.forEach(function(breed) { %>
-                            <option value = "<%= breed.breed %>">
+                            <option data-value = <%= breed.breedID %> value = "<%= breed.breed %>">
                          <% }); %> 
                     </datalist>
                     <div class = "form-group">

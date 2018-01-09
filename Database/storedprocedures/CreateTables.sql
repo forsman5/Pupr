@@ -82,14 +82,15 @@ CREATE TABLE Reported_comments(
 );
 CREATE TABLE Submitted_Dogs(
 	userID int NOT NULL,
-	submissionID int NOT NULL,
+	submissionID int NOT NULL auto_increment,
 	name varchar(255) NOT NULL,
-	breed1 varchar(255) NOT NULL,
-	breed2 varchar(255) NOT NULL,
+	breedID int NOT NULL,
+	secondaryBreedID int,
 	numberOfFiles int NOT NULL,
 	bio varchar(2047),
-	commentID int NOT NULL auto_increment,
 	FOREIGN KEY (userID) REFERENCES Users(userID),
+	FOREIGN KEY (breedID) REFERENCES Breeds(breedID),
+	FOREIGN KEY (secondaryBreedID) REFERENCES Breeds(breedID),
 	PRIMARY KEY (submissionID)
 );
 

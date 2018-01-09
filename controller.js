@@ -666,6 +666,10 @@ app.get("/submit",function(req,res){
       res.redirect('/');
     }
     else{
+      var passedVariable = req.query.valid;
+      if(!passedVariable){
+        passedVariable = "";
+      }
       var getBreeds = "SELECT * FROM Breeds"
       con.query(getBreeds, function(err, allBreeds){
         if (err)
@@ -674,7 +678,7 @@ app.get("/submit",function(req,res){
           res.render('pages/submit', {
             loggedIn:isSignedIn,
             user:user,
-            message: "",
+            message: passedVariable,
             breeds: allBreeds
             
           });
@@ -732,11 +736,7 @@ app.post("/submit",function(req,res){
        message = "Can't submit more than 5 images"
      }
      if(!valid){
-      res.render('pages/submit', {
-        loggedIn:true,
-        user:user,
-        message: message
-      });
+      res.redirect('/submit?valid=' + message);
      }
      else{
       console.log(imgArray);
@@ -802,8 +802,38 @@ app.post("/submit",function(req,res){
     transporter.sendMail(mailOptions, function(error, info){
       if (error) console.log(error);
     });
-    console.log("finishing submission by rendering page");
-    res.redirect('/confirmation');
+    //create new submitted dog entry in database
+    var getBreedIdFromName = "SELECT breedID FROM Breeds WHERE breed = '" + breed1 + "' OR breed = '" + breed2 + "'";
+    console.log(getBreedIdFromName);
+    con.query(getBreedIdFromName, function(err, breeds){
+      if (err)
+        throw (err);
+        console.log(breeds);
+        //check if user entered invalid input
+      if(breeds.length == 0 || (breeds.length == 1 && breed1 != breed2 && breed2 != "")){
+        var string = encodeURIComponent('Invalid Breed');
+        res.redirect('/submit?valid=' + string);
+      }
+      else{
+        var createNewSubmission;
+        if(breeds.length == 2){
+          createNewSubmission = "INSERT INTO Submitted_Dogs (userID, name, breedID, secondaryBreedID, numberOfFiles, bio) VALUES (" + user.userID + ", '" + name + "', " + breeds[0].breedID + ", " + breeds[1].breedID + ", " + prevLength + ", '" + bio + "')"    
+        }
+        else{
+          createNewSubmission = "INSERT INTO Submitted_Dogs (userID, name, breedID, numberOfFiles, bio) VALUES (" + user.userID + ", '" + name + "', " + breeds[0].breedID + ", " + prevLength +  ", '" + bio + "')"    
+        }
+        console.log(createNewSubmission)
+        con.query(createNewSubmission, function(err, result){
+          if (err)
+            throw (err);
+          
+            console.log("finishing submission by rendering page");
+            res.redirect('/confirmation');        
+        });
+      }
+
+    });
+    
   }
 });
 
