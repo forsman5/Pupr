@@ -1,0 +1,35 @@
+<% include ../partials/head %>
+<%var tab = "submissions" %>
+<% include ../partials/header %>
+<div class = "listbg">
+  <div class = "centeredBoxes" >
+    <% if(submissions.length == 0) { %>
+      <h4 class="display-4 displayText loneText">You have not submitted any dogs yet</h4>      
+    <% } else { %>
+      <div class="container-fluid bigtext">
+          <h3 class="display-3 displayText">Your Submissions</h3>
+      </div>
+    <% } %>
+
+    <% submissions.forEach(function(submission) { %>
+
+      <div class = "box bg-primary">
+        <h5 class = "display-5"><%= submission.name %></h5>
+        <%# getting the breeds %>
+        <% if (submission.breed2 == null) { %>
+          <p> <%= submission.breed1 %> </p>
+        <% } else { %>
+          <p> <%= submission.breed1 %> <br /><%= submission.breed2 %> </p>
+        <% } %>
+        <p> <%= submission.bio %></p>
+        <h5 class = "display-5"><%= submission.numberOfFiles %> photos submitted</h5>
+        
+        
+       
+
+      </div>
+    <% }); %>
+
+  </div>
+</div>
+<% include ../partials/footer %>

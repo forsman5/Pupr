@@ -858,11 +858,16 @@ app.get('/submissions',function(req,res){
       res.redirect('/');
     }
     else{
-      var getSubmissions = "SELECT * FROM Submitted_Dogs WHERE userID = " + req.user.userID;
-      con.query(getSubmissions, function(err, results){
+      var getSubmissions = "call GetSubmittedDogs(" + user.userID + ")";
+      con.query(getSubmissions, function(err, userSubmissions){
         if (err)
         throw err;
-        res.render('/submissions');
+        console.log(userSubmissions);
+        res.render('pages/submissions',
+        {submissions:userSubmissions[0],
+          loggedIn:isSignedIn,
+          user:user
+        });
       });
     }
   }
