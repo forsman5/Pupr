@@ -7,6 +7,7 @@
   <tr>
     <th>Comment</th>
     <th>Reaon</th>
+    <th>Link</th>
     <th>Dismiss</th>
     <th>Delete Comment</th>
   </tr>
@@ -14,6 +15,7 @@
     <tr>
       <td> <%= comment.commentID %> </td>
       <td> <%= comment.reason %> </td>
+      <td> <a href="/dogs/<%= comment.dogID %>">Dog Page</a></td>
       <td><button type="button" class="btn btn-success" onclick="dismissReport(<%= comment.commentID %>, <%= comment.reporterID %>)">Dismiss Complaint</button></td>
       <td><button type="button" class="btn btn-danger" onclick="deleteReportedComment(<%= comment.commentID %>, <%= comment.reporterID %>)">Delete Comment</button></td>
     </tr>

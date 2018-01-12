@@ -557,11 +557,11 @@ app.post('/signup', passport.authenticate('local-signup', {
   session: true
 }));
 
-app.post('/dismissReport', {
+app.post('/dismissReport', function(req, res) {
   //TODO
 });
 
-app.post('/deleteReportedComment', {
+app.post('/deleteReportedComment', function (req, res) {
   //TODO
 });
 
@@ -892,7 +892,8 @@ app.get('/reportedComments', function(req, res) {
   if (isSignedIn) {
     if (req.user.verified && req.user.admin) {
       //query for comments here
-      var sql = "SELECT * FROM Reported_comments"
+      var sql = "SELECT reporterID, Reported_comments.commentID, dogID, reason FROM Reported_comments INNER JOIN Users_Dogs_comments ON Reported_comments.commentID = Users_Dogs_comments.commentID";
+      
       con.query(sql, function(err, results) {
 
         res.render('pages/reportedcomments', {
