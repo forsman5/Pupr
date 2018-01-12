@@ -13,13 +13,13 @@
 
     <% submissions.forEach(function(submission) { %>
 
-      <div class = "box bg-primary">
-        <h5 class = "display-5"><%= submission.name %></h5>
+      <div class = "dogSubmission">
+        <h4 class = "display-4"><%= submission.name %></h4>
         <%# getting the breeds %>
         <% if (submission.breed2 == null) { %>
-          <p> <%= submission.breed1 %> </p>
+          <h5 class = "display-5"> <%= submission.breed1 %> </h5>
         <% } else { %>
-          <p> <%= submission.breed1 %> <br /><%= submission.breed2 %> </p>
+          <h5 class = "display-5"> <%= submission.breed1 %> <br /><%= submission.breed2 %> </h5>
         <% } %>
         <p> <%= submission.bio %></p>
         <h5 class = "display-5"><%= submission.numberOfFiles %> photos submitted</h5>
