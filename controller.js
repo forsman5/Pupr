@@ -557,6 +557,14 @@ app.post('/signup', passport.authenticate('local-signup', {
   session: true
 }));
 
+app.post('/dismissReport', {
+  //TODO
+});
+
+app.post('/deleteReportedComment', {
+  //TODO
+});
+
 //log user out
 app.get('/logout', function(req, res){
   req.logout();
