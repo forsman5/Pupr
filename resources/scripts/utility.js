@@ -55,12 +55,6 @@ function favoriteDog() {
 
 function redirect(){
   alert("You must confirm your account to favorite dogs");
-
-  // $.get('/unverified',function(returnedData){
-
-  // });
-  // return false;
-
 }
 
 function deleteComment(selectedID, dogID){

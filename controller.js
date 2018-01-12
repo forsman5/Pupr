@@ -881,7 +881,6 @@ app.get('/reportedComments', function(req, res) {
       //query for comments here
       var sql = "SELECT * FROM Reported_comments"
       con.query(sql, function(err, results) {
-        console.log(results);
 
         res.render('pages/reportedcomments', {
           loggedIn: true,

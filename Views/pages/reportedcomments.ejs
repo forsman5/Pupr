@@ -1,7 +1,8 @@
 <% include ../partials/head %>
 <%var tab = "Dogs" %>
 <% include ../partials/header %>
-<table>
+<div class="table-responsive">
+<table class="table table-striped table-bordered">
   <tr>
     <th>Comment</th>
     <th>Reaon</th>
@@ -12,9 +13,10 @@
     <tr>
       <td> <%= comment.commentID %> </td>
       <td> <%= comment.reason %> </td>
-      <td> BUTTON TODO </td>
-      <td> BUTTON TODO </td>
+      <td><button type="button" class="btn btn-success">Dismiss Complaint</button></td>
+      <td><button type="button" class="btn btn-danger">Delete Comment</button></td>
     </tr>
   <% }); %>
 </table>
+</div>
 <% include ../partials/footer %>
