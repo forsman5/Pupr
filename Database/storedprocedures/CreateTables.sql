@@ -67,6 +67,7 @@ CREATE TABLE Users_Dogs_comments(
 	dogID int NOT NULL,
 	comment varchar(2047),
 	commentID int NOT NULL auto_increment,
+	time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	FOREIGN KEY (dogID) REFERENCES Dogs(dogID),
 	FOREIGN KEY (userID) REFERENCES Users(userID),
 	PRIMARY KEY (commentID)

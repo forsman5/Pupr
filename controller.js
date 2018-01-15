@@ -182,7 +182,7 @@ app.get('/dogs/:dogId', function(req, res) {
   con.query(sql, function (err, dogToShow) {
     if (err) throw err;
     var fileList = getFilesFromDirectory(dogToShow[0][0].name);
-    var getComments = "SELECT U.name, C.commentID, C.userID, C.comment FROM Users_Dogs_comments C INNER JOIN Users U ON C.userID = U.userID WHERE C.dogID = " + req.params.dogId;
+    var getComments = "SELECT U.name, C.commentID, C.userID, C.comment, CONVERT_TZ(C.time, 'UTC', 'US/Eastern') as time FROM Users_Dogs_comments C INNER JOIN Users U ON C.userID = U.userID WHERE C.dogID = " + req.params.dogId;
     con.query(getComments,function(err,commentsWithNames){
       if (err) throw err;
       if(isSignedIn){
@@ -893,7 +893,7 @@ app.get('/reportedComments', function(req, res) {
     if (req.user.verified && req.user.admin) {
       //query for comments here
       var sql = "SELECT reporterID, Reported_comments.commentID, dogID, reason FROM Reported_comments INNER JOIN Users_Dogs_comments ON Reported_comments.commentID = Users_Dogs_comments.commentID";
-      
+
       con.query(sql, function(err, results) {
 
         res.render('pages/reportedcomments', {
