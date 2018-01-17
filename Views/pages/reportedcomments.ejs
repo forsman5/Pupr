@@ -5,7 +5,8 @@
 <div class="table-responsive">
 <table class="table table-striped table-bordered">
   <tr>
-    <th>Comment</th>
+    <th>Comment ID</th>
+    <th>Comment Text</th>
     <th>Reaon</th>
     <th>Link</th>
     <th>Dismiss</th>
@@ -14,6 +15,7 @@
   <% comments.forEach(function (comment) { %>
     <tr>
       <td> <%= comment.commentID %> </td>
+      <td> <%= comment.comment %> </td>
       <td> <%= comment.reason %> </td>
       <td> <a href="/dogs/<%= comment.dogID %>">Dog Page</a></td>
       <td><button type="button" class="btn btn-success" onclick="dismissReport(<%= comment.commentID %>, <%= comment.reporterID %>)">Dismiss Complaint</button></td>

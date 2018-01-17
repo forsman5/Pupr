@@ -1,3 +1,9 @@
+/*
+ * This is file is included in any other file that uses it. Any constants and/or functions
+ * that are used in more than one other server-side js file
+ * should be included in here, instead of twice, in each file that uses it.
+ */
+
 var mysql = require('mysql');
 var nodemailer = require('nodemailer');
 

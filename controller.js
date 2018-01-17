@@ -558,11 +558,33 @@ app.post('/signup', passport.authenticate('local-signup', {
 }));
 
 app.post('/dismissReport', function(req, res) {
-  //TODO
+  //ensure this route only works for a logged - in admin
+  if (containsUser(req) && req.user.admin) {
+    var sql = "DELETE FROM Reported_comments WHERE commentID = " + req.body.commentID;
+
+    con.query(sql, function (err, res) {
+      if (err)
+        throw err;
+    });
+  }
 });
 
 app.post('/deleteReportedComment', function (req, res) {
-  //TODO
+  //ensure this route only works for a logged - in admin
+  if (containsUser(req) && req.user.admin) {
+    var sql = "DELETE FROM Reported_comments WHERE commentID = " + req.body.commentID;
+    var sqlTwo = "DELETE FROM Users_Dogs_comments WHERE commentID = " + req.body.commentID;
+
+    con.query(sql, function (err, res) {
+      if (err)
+        throw err;
+
+      con.query(sqlTwo, function (err, res) {
+        if (err)
+          throw err;
+      });
+    });
+  }
 });
 
 //log user out
@@ -892,7 +914,7 @@ app.get('/reportedComments', function(req, res) {
   if (isSignedIn) {
     if (req.user.verified && req.user.admin) {
       //query for comments here
-      var sql = "SELECT reporterID, Reported_comments.commentID, dogID, reason FROM Reported_comments INNER JOIN Users_Dogs_comments ON Reported_comments.commentID = Users_Dogs_comments.commentID";
+      var sql = "SELECT reporterID, Reported_comments.commentID, dogID, reason, comment FROM Reported_comments INNER JOIN Users_Dogs_comments ON Reported_comments.commentID = Users_Dogs_comments.commentID";
 
       con.query(sql, function(err, results) {
 
