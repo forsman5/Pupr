@@ -26,6 +26,11 @@ var transporter = nodemailer.createTransport({
   }
 });
 
+// This is used to tell Javascript (client side) how to format given strings
+var dateFormatOptions = {
+    weekday: "long", year: "numeric", month: "short",
+    day: "numeric", hour: "2-digit", minute: "2-digit"
+};
 
 //function to generate MD5 hash
 var MD5 = universal.MD5;
@@ -186,20 +191,21 @@ app.get('/dogs/:dogId', function(req, res) {
     con.query(getComments,function(err,commentsWithNames){
       if (err) throw err;
       if(isSignedIn){
-          var getHeartColor = "SELECT * FROM Users_Dogs_favorites WHERE userID = " + req.user.userID + " AND dogID = " + req.params.dogId;
-          con.query(getHeartColor,function(err,rows){
-            if (err) throw err;
-            if(rows.length > 0){
-             heartSelected = true;
-            }
-            res.render('pages/detail', {
+        var getHeartColor = "SELECT * FROM Users_Dogs_favorites WHERE userID = " + req.user.userID + " AND dogID = " + req.params.dogId;
+        con.query(getHeartColor,function(err,rows){
+          if (err) throw err;
+          if(rows.length > 0){
+            heartSelected = true;
+          }
+          res.render('pages/detail', {
             dog: dogToShow[0][0],
             files:fileList,
             loggedIn:isSignedIn,
             user:user,
             selected: heartSelected,
             comments: commentsWithNames,
-            dogID: req.params.dogId
+            dogID: req.params.dogId,
+            dateOptions: dateFormatOptions
           });
         });
       } else {
@@ -225,7 +231,8 @@ app.get('/dogs/:dogId', function(req, res) {
           user:user,
           selected: heartSelected,
           comments:commentsWithNames,
-          dogID: req.params.dogId
+          dogID: req.params.dogId,
+          dateOptions: dateFormatOptions
         });
       }
     });

@@ -87,11 +87,11 @@
   <% comments.forEach(function(comment) { %>
     <div class = "container comment">
       <% if(loggedIn && (comment.userID == user.userID)) { %>
-        <p class="commentHeader"><%= comment.name %> <a class="fa fa-times pull-right" onclick = "deleteComment('<%= comment.commentID %>', '<%= dogID %>')"></a><span class = "pull-right">Posted at <%=comment.time %>&nbsp;&nbsp;&nbsp;</span> </p>
+        <p class="commentHeader"><%= comment.name %> <a class="fa fa-times pull-right" onclick = "deleteComment('<%= comment.commentID %>', '<%= dogID %>')"></a><span class = "pull-right">Posted on <%=comment.time.toLocaleTimeString("en-us", dateOptions) %>&nbsp;&nbsp;&nbsp;</span> </p>
       <% } else if (loggedIn && user.verified) { %>
-        <p class="commentHeader"><%= comment.name %> <a class="pull-right report" onclick="reportComment('<%= comment.commentID %>')">Report</a><span class = "pull-right">Posted at <%=comment.time %>&nbsp;&nbsp;&nbsp;</span> </p>
+        <p class="commentHeader"><%= comment.name %> <a class="pull-right report" onclick="reportComment('<%= comment.commentID %>')">Report</a><span class = "pull-right">Posted on <%=comment.time.toLocaleTimeString("en-us", dateOptions) %>&nbsp;&nbsp;&nbsp;</span> </p>
       <% } else { %>
-        <p class="commentHeader"><%= comment.name %> <span class = "pull-right">Posted at <%=comment.time %></span></p>
+        <p class="commentHeader"><%= comment.name %> <span class = "pull-right">Posted on <%=comment.time.toLocaleTimeString("en-us", dateOptions) %></span></p>
       <% } %>
         <p class = "commentBody"> <%= comment.comment %> </p>
     </div>
