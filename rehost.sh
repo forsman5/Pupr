@@ -1,7 +1,7 @@
 #!/bin/sh
-ssh -tti ../challonge.pem ec2-user@ec2-18-216-242-170.us-east-2.compute.amazonaws.com << 'ENDSSH'
+ssh -tti ../pupr.pem ubuntu@ec2-52-87-206-10.compute-1.amazonaws.com << 'ENDSSH'
 pkill -f node
-cd petlandcatalog/
+cd pupr/
 git fetch --all
 git reset --hard origin/master
 rm -rf views
